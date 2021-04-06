@@ -12,10 +12,8 @@ namespace AlfaFoodBack.Models
         private int id;
         private readonly string login;
         private readonly string name;
-        private Stack<Order> ordersHistory;
         private readonly string password;
         private readonly string phoneNumber;
-        private readonly string surname;
 
         public Restaurant(string login, string password, string name, string surname, string phoneNumber = null)
         {
@@ -28,7 +26,6 @@ namespace AlfaFoodBack.Models
             this.login = login;
             this.password = password;
             this.name = name;
-            this.surname = surname;
             this.phoneNumber = phoneNumber;
         }
 
