@@ -8,7 +8,7 @@ namespace AlfaFoodBack.Models
 {
     public class User : IDbEntity
     {
-        private int currentOrderId;
+        private int currentOrderId; // почему id заказа находится в классе юзер, на мой взгляд это неверно
         private int id;
         private readonly string login;
         private readonly string name;
