@@ -1,10 +1,14 @@
 import React from "react"
 import { Link } from "react-router-dom"
 
+import useDocumentTitle from "../../../hooks/useDocumentTitle";
+
 import { ReactComponent as NotFound404 } from "../../../assets/svg/404.svg";
+
 
 const NotFound = () => {
     //     const isServerError = match/..
+    useDocumentTitle("404")
 
     return (
         <div className="not-found__wrapper">
