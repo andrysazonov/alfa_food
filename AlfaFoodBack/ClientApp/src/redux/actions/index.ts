@@ -1,1 +1,0 @@
-export const f12 = 123

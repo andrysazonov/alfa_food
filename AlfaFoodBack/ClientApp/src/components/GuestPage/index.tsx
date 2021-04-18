@@ -1,6 +1,8 @@
 import React from "react"
 import useDocumentTitle from "../../hooks/useDocumentTitle";
 
+import { Link } from "react-router-dom";
+
 const GuestPage: React.FC = () => {
 
     useDocumentTitle("Гостевая страница")
@@ -8,6 +10,7 @@ const GuestPage: React.FC = () => {
     return (
         <div>
             Guest Page
+            <Link to="/login">Войти</Link>
         </div>
     )
 }

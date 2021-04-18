@@ -12,7 +12,7 @@ const PrivateRoute: React.FC<PrivateRouteType> = ({loggedInUser, ...rest}) => {
 
 
     return (
-         loggedInUser ? <Redirect to="/" /> : <div>werer</div>
+         loggedInUser ? <Redirect to="/" /> : <div>nothing</div>
     )
 }
 

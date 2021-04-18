@@ -11,7 +11,7 @@ type LoginResponseDataType = {
 }
 
 export const authAPI = {
-    login(email: string, password: string, rememberMe: boolean) {
+    login(email: string, password: string, rememberMe?: boolean) {
         return instance.post(`auth/phys/login`, {email, password, rememberMe}).then(res => res.data)
     },
 
