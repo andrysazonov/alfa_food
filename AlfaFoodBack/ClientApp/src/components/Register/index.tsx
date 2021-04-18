@@ -3,7 +3,7 @@ import useDocumentTitle from "../../hooks/useDocumentTitle";
 import { useDispatch } from "react-redux";
 import {InjectedFormProps, reduxForm, Field} from "redux-form";
 import { required } from "../../utils/validators";
-
+import { Link } from "react-router-dom";
 
 type RegisterFormOwnProps = {
     onSubmit: (data: any) => void
@@ -101,6 +101,7 @@ const Register: React.FC = () => {
     return (
         <>
             <h3>Register Page</h3>
+            <p>У вас еще нет  <Link to="/login">аккаунта</Link></p>
             <RegisterReduxForm onSubmit={onSubmit} />
         </>
     )
