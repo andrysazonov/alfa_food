@@ -1,9 +1,14 @@
 import React from 'react'
 import useDocumentTitle from "../../hooks/useDocumentTitle";
 import { useDispatch } from "react-redux";
-import {InjectedFormProps, reduxForm, Field} from "redux-form";
-import { required } from "../../utils/validators";
 import { Link } from "react-router-dom";
+import {InjectedFormProps, reduxForm, Field} from "redux-form";
+
+
+import {maxLengthCreator, required} from "../../utils/validators";
+import normalizePhone from "../../utils/normalize"
+
+
 
 type RegisterFormOwnProps = {
     onSubmit: (data: any) => void
@@ -46,10 +51,12 @@ const RegisterForm: React.FC<InjectedFormProps<RegisterFormValuesType,RegisterFo
             <div>
                 <label htmlFor="phone">Телефон</label>
                 <Field
+                    placeholder={'NNN-NNN-NNNN'}
                     name="phone"
                     component={renderField}
                     type="text"
                     validate={[required]}
+                    normalize={normalizePhone}
                 />
             </div>
             <div>
@@ -101,7 +108,7 @@ const Register: React.FC = () => {
     return (
         <>
             <h3>Register Page</h3>
-            <p>У вас еще нет  <Link to="/login">аккаунта</Link></p>
+            <p>У вас уже есть  <Link to="/login">аккаунт</Link></p>
             <RegisterReduxForm onSubmit={onSubmit} />
         </>
     )

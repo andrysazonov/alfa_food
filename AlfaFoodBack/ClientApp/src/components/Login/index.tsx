@@ -82,7 +82,7 @@ const LoginPage: React.FC = () => {
     return (
         <>
             <h3>Войдите в систему</h3>
-            <p>У вас уже есть <Link to="/register">аккаунт</Link></p>
+            <p>У вас еще нет <Link to="/register">аккаунта</Link></p>
             <LoginReduxForm onSubmit={onSubmit} />
         </>
 
