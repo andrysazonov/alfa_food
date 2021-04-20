@@ -3,6 +3,9 @@ import useDocumentTitle from "../../hooks/useDocumentTitle";
 import { InjectedFormProps, reduxForm, Field} from "redux-form"
 import { required } from "../../utils/validators";
 
+import {login} from '../../redux/reducers/authReducer'
+
+
 import { useDispatch } from "react-redux";
 import {Link} from "react-router-dom";
 
@@ -76,7 +79,7 @@ const LoginPage: React.FC = () => {
     const dispatch = useDispatch()
 
     const onSubmit = (data: LoginFormValuesType) => {
-        console.log(`sudmitted...`)
+        dispatch(login(data.email, data.password))
     }
 
     return (

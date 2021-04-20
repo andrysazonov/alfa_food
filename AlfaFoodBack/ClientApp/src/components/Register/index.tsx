@@ -3,7 +3,7 @@ import useDocumentTitle from "../../hooks/useDocumentTitle";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import {InjectedFormProps, reduxForm, Field} from "redux-form";
-
+import {login, register} from '../../redux/reducers/authReducer'
 
 import {maxLengthCreator, required} from "../../utils/validators";
 import normalizePhone from "../../utils/normalize"
@@ -40,9 +40,9 @@ const RegisterForm: React.FC<InjectedFormProps<RegisterFormValuesType,RegisterFo
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <div>
-                <label htmlFor="name">Имя и Фамилия</label>
+                <label htmlFor="username">Имя и Фамилия</label>
                 <Field
-                    name="name"
+                    name="username"
                     component={renderField}
                     type="text"
                     validate={[required]}
@@ -83,8 +83,8 @@ const RegisterForm: React.FC<InjectedFormProps<RegisterFormValuesType,RegisterFo
 }
 
 type RegisterFormValuesType = {
-    name: string,
-    phone: number,
+    username: string,
+    phone: string,
     email: string,
     password: string
 }
@@ -102,7 +102,7 @@ const Register: React.FC = () => {
 
 
     const onSubmit = ( data: RegisterFormValuesType) => {
-        console.log(`register with data : ${data.phone}`)
+        dispatch(register(data.email, data.password, data.phone, data.username))
     }
 
     return (

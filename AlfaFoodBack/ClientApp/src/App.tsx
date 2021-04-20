@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Route, Switch} from 'react-router';
+import {Route, Switch, withRouter} from 'react-router';
 import {connect, Provider} from 'react-redux';
 import {BrowserRouter} from "react-router-dom";
 import store, {AppStateType} from "./redux/store"
@@ -7,6 +7,7 @@ import store, {AppStateType} from "./redux/store"
 import { AuthLayout } from "./router/layouts";
 import PrivateRoute from "./components/PrivateRoute";
 import PublicRoute from "./components/PublicRoute";
+import {compose} from "redux";
 
 
 type MapPropsType = ReturnType<typeof mapStateToProps>
@@ -31,7 +32,7 @@ const mapStateToProps = (state: AppStateType) => ({
 })
 
 
-const ConnectedAppContainer = connect(mapStateToProps)(AppContainer)
+const ConnectedAppContainer = compose<React.FC>(withRouter,connect(mapStateToProps))(AppContainer)
 
 const App = () => (
     <Provider store={store}>

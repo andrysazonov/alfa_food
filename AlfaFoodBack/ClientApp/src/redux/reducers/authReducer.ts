@@ -33,11 +33,25 @@ export const getCurrentUser = (): ThunkType => async (dispatch) => {
 export const login = (email: string, password: string): ThunkType => async (dispatch) => {
     try {
         let loggedInUser = await authAPI.login(email,password)
-        dispatch(actions.setAuthUserData(loggedInUser))
+        if (loggedInUser) {
+            dispatch(actions.setAuthUserData(loggedInUser))
+        }
     } catch {
         console.log('error')
     }
 }
+
+export const register = (email: string, password: string, phone: string, username: string): ThunkType => async (dispatch) => {
+    try {
+        let loggedInUser = await authAPI.register(email,password,phone,username)
+        if (loggedInUser) {
+            dispatch(actions.setAuthUserData(loggedInUser))
+        }
+    } catch {
+        console.log('error')
+    }
+}
+
 
 
 
