@@ -12,7 +12,7 @@ type LoginResponseDataType = {
 
 export const authAPI = {
     login(email: string, password: string, rememberMe?: boolean) {
-        return instance.post(`auth/phys/login`, {email, password}).then(res => res.data)
+        return instance.post(`/auth/phys`, {email, password}).then(res => res.data)
     },
 
     logout() {
