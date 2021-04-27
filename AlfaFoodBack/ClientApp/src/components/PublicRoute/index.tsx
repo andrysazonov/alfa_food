@@ -8,10 +8,13 @@ type PublicRouteType = {
 }
 
 
-const PublicRoute: React.FC<PublicRouteType> = ({loggedInUser, component: Component, ...rest}) => {
-    return (
-       loggedInUser ? <Redirect to="/" /> : <Component {...rest}/>
-    )
-}
+const PublicRoute: React.FC<PublicRouteType> = ({loggedInUser, component: Component, ...rest}) => (
+    <Route render={() => (
+        loggedInUser ? <Redirect to="/" /> : <Component {...rest}/>
+    )}
+   />
+)
+
+
 
 export default PublicRoute;

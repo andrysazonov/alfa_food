@@ -10,8 +10,9 @@ type LoggedInUserType = {
 let initialState = {
     login: null as (string | null),
     email: null as (string | null),
-    loggedInUser: null as (LoggedInUserType | null)
+    loggedInUser: { role: 'admin'} as LoggedInUserType
 }
+
 
 export const actions = {
     setAuthUserData: (loggedInUser: {} | null)  => ({

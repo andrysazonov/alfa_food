@@ -1,7 +1,7 @@
 import React from "react"
 import { Route, Switch, Redirect } from "react-router-dom";
 
-import { authRoutes } from "./routes"
+import { authRoutes, adminRoutes, cafeAdminRoutes } from "./routes"
 
 export const AuthLayout = () => (
     <>
@@ -9,7 +9,7 @@ export const AuthLayout = () => (
             {authRoutes.map((route, index) => (
                 <Route {...route}/>
             ))}
-            <Redirect to="/404" />
+            <Redirect to="/guest" />
         </Switch>
 
     </>
@@ -19,6 +19,22 @@ export const AuthLayout = () => (
 
 export const AdminLayout = () => (
     <>
+        <Switch>
+            {adminRoutes.map((route, index) => (
+                <Route {...route}/>
+            ))}
+            <Redirect to="/404" />
+        </Switch>
+    </>
+)
 
+export const CafeAdminLayout = () => (
+    <>
+        <Switch>
+            {cafeAdminRoutes.map((route, index) => (
+                <Route {...route}/>
+            ))}
+            <Redirect to="/404" />
+        </Switch>
     </>
 )

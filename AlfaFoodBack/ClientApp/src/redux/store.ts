@@ -7,6 +7,7 @@ import { reducer as formReducer } from "redux-form"
 import {AuthReducer} from "./reducers";
 
 let rootReducer = combineReducers({
+    //@ts-ignore
     auth: AuthReducer,
     form: formReducer
 })

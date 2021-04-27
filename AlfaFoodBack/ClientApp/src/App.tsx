@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Route, Switch, withRouter} from 'react-router';
+import { Switch, withRouter} from 'react-router';
 import {connect, Provider} from 'react-redux';
 import {BrowserRouter} from "react-router-dom";
 import store, {AppStateType} from "./redux/store"
@@ -16,10 +16,15 @@ const AppContainer: React.FC<MapPropsType> = ({loggedInUser}) => {
     return (
         <div className="wrapper">
             <Switch>
-                <PublicRoute loggedInUser={loggedInUser} component={AuthLayout} />
                 <PrivateRoute
                     loggedInUser={loggedInUser}
                 />
+                <PublicRoute
+                    loggedInUser={loggedInUser}
+                    component={AuthLayout}
+                />
+
+
             </Switch>
         </div>
     )
