@@ -39,18 +39,19 @@ export const login = (email: string, password: string): ThunkType => async (disp
             dispatch(actions.setAuthUserData(loggedInUser))
         }
     } catch {
-        console.log('error')
+        console.log('error in login')
     }
 }
 
 export const register = (email: string, password: string, phone: string, username: string): ThunkType => async (dispatch) => {
     try {
         let loggedInUser = await authAPI.register(email,password,phone,username)
+        console.log("loggedInUSER",loggedInUser)
         if (loggedInUser) {
             dispatch(actions.setAuthUserData(loggedInUser))
         }
     } catch {
-        console.log('error')
+        console.log('error in register')
     }
 }
 
