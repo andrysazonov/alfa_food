@@ -1,6 +1,6 @@
 import React from "react"
-import { Route, Redirect } from "react-router-dom"
-// import PrivateRoute from "../PrivateRoute";
+import { Route} from "react-router-dom"
+import PrivateRoute from "../PrivateRoute"
 
 type PublicRouteType = {
     loggedInUser: any,
@@ -8,12 +8,16 @@ type PublicRouteType = {
 }
 
 
-const PublicRoute: React.FC<PublicRouteType> = ({loggedInUser, component: Component, ...rest}) => (
+const PublicRoute: React.FC<PublicRouteType> = ({loggedInUser, component: Component, ...rest}) => {
+    // console.log("object",loggedInUser)
+
+    return(
     <Route render={() => (
-        loggedInUser ? <Redirect to="/" /> : <Component {...rest}/>
+        
+        loggedInUser.role!=="none" ? <PrivateRoute loggedInUser={loggedInUser}/> : <Component {...rest}/>
     )}
-   />
-)
+   />)
+}
 
 
 

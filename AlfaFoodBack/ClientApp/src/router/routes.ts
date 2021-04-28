@@ -7,7 +7,7 @@ import GuestPage from "../components/GuestPage";
 
 // Admin
 import AdminStatistics from "../components/AdminStatistics"
-import HomePage from "../components/HomePage"
+import {HomePage} from "../components/HomePage"
 
 //Cafe Admin
 import CafeAdminStatistics from "../components/CafeAdminStatistics"
@@ -38,7 +38,7 @@ export const authRoutes = [
 
 export const adminRoutes = [
     {
-        path: "/",
+        path: "/home",
         exact: true,
         component: HomePage
     },

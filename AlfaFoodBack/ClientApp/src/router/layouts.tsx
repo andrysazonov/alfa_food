@@ -3,30 +3,34 @@ import { Route, Switch, Redirect } from "react-router-dom";
 
 import { authRoutes, adminRoutes, cafeAdminRoutes } from "./routes"
 
-export const AuthLayout = () => (
-    <>
+export const AuthLayout = () => {
+    // console.log("PubRout")
+
+   return( <>
         <Switch>
             {authRoutes.map((route, index) => (
-                <Route {...route}/>
+                <Route key={index} {...route}/>
             ))}
             <Redirect to="/guest" />
         </Switch>
 
-    </>
-)
+    </>)
+}
 
 
 
-export const AdminLayout = () => (
-    <>
+export const AdminLayout = () => {
+    // console.log("234234")
+    return(<>
         <Switch>
             {adminRoutes.map((route, index) => (
-                <Route {...route}/>
+                <Route key={index} {...route}/>
             ))}
-            <Redirect to="/404" />
+            <Redirect to="/home" />
         </Switch>
     </>
-)
+    )
+            }
 
 export const CafeAdminLayout = () => (
     <>

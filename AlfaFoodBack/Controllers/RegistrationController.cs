@@ -13,6 +13,7 @@ namespace AlfaFoodBack.Controllers
             string phoneNumber = null)
         {
             User user;
+            Console.WriteLine("SEKa");
             try
             {
                 user = new User(login, password, name, surname, phoneNumber);
