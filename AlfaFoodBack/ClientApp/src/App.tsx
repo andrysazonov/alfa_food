@@ -8,6 +8,7 @@ import { AuthLayout } from "./router/layouts";
 // import PrivateRoute from "./components/PrivateRoute";
 import PublicRoute from "./components/PublicRoute";
 import {compose} from "redux";
+import NavBar from './components/NavBar';
 
 
 type MapPropsType = ReturnType<typeof mapStateToProps>
@@ -16,6 +17,7 @@ const AppContainer: React.FC<MapPropsType> = ({loggedInUser}) => {
     // console.log("LOG",loggedInUser)
     return (
         <div className="wrapper">
+            <NavBar/>
             <Switch>
                 
                 <PublicRoute
