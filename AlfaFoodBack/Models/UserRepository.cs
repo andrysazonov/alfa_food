@@ -4,44 +4,42 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using MySql.Data.MySqlClient;
+using Npgsql;
 
 namespace AlfaFoodBack.Models
 {
     public class UserRepository: IRepository
     {
-        public void Insert(MySqlConnection dbCon, IDbEntity entity)
+        public void Insert(NpgsqlConnection dbCon, IDbEntity entity)
         {
             var user = entity as User;
-            if (UserWithLoginExists(dbCon, user.Login))
+            if (UserWithLoginExists(dbCon, user.Email))
                 throw new Exception("User exists");
             var command = dbCon.CreateCommand();
             command.CommandType = CommandType.Text;
-            if (user.Phone != null)
-                command.CommandText =
-                    $"INSERT INTO User (login, password, name, surname) VALUES({user.Login}, {user.Password}, {user.Username}, {user.Surname}, {user.Phone})";
-            else
-                command.CommandText =
-                    $"INSERT INTO User (login, password, name, surname) VALUES({user.Login}, {user.Password}, {user.Username}, {user.Surname})";
+            Console.WriteLine();
+            command.CommandText =
+                    $"INSERT INTO public.\"Users\"(username, role, phone, password, email) VALUES ('{user.Username}', '{user.Role}', '{user.Phone}', '{user.Password}', '{user.Email}')";
+            Console.WriteLine(command.CommandText);
             command.ExecuteNonQuery();
-
         }
 
 
-        public HttpResponseMessage Update(MySqlConnection dbCon, IDbEntity entity)
+        public HttpResponseMessage Update(NpgsqlConnection dbCon, IDbEntity entity)
         {
             throw new NotImplementedException();
         }
 
-        public HttpResponseMessage GetById(MySqlConnection dbCon, int id)
+        public HttpResponseMessage GetById(NpgsqlConnection dbCon, int id)
         {
             throw new System.NotImplementedException();
         }
 
-        public bool UserWithLoginExists(MySqlConnection dbCon, string login)
+        public bool UserWithLoginExists(NpgsqlConnection dbCon, string login)
         {
             var command = dbCon.CreateCommand();
             command.CommandType = CommandType.Text;
-            command.CommandText = $"select * from user where login={login}";
+            command.CommandText = $"select * from public.\"Users\" where email='{login}'";
             return command.ExecuteNonQuery() > 0;
         }
 

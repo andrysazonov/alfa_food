@@ -31,8 +31,8 @@ namespace AlfaFoodBack.Controllers
             Console.WriteLine(username);
             try
             {
-                user = new User(email, password, username, username, phone);
-                using (var dbCon = DBUtils.GetDBConnection())
+                user = new User(email, password, username, phone);
+                using (var dbCon = PostgresConn.GetConn())
                 {
                     new UserRepository().Insert(dbCon, user);
                     Response.StatusCode = 201;
