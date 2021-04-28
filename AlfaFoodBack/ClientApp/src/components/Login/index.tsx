@@ -33,7 +33,7 @@ const renderField = ({
 
 const LoginForm: React.FC<InjectedFormProps<LoginFormValuesType, LoginFormOwnProps>  & LoginFormOwnProps> = (props) => {
 
-    const { pristine, submitting, handleSubmit, onSubmit, error} = props;
+    const { pristine, submitting, handleSubmit, onSubmit} = props;
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <div>

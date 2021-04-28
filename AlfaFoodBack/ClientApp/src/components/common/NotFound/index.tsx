@@ -1,6 +1,6 @@
-import React, { useEffect } from "react"
+import React from "react"
 import { Link } from "react-router-dom"
-import { RouteComponentProps } from "react-router-dom";
+// import { RouteComponentProps } from "react-router-dom";
 
 
 import useDocumentTitle from "../../../hooks/useDocumentTitle";

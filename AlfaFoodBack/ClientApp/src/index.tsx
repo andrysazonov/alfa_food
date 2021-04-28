@@ -3,8 +3,8 @@ import 'bootstrap/dist/css/bootstrap.css';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
-import { ConnectedRouter } from 'connected-react-router';
-import { createBrowserHistory } from 'history';
+// import { ConnectedRouter } from 'connected-react-router';
+// import { createBrowserHistory } from 'history';
 
 import App from './App';
 import "./styles/main.scss"

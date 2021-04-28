@@ -3,9 +3,9 @@ import useDocumentTitle from "../../hooks/useDocumentTitle";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import {InjectedFormProps, reduxForm, Field} from "redux-form";
-import {login, register} from '../../redux/reducers/authReducer'
+import { register} from '../../redux/reducers/authReducer'
 
-import {maxLengthCreator, required} from "../../utils/validators";
+import { required} from "../../utils/validators";
 import normalizePhone from "../../utils/normalize"
 
 
@@ -35,7 +35,7 @@ const renderField = ({
 
 
 const RegisterForm: React.FC<InjectedFormProps<RegisterFormValuesType,RegisterFormOwnProps> & RegisterFormOwnProps> = (props) => {
-    const { pristine, submitting, handleSubmit, onSubmit, error} = props;
+    const { pristine, submitting, handleSubmit, onSubmit } = props;
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>

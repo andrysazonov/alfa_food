@@ -1,4 +1,4 @@
-import { Action, applyMiddleware, combineReducers, compose, createStore } from "redux"
+import { Action, applyMiddleware, combineReducers, createStore } from "redux"
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunkMiddleware, { ThunkAction } from "redux-thunk"
 import { reducer as formReducer } from "redux-form"
