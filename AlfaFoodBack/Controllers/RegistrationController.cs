@@ -2,11 +2,11 @@
 using System.Net;
 using System.Net.Http;
 using System.Net.Security;
-// using System.Web.Http.Cors;
-using Newtonsoft.Json;
+using System.Web.Http.Cors;
 using AlfaFoodBack.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace AlfaFoodBack.Controllers
@@ -25,7 +25,7 @@ namespace AlfaFoodBack.Controllers
             var password = dict["password"].ToString();
             var phone = dict["phone"].ToString();
             var username = dict["username"].ToString();
-            Console.WriteLine("7",email);
+            Console.WriteLine(email);
             Console.WriteLine(password);
             Console.WriteLine(phone);
             Console.WriteLine(username);
