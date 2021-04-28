@@ -19,7 +19,7 @@ const AppContainer: React.FC<MapPropsType> = ({loggedInUser}) => {
         <div className="wrapper">
             <NavBar/>
             <Switch>
-                
+                <div className='page-layout'>
                 <PublicRoute
                     loggedInUser={loggedInUser}
                     component={AuthLayout}
@@ -27,7 +27,7 @@ const AppContainer: React.FC<MapPropsType> = ({loggedInUser}) => {
                 {/* <PrivateRoute
                     loggedInUser={loggedInUser}
                 /> */}
-
+</div>
 
             </Switch>
         </div>

@@ -1,11 +1,12 @@
-import * as React from 'react';
-
-interface INavBarProps {
-}
+import * as React from "react";
+import "./index.scss";
+interface INavBarProps {}
 
 const NavBar: React.FunctionComponent<INavBarProps> = (props) => {
   return (
-      <div>АльфаЕда </div>
+    <div className="nav-bar">
+      <div className="title">АльфаЕда </div>
+    </div>
   );
 };
 
