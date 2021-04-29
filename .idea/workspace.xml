@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="7af5b3c1-5adb-4ef1-8999-2de5f94f5ba2" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/AlfaFoodBack/ClientApp/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/AlfaFoodBack/ClientApp/src/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AlfaFoodBack/ClientApp/src/api/auth-api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/AlfaFoodBack/ClientApp/src/api/auth-api.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AlfaFoodBack/ClientApp/src/components/Login/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/AlfaFoodBack/ClientApp/src/components/Login/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AlfaFoodBack/ClientApp/src/components/Register/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/AlfaFoodBack/ClientApp/src/components/Register/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AlfaFoodBack/ClientApp/src/components/common/NotFound/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/AlfaFoodBack/ClientApp/src/components/common/NotFound/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AlfaFoodBack/ClientApp/src/redux/reducers/authReducer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/AlfaFoodBack/ClientApp/src/redux/reducers/authReducer.ts" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings">
+    <execution />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1rHXnSxnslSvqvj7LxATet8PEDK" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="ts.external.directory.path" value="D:\alfa-food-projects\alfa_food\AlfaFoodBack\ClientApp\node_modules\typescript\lib" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\alfa-food-projects\alfa_food\AlfaFoodBack\ClientApp\src\assets\svg" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="7af5b3c1-5adb-4ef1-8999-2de5f94f5ba2" name="Default Changelist" comment="" />
+      <created>1618634157434</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1618634157434</updated>
+      <workItem from="1618634159289" duration="8000" />
+      <workItem from="1618656016112" duration="14498000" />
+      <workItem from="1618717142228" duration="15848000" />
+      <workItem from="1618760157040" duration="1866000" />
+      <workItem from="1618937974099" duration="2071000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="210" y="270" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1618678316164">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="210" y="270" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1618678316164" />
+    <state x="103" y="96" key="CommitChangelistDialog2" timestamp="1618656988533">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="103" y="96" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1618656988533" />
+    <state x="143" y="242" key="run.anything.popup" timestamp="1618730623221">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="143" y="242" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1618730623221" />
+    <state x="143" y="230" width="672" height="678" key="search.everywhere.popup" timestamp="1618939817331">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="143" y="230" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1618939817331" />
+  </component>
+</project>
