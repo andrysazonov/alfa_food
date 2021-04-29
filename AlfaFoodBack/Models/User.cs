@@ -9,7 +9,7 @@ namespace AlfaFoodBack.Models
     public class User:IDbEntity
     {
         //public int CurrentOrderId { get; }
-        public readonly int Id;
+        public readonly int? Id;
         public readonly string Email;
         public readonly string Username;
         // public Stack<Order> OrdersHistory;
@@ -17,7 +17,7 @@ namespace AlfaFoodBack.Models
         public readonly string Phone;
         public readonly string Role;
 
-        public User(string email, string password, string username, string phone, string role="none")
+        public User(string email, string password, string username, string phone, string role="none", int? id = null)
         {
             if (!IsLoginValid(email))
                 throw new Exception("Invalid login");
@@ -25,11 +25,12 @@ namespace AlfaFoodBack.Models
                 throw new Exception("Invalid password");
             if (!IsPhoneNumberValid(phone))
                 throw new Exception("Invalid phone number");
-            this.Email = email;
-            this.Password = password;
-            this.Username = username;
-            this.Role = role;
-            this.Phone = phone;
+            Email = email;
+            Password = Encryptor.GetHashString(password);
+            Username = username;
+            Role = role;
+            Phone = phone;
+            Id = id;
         }
 
         
