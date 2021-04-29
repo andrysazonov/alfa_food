@@ -11,6 +11,7 @@ import {HomePage} from "../components/HomePage"
 
 //Cafe Admin
 import CafeAdminStatistics from "../components/CafeAdminStatistics"
+import AccountSettingsPage from "../page/AccountSettings";
 
 
 export const authRoutes = [
@@ -46,6 +47,11 @@ export const adminRoutes = [
         path: "/statistics",
         exact: true,
         component: AdminStatistics
+    },
+    {
+        path: "/accountsettings",
+        exact: true,
+        component: AccountSettingsPage
     },
     {
         path: "/404",

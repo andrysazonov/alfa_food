@@ -111,7 +111,7 @@ const Register: React.FC = () => {
   return (
     <>
       <div className="page-form">
-        <h3>Register Page</h3>
+        <h1>Регистрация</h1>
         <p>
           У вас уже есть <Link to="/login">аккаунт</Link>
         </p>
