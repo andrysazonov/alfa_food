@@ -17,7 +17,7 @@ const NavBar: React.FunctionComponent<INavBarProps> = ({ loggedInUser }) => {
   }
   return (
     <div className="nav-bar">
-      <div className="title">АльфаЕда </div>
+      <Link to="/" className="title">АльфаЕда </Link>
       <div className="block">
         <Link to={path1}>
           {loggedInUser.role !== "none" && <UserIcon />}

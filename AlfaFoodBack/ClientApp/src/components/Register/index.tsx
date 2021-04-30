@@ -19,12 +19,12 @@ const renderField = ({
   type,
   meta: { touched, error, warning },
 }: any) => (
-  <div>
-    <label>{label}</label>
+  <div className="form-field">
+    {/* <label>{label}</label> */}
     <div>
       <input {...input} placeholder={label} type={type} />
       {touched &&
-        ((error && <span>{error}</span>) ||
+        ((error && <div className="error">{error}</div>) ||
           (warning && <span>{warning}</span>))}
     </div>
   </div>
@@ -37,53 +37,58 @@ const RegisterForm: React.FC<
   const { pristine, submitting, handleSubmit, onSubmit } = props;
 
   return (
-    
-      <div className="page-main-form">
-        <form onSubmit={handleSubmit(onSubmit)}>
+    <div className="page-main-form">
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div>
           <div>
-            <label htmlFor="username">Имя и Фамилия</label>
             <Field
               name="username"
               component={renderField}
               type="text"
               validate={[required]}
+              label="Имя и Фамилия"
             />
           </div>
-          <div>
-            <label htmlFor="phone">Телефон</label>
-            <Field
-              placeholder={"NNN-NNN-NNNN"}
-              name="phone"
-              component={renderField}
-              type="text"
-              validate={[required]}
-              normalize={normalizePhone}
-            />
-          </div>
-          <div>
-            <label htmlFor="email">Почта</label>
-            <Field
-              name="email"
-              component={renderField}
-              type="text"
-              validate={[required]}
-            />
-          </div>
-          <div>
-            <label htmlFor="password">Пароль</label>
-            <Field
-              name="password"
-              component={renderField}
-              type="text"
-              validate={[required]}
-            />
-          </div>
-          <button type="submit" disabled={pristine || submitting}>
-            Register
-          </button>
-        </form>
-      </div>
-    
+        </div>
+
+        {/* <label htmlFor="phone">Телефон</label> */}
+        <Field
+          label={"Телефон"}
+          name="phone"
+          component={renderField}
+          type="text"
+          validate={[required]}
+          normalize={normalizePhone}
+        />
+
+        {/* <label htmlFor="email">Почта</label> */}
+        <Field
+          name="email"
+          component={renderField}
+          type="text"
+          validate={[required]}
+          label="Email"
+        />
+
+        {/* <label htmlFor="password">Пароль</label> */}
+        <Field
+          name="password"
+          placeholder="Пароль"
+          component={renderField}
+          type="text"
+          validate={[required]}
+          label="Пароль"
+        />
+
+        <button
+          className="primary-button"
+          type="submit"
+          disabled={pristine || submitting}
+        >
+          Зарегистрироваться
+        </button>
+      </form>
+    </div>
   );
 };
 

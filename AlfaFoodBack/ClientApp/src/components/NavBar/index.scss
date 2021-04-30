@@ -3,7 +3,7 @@
   box-shadow: 0 0 10px rgba(0,0,0,0.5); 
   color: white;
   width: 100%;
-  background-color: #83688d;
+  background-color: #d11d10;
   justify-content: space-between;
   display: flex;
   align-items: center;
@@ -11,9 +11,12 @@
     font-family: "Segoe UI", "Helvetica Neue", Roboto, Arial, sans-serif;
     font-size: 20px;
     padding-left: 8px;
+    color: white;
     height: 100%;
     display: flex;
     align-items: center;
+    text-decoration: none;
+
   }
   //   ::after {
   //     content: "";
