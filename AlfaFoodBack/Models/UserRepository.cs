@@ -1,16 +1,10 @@
 ﻿using System;
 using System.Data;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.Web.Http;
-using MySql.Data.MySqlClient;
 using Npgsql;
 
 namespace AlfaFoodBack.Models
 {
-    public class UserRepository: IRepository
+    public class UserRepository : IRepository
     {
         public void Insert(NpgsqlConnection dbCon, IDbEntity entity)
         {
@@ -20,8 +14,18 @@ namespace AlfaFoodBack.Models
             var command = dbCon.CreateCommand();
             command.CommandType = CommandType.Text;
             command.CommandText =
-                    $"INSERT INTO public.\"Users\"(username, role, phone, password, email) VALUES ('{user.Username}', '{user.Role}', '{user.Phone}', '{user.Password}', '{user.Email}')";
+                $"INSERT INTO public.\"Users\"(username, role, phone, password, email) VALUES ('{user.Username}', '{user.Role}', '{user.Phone}', '{user.Password}', '{user.Email}')";
             command.ExecuteNonQuery();
+        }
+
+        public void Update(NpgsqlConnection dbCon, IDbEntity entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IDbEntity GetById(NpgsqlConnection dbCon, int id)
+        {
+            throw new NotImplementedException();
         }
 
         public static User IsAuth(string login, string password, NpgsqlConnection dbCon)
@@ -39,17 +43,8 @@ namespace AlfaFoodBack.Models
             var role = dataReader[1].ToString();
             var phone = dataReader[2].ToString();
             var id = int.Parse(dataReader[5].ToString());
+            dataReader.Close();
             return new User(login, password, username, phone, role, id);
-        }
-
-        public HttpResponseMessage Update(NpgsqlConnection dbCon, IDbEntity entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public HttpResponseMessage GetById(NpgsqlConnection dbCon, int id)
-        {
-            throw new System.NotImplementedException();
         }
 
         public bool UserWithLoginExists(NpgsqlConnection dbCon, string login)
@@ -60,6 +55,5 @@ namespace AlfaFoodBack.Models
             var result = command.ExecuteReader();
             return result.HasRows;
         }
-
     }
 }

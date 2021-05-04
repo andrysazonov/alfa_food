@@ -1,23 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using Microsoft.AspNetCore.Mvc;
-using MySql.Data.MySqlClient;
 
 namespace AlfaFoodBack.Models
 {
-    public class User:IDbEntity
+    public class User : IDbEntity
     {
+        public readonly string Email;
+
         //public int CurrentOrderId { get; }
         public readonly int? Id;
-        public readonly string Email;
-        public readonly string Username;
+
         // public Stack<Order> OrdersHistory;
         public readonly string Password;
         public readonly string Phone;
         public readonly string Role;
+        public readonly string Username;
 
-        public User(string email, string password, string username, string phone, string role="none", int? id = null)
+        public User(string email, string password, string username, string phone, string role = "none", int? id = null)
         {
             if (!IsLoginValid(email))
                 throw new Exception("Invalid login");
@@ -33,7 +31,7 @@ namespace AlfaFoodBack.Models
             Id = id;
         }
 
-        
+
         private static bool IsPhoneNumberValid(string phoneNumber)
         {
             return true;

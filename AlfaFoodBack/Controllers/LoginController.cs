@@ -1,6 +1,4 @@
-﻿using System;
-using System.Data;
-using AlfaFoodBack.Models;
+﻿using System.Data;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AlfaFoodBack.Controllers
@@ -16,17 +14,16 @@ namespace AlfaFoodBack.Controllers
             {
                 var command = dbCon.CreateCommand();
                 command.CommandType = CommandType.Text;
-                command.CommandText = $"SELECT name" +
-                                        $"FROM User" +
-                                        $"WHERE login = {login} AND password={password}";
+                command.CommandText = "SELECT name" +
+                                      "FROM User" +
+                                      $"WHERE login = {login} AND password={password}";
 
 
                 var reader = command.ExecuteReader();
                 if (reader.HasRows)
                     return StatusCode(400);
-
-
             }
+
             return StatusCode(200); // надо определиться с тем, как мы будем авторизовать сессию
         }
     }
