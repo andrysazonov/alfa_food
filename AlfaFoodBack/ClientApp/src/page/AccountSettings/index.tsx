@@ -20,4 +20,4 @@ const AccountSettingsPage = () => {
         </div>
     )
 }
-export default AccountSettingsPage
+export default AccountSettingsPage  

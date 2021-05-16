@@ -10,7 +10,7 @@ type LoggedInUserType = {
 let initialState = {
     login: null as (string | null),
     email: null as (string | null),
-    loggedInUser: { role: "none"} 
+    loggedInUser: { role: "cafeowner"} 
     // as LoggedInUserType
 }
 
@@ -46,7 +46,6 @@ export const login = (email: string, password: string): ThunkType => async (disp
 export const register = (email: string, password: string, phone: string, username: string): ThunkType => async (dispatch) => {
     try {
         let loggedInUser = await authAPI.register(email,password,phone,username)
-        console.log("loggedInUSER",loggedInUser)
         if (loggedInUser) {
             dispatch(actions.setAuthUserData(loggedInUser))
         }

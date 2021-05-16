@@ -1,7 +1,7 @@
 import React from "react"
 import { Route, Switch, Redirect } from "react-router-dom";
 
-import { authRoutes, adminRoutes, cafeAdminRoutes } from "./routes"
+import { authRoutes, adminRoutes, cafeAdminRoutes, cafeOwnerRoutes } from "./routes"
 
 export const AuthLayout = () => {
     // console.log("PubRout")
@@ -36,6 +36,17 @@ export const CafeAdminLayout = () => (
     <>
         <Switch>
             {cafeAdminRoutes.map((route, index) => (
+                <Route {...route}/>
+            ))}
+            <Redirect to="/404" />
+        </Switch>
+    </>
+)
+
+export const CafeOwnerLayout = () => (
+    <>
+        <Switch>
+            {cafeOwnerRoutes.map((route, index) => (
                 <Route {...route}/>
             ))}
             <Redirect to="/404" />

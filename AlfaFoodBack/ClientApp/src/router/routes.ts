@@ -12,6 +12,8 @@ import {HomePage} from "../components/HomePage"
 //Cafe Admin
 import CafeAdminStatistics from "../components/CafeAdminStatistics"
 import AccountSettingsPage from "../page/AccountSettings";
+// Cafe Owner
+import RestaurantRegistrationPage from "../page/RestaurantRegistration";
 
 
 export const authRoutes = [
@@ -58,6 +60,18 @@ export const adminRoutes = [
         exact: false,
         component: NotFound
     }
+]
+export const cafeOwnerRoutes=[
+    {
+        path: "/",
+        exact: true,
+        component: GuestPage
+    },
+    {
+        path: "/addRestaurants",
+        exact: false,
+        component: RestaurantRegistrationPage
+    },
 ]
 
 
