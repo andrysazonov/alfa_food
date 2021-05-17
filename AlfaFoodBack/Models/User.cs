@@ -1,38 +1,37 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using Microsoft.AspNetCore.Mvc;
-using MySql.Data.MySqlClient;
 
 namespace AlfaFoodBack.Models
 {
-    public class User:IDbEntity
+    public class User : IDbEntity
     {
-        public int CurrentOrderId { get; }
-        public readonly int Id;
-        public readonly string Login;
-        public readonly string Username;
+        public readonly string Email;
+
+        //public int CurrentOrderId { get; }
+        public readonly int? Id;
+
         // public Stack<Order> OrdersHistory;
         public readonly string Password;
         public readonly string Phone;
-        public readonly string Surname;
+        public readonly string Role;
+        public readonly string Username;
 
-        public User(string login, string password, string username, string surname, string phone = null)
+        public User(string email, string password, string username, string phone, string role = "none", int? id = null)
         {
-            if (!IsLoginValid(login))
+            if (!IsLoginValid(email))
                 throw new Exception("Invalid login");
             if (!IsPasswordValid(password))
                 throw new Exception("Invalid password");
             if (!IsPhoneNumberValid(phone))
                 throw new Exception("Invalid phone number");
-            this.Login = login;
-            this.Password = password;
-            this.Username = username;
-            this.Surname = surname;
-            this.Phone = phone;
+            Email = email;
+            Password = Encryptor.GetHashString(password);
+            Username = username;
+            Role = role;
+            Phone = phone;
+            Id = id;
         }
 
-        
+
         private static bool IsPhoneNumberValid(string phoneNumber)
         {
             return true;
