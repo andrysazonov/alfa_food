@@ -21,7 +21,6 @@ import CafeAdminStaff from "../pages/CafeAdmin/Staff";
 import CafeAdminAccountSettings from "../pages/CafeAdmin/AccountSettings"
 
 
-
 import Chat from "../pages/common/Chat"
 
 
@@ -53,7 +52,7 @@ export const authRoutes = [
 
 export const adminRoutes = [
     {
-        path: "/applications",
+        path: ["/applications", "/application/:id", "addapplication"],
         exact: true,
         component: Applications
     },
@@ -92,7 +91,7 @@ export const cafeAdminRoutes = [
         component: CafeAdminStaff
     },
     {
-        path: "/establishments",
+        path: ["/establishments", "/establishment/:id", "/addestablishment"],
         exact: false,
         component: CafeAdminEstablishments
     },

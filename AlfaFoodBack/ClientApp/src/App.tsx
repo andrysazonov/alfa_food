@@ -23,9 +23,9 @@ const AppContainer: React.FC<MapPropsType> = ({loggedInUser}) => {
                     loggedInUser={loggedInUser}
                     component={AuthLayout}
                 />
-               {/*<PrivateRoute*/}
-               {/*     loggedInUser={loggedInUser}*/}
-               {/* />*/}
+               <PrivateRoute
+                    loggedInUser={loggedInUser}
+                />
 
 
             </Switch></div>

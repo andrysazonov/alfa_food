@@ -1,6 +1,6 @@
 import {BaseThunkType, InferActionsType} from "../store";
 // import { Action } from "redux";
-import {authAPI} from "../../api/auth-api";
+import { authAPI } from "../../api/auth-api";
 
 
 type LoggedInUserType = {
@@ -10,7 +10,7 @@ type LoggedInUserType = {
 let initialState = {
     login: null as (string | null),
     email: null as (string | null),
-    loggedInUser: { role: "none"}
+    loggedInUser: { role: "cafeadmin" }
     // as LoggedInUserType
 }
 
