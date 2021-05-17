@@ -22,7 +22,7 @@ export const register = (email: string, password: string, phone: string, usernam
     try {
         let loggedInUser = await restaurantAPI.addRestaurant(email,password,phone,username)
         if (loggedInUser) {
-            dispatch(actions.setAuthUserData(   ))
+            dispatch(actions.setAuthUserData(null))
         }
     } catch {
         console.log('error in register')

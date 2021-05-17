@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import {  CafeAdminLayout, AdminLayout,CafeOwnerLayout } from "../../router/layouts";
+import {  CafeAdminLayout, AdminLayout } from "../../router/layouts";
 
 type PrivateRouteType = {
     loggedInUser: any,
@@ -20,11 +20,11 @@ const PrivateRoute: React.FC<PrivateRouteType> = ({loggedInUser, ...rest}) => (
                     <CafeAdminLayout />
                 );
             }
-            if (loggedInUser.role === 'cafeowner' ) {
-                return (
-                    <CafeOwnerLayout />
-                );
-            }
+            // if (loggedInUser.role === 'cafeowner' ) {
+            //     return (
+            //         <CafeOwnerLayout />
+            //     );
+            // }
 
             return (
                 <Redirect

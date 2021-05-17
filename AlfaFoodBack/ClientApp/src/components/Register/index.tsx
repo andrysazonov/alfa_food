@@ -7,6 +7,8 @@ import { register } from "../../redux/reducers/authReducer";
 
 import { required } from "../../utils/validators";
 import normalizePhone from "../../utils/normalize";
+
+
 import "./index.scss";
 
 type RegisterFormOwnProps = {

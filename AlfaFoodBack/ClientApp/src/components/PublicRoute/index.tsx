@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { Route} from "react-router-dom"
 import PrivateRoute from "../PrivateRoute"
 
@@ -9,12 +9,14 @@ type PublicRouteType = {
 
 
 const PublicRoute: React.FC<PublicRouteType> = ({loggedInUser, component: Component, ...rest}) => {
-    // console.log("object",loggedInUser)
 
+    useEffect(() =>
+        console.log('loggedIn User geeeet   ', loggedInUser)
+    )
     return(
     <Route render={() => (
-        
-        loggedInUser.role!=="none" ? <PrivateRoute loggedInUser={loggedInUser}/> : <Component {...rest}/>
+
+        loggedInUser.role !=="none" ? <PrivateRoute loggedInUser={loggedInUser} /> : <Component {...rest} />
     )}
    />)
 }

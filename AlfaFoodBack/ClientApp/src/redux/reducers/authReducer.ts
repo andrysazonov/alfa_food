@@ -10,7 +10,7 @@ type LoggedInUserType = {
 let initialState = {
     login: null as (string | null),
     email: null as (string | null),
-    loggedInUser: { role: "cafeowner"} 
+    loggedInUser: { role: "none"}
     // as LoggedInUserType
 }
 
@@ -19,6 +19,9 @@ export const actions = {
     setAuthUserData: (loggedInUser: {} | null)  => ({
       type: "Auth/SET_USER_DATA",
       payload: { loggedInUser }
+    } as const),
+    logOut: () => ({
+        type: "LOG_OUT"
     } as const)
 }
 
@@ -43,6 +46,16 @@ export const login = (email: string, password: string): ThunkType => async (disp
     }
 }
 
+export const logout = (): ThunkType => async (dispatch) => {
+    // console.log('log utttt')
+    let resp = await authAPI.logout()
+    if (resp) {
+        dispatch(actions.logOut())
+    }
+}
+
+
+
 export const register = (email: string, password: string, phone: string, username: string): ThunkType => async (dispatch) => {
     try {
         let loggedInUser = await authAPI.register(email,password,phone,username)
@@ -63,6 +76,11 @@ const authReducer = ( state = initialState, action: ActionsType) => {
             return {
                 ...state,
                 ...action.payload
+            }
+        case 'LOG_OUT':
+            return {
+                ...state,
+                ...initialState
             }
         default:
             return state
