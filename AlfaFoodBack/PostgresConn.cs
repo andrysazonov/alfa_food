@@ -10,7 +10,7 @@ namespace AlfaFoodBack
             bool boolfound = false;
             NpgsqlConnection conn =
                 new NpgsqlConnection(
-                    "Server=127.0.0.1; Port=5432; User Id=postgres; Password=root; Database=Alfafood"); //<ip> is an actual ip address
+                    @"Server=dumbo.db.elephantsql.com; User Id=tgenvxvp; Password=9Rb_1TwOJ18nG9TEEwIGywMhDhlwOzBI; Database=tgenvxvp"); //<ip> is an actual ip address
             conn.Open();
             return conn;
         }

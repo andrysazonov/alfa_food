@@ -9,12 +9,16 @@ namespace AlfaFoodBack.Models
         public void Insert(NpgsqlConnection dbCon, IDbEntity entity)
         {
             var user = entity as User;
-            if (UserWithLoginExists(dbCon, user.Email))
-                throw new Exception("User exists");
+            using (var con = PostgresConn.GetConn())
+            {
+                if (UserWithLoginExists(con, user.Email))
+                    throw new Exception("User exists");
+            }
+            Console.WriteLine("Insert");
             var command = dbCon.CreateCommand();
             command.CommandType = CommandType.Text;
             command.CommandText =
-                $"INSERT INTO public.\"Users\"(username, role, phone, password, email) VALUES ('{user.Username}', '{user.Role}', '{user.Phone}', '{user.Password}', '{user.Email}')";
+                $"INSERT INTO \"public\".\"users\"(username, role, phone, password, email) VALUES ('{user.Username}', '{user.Role}', '{user.Phone}', '{user.Password}', '{user.Email}')";
             command.ExecuteNonQuery();
         }
 
@@ -34,7 +38,7 @@ namespace AlfaFoodBack.Models
             var command = dbCon.CreateCommand();
             command.CommandType = CommandType.Text;
             command.CommandText =
-                $"select * from public.\"Users\" where email='{login}' and password='{passHash}'";
+                $"select * from \"public\".\"users\" where email='{login}' and password='{passHash}'";
             var dataReader = command.ExecuteReader();
             if (!dataReader.HasRows)
                 return null;
@@ -51,8 +55,9 @@ namespace AlfaFoodBack.Models
         {
             var command = dbCon.CreateCommand();
             command.CommandType = CommandType.Text;
-            command.CommandText = $"SELECT FROM public.\"Users\" Where email='{login}';";
+            command.CommandText = $"SELECT FROM \"public\".\"users\" Where email='{login}';";
             var result = command.ExecuteReader();
+            Console.WriteLine("Exists");
             return result.HasRows;
         }
     }
