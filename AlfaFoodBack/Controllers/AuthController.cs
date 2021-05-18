@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using AlfaFoodBack.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Linq;
 
 namespace AlfaFoodBack.Controllers
@@ -22,6 +26,7 @@ namespace AlfaFoodBack.Controllers
                 using (var dbCon = PostgresConn.GetConn())
                 {
                     var user = UserRepository.IsAuth(email, password, dbCon);
+                    
                     if (user == null)
                     {
                         Response.StatusCode = 400;
@@ -36,10 +41,23 @@ namespace AlfaFoodBack.Controllers
                             return;
                         }
 
+                        var now = DateTime.UtcNow;
+                        var claims = new List<Claim>();
+                        claims.Add(new Claim(ClaimsIdentity.DefaultNameClaimType, user.Email));
+                        claims.Add(new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role));
+                            var jwt = new JwtSecurityToken(
+                            issuer: AuthOptions.ISSUER,
+                            audience: AuthOptions.AUDIENCE,
+                            notBefore: now,
+                            claims: claims,
+                            expires: now.Add(TimeSpan.FromMinutes(AuthOptions.LIFETIME)),
+                            signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
+                        var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
                         Response.StatusCode = 200;
                         Response.Cookies.Append("username", user.Username);
                         Response.Cookies.Append("userId", user.Id.ToString());
                         Response.Cookies.Append("role", user.Role);
+                        Response.Cookies.Append("token", encodedJwt);
                     }
                 }
             }
@@ -75,10 +93,23 @@ namespace AlfaFoodBack.Controllers
                             await Response.WriteAsync("You can't see this page");
                             return;
                         }
-
+                        var now = DateTime.UtcNow;
+                        var claims = new List<Claim>();
+                        claims.Add(new Claim(ClaimsIdentity.DefaultNameClaimType, user.Email));
+                        claims.Add(new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role));
+                        var jwt = new JwtSecurityToken(
+                            issuer: AuthOptions.ISSUER,
+                            audience: AuthOptions.AUDIENCE,
+                            notBefore: now,
+                            claims: claims,
+                            expires: now.Add(TimeSpan.FromMinutes(AuthOptions.LIFETIME)),
+                            signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
+                        var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
                         Response.StatusCode = 200;
                         Response.Cookies.Append("username", user.Username);
+                        Response.Cookies.Append("userId", user.Id.ToString());
                         Response.Cookies.Append("role", user.Role);
+                        Response.Cookies.Append("token", encodedJwt);
                     }
                 }
             }
