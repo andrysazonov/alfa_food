@@ -12,7 +12,7 @@ namespace AlfaFoodBack.Models
             var command = dbCon.CreateCommand();
             command.CommandType = CommandType.Text;
             command.CommandText =
-                $"INSERT INTO public.\"Restaurants\" (ownerId, name, phone, address, description) VALUES({restaurant.OwnerId}, {restaurant.Name}, {restaurant.PhoneNumber}, {restaurant.Address}, {restaurant.Description})";
+                $"INSERT INTO public.\"Restaurants\" (ownerId, name, phone, address, description, city) VALUES({restaurant.OwnerId}, {restaurant.Name}, {restaurant.PhoneNumber}, {restaurant.Address}, {restaurant.Description}, {restaurant.City})";
             command.ExecuteNonQuery();
         }
 
@@ -37,8 +37,9 @@ namespace AlfaFoodBack.Models
             var address = reader[3].ToString();
             var phone = reader[4].ToString();
             var ownerId = int.Parse(reader[5].ToString());
+            var city = reader[6].ToString();
             reader.Close();
-            return new Restaurant(ownerId, name, address, description, phone, id);
+            return new Restaurant(ownerId, name, city, address, description, phone, id);
         }
 
         public IDbEntity GetRestaurantsByOwnerId(NpgsqlConnection dbCon, int ownerId)
@@ -57,8 +58,9 @@ namespace AlfaFoodBack.Models
             var description = reader[2].ToString();
             var address = reader[3].ToString();
             var phone = reader[4].ToString();
+            var city = reader[6].ToString();
             reader.Close();
-            return new Restaurant(ownerId, name, address, description, phone, id);
+            return new Restaurant(ownerId, name, city, address, description, phone, id);
         }
     }
 }

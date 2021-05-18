@@ -6,7 +6,9 @@ namespace AlfaFoodBack.Models
     public class Restaurant : IDbEntity
     {
         public readonly string
-            Address; //Надо определиться с форматом хранения адреса, а так же организовать проверку на валидность адреса
+            Address; 
+        public readonly string
+            City; //Надо определиться с форматом хранения адреса, а так же организовать проверку на валидность адреса
 
         public readonly string
             Description; //надо добавить возможность изменять описание ресторана и возможность не добавлять его при регистрации
@@ -24,7 +26,7 @@ namespace AlfaFoodBack.Models
         private List<int>
             workers; // id людей, работающих в ресторане, имеющих свои задачи в приложении (прим. официант, хостес)
 
-        public Restaurant(int ownerId, string name, string address, string description, string phoneNumber = null,
+        public Restaurant(int ownerId, string name, string city, string address, string description, string phoneNumber = null,
             int? id = null)
         {
             if (!IsPhoneNumberValid(phoneNumber))
@@ -33,6 +35,7 @@ namespace AlfaFoodBack.Models
                 throw new Exception("Invalid address");
             OwnerId = ownerId;
             Name = name;
+            City = city;
             PhoneNumber = phoneNumber;
             Address = address;
             Description = description;
