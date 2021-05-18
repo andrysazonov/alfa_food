@@ -5,31 +5,30 @@ import {BrowserRouter} from "react-router-dom";
 import store, {AppStateType} from "./redux/store"
 
 import { AuthLayout } from "./router/layouts";
-// import PrivateRoute from "./components/PrivateRoute";
+import PrivateRoute from "./components/PrivateRoute";
 import PublicRoute from "./components/PublicRoute";
 import {compose} from "redux";
-import NavBar from './components/NavBar';
+
 
 
 type MapPropsType = ReturnType<typeof mapStateToProps>
 
 const AppContainer: React.FC<MapPropsType> = ({loggedInUser}) => {
-    // console.log("LOG",loggedInUser)
+
     return (
-        <div className="wrapper">
-            <NavBar/>
+        <div className="wrapper1488">
+            <div className='page-layout22'>
             <Switch>
-                <div className='page-layout'>
                 <PublicRoute
                     loggedInUser={loggedInUser}
                     component={AuthLayout}
                 />
-                {/* <PrivateRoute
-                    loggedInUser={loggedInUser}
-                /> */}
-</div>
+               {/*<PrivateRoute*/}
+               {/*     loggedInUser={loggedInUser}*/}
+               {/* />*/}
 
-            </Switch>
+
+            </Switch></div>
         </div>
     )
 }

@@ -20,6 +20,11 @@ const PrivateRoute: React.FC<PrivateRouteType> = ({loggedInUser, ...rest}) => (
                     <CafeAdminLayout />
                 );
             }
+            // if (loggedInUser.role === 'cafeowner' ) {
+            //     return (
+            //         <CafeOwnerLayout />
+            //     );
+            // }
 
             return (
                 <Redirect

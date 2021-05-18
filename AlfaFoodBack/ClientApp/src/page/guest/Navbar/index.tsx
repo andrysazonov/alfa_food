@@ -1,9 +1,11 @@
-import React from 'react'
+import React from "react"
+
 
 export default () => {
     return (
         <div>
-            Admin Statistcs
+            it's navbar in Guest
         </div>
     )
 }
+

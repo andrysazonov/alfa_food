@@ -1,3 +1,9 @@
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .page-form {
   width: 50%;
   margin: 30px auto;
@@ -14,9 +20,9 @@
       border-color: #66afe9;
       outline: 0;
       -webkit-box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%),
-        0 0 8px rgb(102 175 233 / 60%);
+      0 0 8px rgb(102 175 233 / 60%);
       box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%),
-        0 0 8px rgb(102 175 233 / 60%);
+      0 0 8px rgb(102 175 233 / 60%);
     }
   }
   h1 {
@@ -39,9 +45,9 @@
   }
 }
 .form-field{
-    margin-top: 25px;
+  margin-top: 25px;
 }
 .error{
-    margin-top:5px;
-    margin-bottom: -5px;
+  margin-top:5px;
+  margin-bottom: -5px;
 }

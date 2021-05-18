@@ -2,15 +2,30 @@
 import Login from "../components/Login"
 import Register from "../components/Register"
 import NotFound from "../components/common/NotFound"
-import GuestPage from "../components/GuestPage";
+import GuestPage from "../pages/Guest/GuestPage";
 
 
 // Admin
-import AdminStatistics from "../components/AdminStatistics"
-import {HomePage} from "../components/HomePage"
+import Applications from "../pages/Admin/Applications";
+import AdminStatistics from "../pages/Admin/Statistics";
+import AdminAccountSettings from "../pages/Admin/AccountSettings";
+
+
+
 
 //Cafe Admin
-import CafeAdminStatistics from "../components/CafeAdminStatistics"
+import CafeAdminStatistics from "../pages/CafeAdmin/Statistics"
+import CafeAdminEstablishments from "../pages/CafeAdmin/Establishments"
+import CafeAdminGuestBase from "../pages/CafeAdmin/GuestBase";
+import CafeAdminStaff from "../pages/CafeAdmin/Staff";
+import CafeAdminAccountSettings from "../pages/CafeAdmin/AccountSettings"
+
+
+
+import Chat from "../pages/common/Chat"
+
+
+
 
 
 export const authRoutes = [
@@ -38,14 +53,24 @@ export const authRoutes = [
 
 export const adminRoutes = [
     {
-        path: "/home",
+        path: "/applications",
         exact: true,
-        component: HomePage
+        component: Applications
     },
     {
         path: "/statistics",
         exact: true,
         component: AdminStatistics
+    },
+    {
+        path: "/chat",
+        exact: true,
+        component: Chat
+    },
+    {
+        path: "/accountsettings",
+        exact: true,
+        component: AdminAccountSettings
     },
     {
         path: "/404",
@@ -57,14 +82,34 @@ export const adminRoutes = [
 
 export const cafeAdminRoutes = [
     {
-        path: "/",
-        exact: true,
-        component: GuestPage
-    },
-    {
         path: "/statistics",
         exact: false,
         component: CafeAdminStatistics
+    },
+    {
+        path: "/staff",
+        exact: false,
+        component: CafeAdminStaff
+    },
+    {
+        path: "/establishments",
+        exact: false,
+        component: CafeAdminEstablishments
+    },
+    {
+        path: "/guestbase",
+        exact: false,
+        component: CafeAdminGuestBase
+    },
+    {
+        path: "/accountsettings",
+        exact: true,
+        component: CafeAdminAccountSettings
+    },
+    {
+        path: "/chat",
+        exact: true,
+        component: Chat
     },
     {
         path: "/404",

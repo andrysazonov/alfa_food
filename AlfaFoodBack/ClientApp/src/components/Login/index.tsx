@@ -5,6 +5,7 @@ import { required } from "../../utils/validators";
 
 import {login} from '../../redux/reducers/authReducer'
 
+import "./index.scss"
 
 import { useDispatch } from "react-redux";
 import {Link} from "react-router-dom";
@@ -20,8 +21,8 @@ const renderField = ({
                          meta: { touched, error, warning }
                      }: any) => (
     <div>
-        <label>{label}</label>
-        <div>
+        {/*<label>{label}</label>*/}
+        <div className="form-field">
             <input {...input} placeholder={label} type={type} />
             {touched &&
             ((error && <span>{error}</span>) ||
@@ -35,29 +36,35 @@ const LoginForm: React.FC<InjectedFormProps<LoginFormValuesType, LoginFormOwnPro
 
     const { pristine, submitting, handleSubmit, onSubmit} = props;
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
-            <div>
-                <label htmlFor="email">Email</label>
-                <Field
-                    name="email"
-                    component={renderField}
-                    type="text"
-                    validate={[required]}
-                />
-            </div>
-            <div>
-                <label htmlFor="password">Password</label>
-                <Field
-                    name="password"
-                    component={renderField}
-                    type="text"
-                    validate={[required]}
-                />
-            </div>
-            <button type="submit" disabled={pristine || submitting}>Login</button>
-        </form>
-
-
+        <div className="page-main-form">
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <div>
+                    {/*<label htmlFor="email">Email</label>*/}
+                    <Field
+                        placeholder="Почта"
+                        name="email"
+                        component={renderField}
+                        type="text"
+                        validate={[required]}
+                    />
+                </div>
+                <div>
+                    {/*<label htmlFor="password">Password</label>*/}
+                    <Field
+                        placeholder="Пароль"
+                        name="password"
+                        component={renderField}
+                        type="text"
+                        validate={[required]}
+                    />
+                </div>
+                <button
+                    className="primary-button"
+                    type="submit"
+                    disabled={pristine || submitting}
+                >Login</button>
+            </form>
+        </div>
     )
 }
 
@@ -83,11 +90,17 @@ const LoginPage: React.FC = () => {
     }
 
     return (
-        <>
-            <h3>Войдите в систему</h3>
-            <p>У вас еще нет <Link to="/register">аккаунта</Link></p>
-            <LoginReduxForm onSubmit={onSubmit} />
-        </>
+        <div
+        >
+            <div
+                className="page-form "
+            >
+                <h1>Войдите в систему</h1>
+                <p>У вас еще нет <Link to="/register">аккаунта</Link></p>
+                <LoginReduxForm onSubmit={onSubmit} />
+            </div>
+
+        </div>
 
     )
 }
