@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.IO.Pipelines;
 using System.Security.Claims;
+using System.Text;
+using System.Text.Json.Serialization;
 using AlfaFoodBack.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace AlfaFoodBack.Controllers
@@ -54,9 +58,8 @@ namespace AlfaFoodBack.Controllers
                             signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
                         var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
                         Response.StatusCode = 200;
-                        Response.Cookies.Append("username", user.Username);
-                        Response.Cookies.Append("userId", user.Id.ToString());
-                        Response.Cookies.Append("role", user.Role);
+                        var json = JsonConvert.SerializeObject(user);
+                        await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(json));
                         Response.Cookies.Append("token", encodedJwt);
                     }
                 }
@@ -106,9 +109,8 @@ namespace AlfaFoodBack.Controllers
                             signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
                         var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
                         Response.StatusCode = 200;
-                        Response.Cookies.Append("username", user.Username);
-                        Response.Cookies.Append("userId", user.Id.ToString());
-                        Response.Cookies.Append("role", user.Role);
+                        var json = JsonConvert.SerializeObject(user);
+                        await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(json));
                         Response.Cookies.Append("token", encodedJwt);
                     }
                 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AlfaFoodBack.Models
 {
@@ -30,7 +31,7 @@ namespace AlfaFoodBack.Models
             Phone = phone;
             Id = id;
         }
-
+        
 
         private static bool IsPhoneNumberValid(string phoneNumber)
         {
