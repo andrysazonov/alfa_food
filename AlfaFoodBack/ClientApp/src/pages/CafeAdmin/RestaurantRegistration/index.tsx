@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import useDocumentTitle from "../../hooks/useDocumentTitle";
+import useDocumentTitle from "../../../hooks/useDocumentTitle";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
@@ -10,7 +10,7 @@ import {
   change,
   setSubmitFailed,
 } from "redux-form";
-import { register } from "../../redux/reducers/authReducer";
+import { register } from "../../../redux/reducers/authReducer";
 import { setFlagsFromString } from "v8";
 
 interface Props {}

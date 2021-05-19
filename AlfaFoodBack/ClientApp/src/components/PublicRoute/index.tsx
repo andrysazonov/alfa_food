@@ -15,7 +15,6 @@ const PublicRoute: React.FC<PublicRouteType> = ({loggedInUser, component: Compon
     )
     return(
     <Route render={() => (
-
         loggedInUser.role !=="none" ? <PrivateRoute loggedInUser={loggedInUser} /> : <Component {...rest} />
     )}
    />)
