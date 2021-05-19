@@ -59,7 +59,7 @@ const Establishments = () => {
 
     return (
         <div
-            className="content"
+            className="establishments__content"
         >
             <div className="establishments__container">
                 <div className="establishments__list establishments-list">

@@ -1,0 +1,64 @@
+.new-establishment {
+  &__section {
+    padding: 20px;
+  }
+  &__title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 15px;
+  }
+  &-form {
+    &__file-input {
+      margin-top: 30px;
+      margin-bottom: 40px;
+    }
+
+    &__title {
+      margin-bottom: 15px;
+    }
+    &__inputs {
+      margin-bottom: 40px;
+      display: flex;
+      gap: 35px;
+      flex-direction: column;
+    }
+    &__field {
+      height: 50px;
+    }
+    &__input {
+      width: 250px;
+    }
+
+    &__btn {
+      outline: none;
+      color: white;
+      background: orangered;
+      padding: 6px 10px;
+      border-radius: 10px;
+      border: none;
+    }
+  }
+}
+
+.pickerTime {
+  &__wrapper {
+    display: flex;
+    gap: 20px;
+    width: fit-content;
+    margin-bottom: 30px;
+  }
+  &__date {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  &__input {
+    padding-left: 6px;
+    width: 60px;
+  }
+  &__day {
+    color: black;
+    font-size: 16px;
+    font-weight: 600;
+  }
+}
