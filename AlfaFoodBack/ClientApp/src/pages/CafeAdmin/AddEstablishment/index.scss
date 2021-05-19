@@ -7,10 +7,41 @@
     font-weight: 600;
     margin-bottom: 15px;
   }
+  &__small-title {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 20px;
+  }
+
   &-form {
-    &__file-input {
-      margin-top: 30px;
-      margin-bottom: 40px;
+    &__field {
+      height: 40px;
+      display: flex;
+      flex-direction: column;
+    }
+    &__error {
+      color: red;
+    }
+
+    &__input {
+      width: 250px;
+      padding: 5px 4px;
+    }
+
+    &__file {
+      &-wrapper {
+        margin-top: 30px;
+        margin-bottom: 40px;
+      }
+      &-error {
+        color: red;
+      }
+      &-input {
+
+      }
+      &-field {
+        height: 55px;
+      }
     }
 
     &__title {
@@ -22,20 +53,17 @@
       gap: 35px;
       flex-direction: column;
     }
-    &__field {
-      height: 50px;
-    }
-    &__input {
-      width: 250px;
-    }
 
     &__btn {
       outline: none;
       color: white;
       background: orangered;
-      padding: 6px 10px;
+      padding: 10px 13px;
       border-radius: 10px;
       border: none;
+      &:disabled {
+        opacity: 0.2;
+      }
     }
   }
 }
@@ -48,6 +76,7 @@
     margin-bottom: 30px;
   }
   &__date {
+    gap: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -55,6 +84,9 @@
   &__input {
     padding-left: 6px;
     width: 60px;
+    &--error {
+      border-color: red;
+    }
   }
   &__day {
     color: black;

@@ -1,15 +1,16 @@
 import React, {useState, ChangeEvent, useEffect, SyntheticEvent} from "react"
 import InputMask from "react-input-mask"
-import { InjectedFormProps, reduxForm, Field} from "redux-form"
+import {InjectedFormProps, reduxForm, Field, formValues} from "redux-form"
 import useDocumentTitle from "../../../hooks/useDocumentTitle";
 
 
-
-
-import ImageUpload from "../../../components/ImageUpload";
+import ImagePreview from "../../../components/ImagePreview";
+import {required, validateEmail, validatePhone, timeHoursAndMinutes} from "../../../utils/validators";
+import { days } from "../../../utils/diff"
 
 
 import "./index.scss"
+
 
 
 interface INewEstablishmentFormProps {
@@ -18,18 +19,80 @@ interface INewEstablishmentFormProps {
 
 
 
+const FieldFileInput  = (props: any) => {
+
+    const onChange = (e: any) => {
+        const { input: { onChange } } = props
+        onChange(e.target.files[0])
+    }
+
+    const { input: { value } } = props
+    const { label, meta: { touched, error }} = props
+    return(
+        <div
+
+        >
+            <label
+                className="new-establishment-form__file-label"
+            >{label}</label>
+            <div
+                className="new-establishment-form__file-field"
+            >
+                <div>
+                    <input
+                        className="new-establishment-form__file-input"
+                        type='file'
+                        accept='.jpg, .png, .jpeg'
+                        onChange={onChange}
+                    />
+                </div>
+                {touched && error && <span  className="new-establishment-form__file-error">{error}</span> }
+            </div>
+
+            <ImagePreview image={value}/>
+        </div>
+    )
+}
+
+
+
+
+
+const renderTimeField = ({
+                             input,
+
+                             meta: { touched, error }
+                         }: any) => (
+    <div>
+        <div>
+            <InputMask
+                {...input}
+                className={`pickerTime__input  ${touched && error ? "pickerTime__input--error" : ""}`}
+                mask={"99:99"}
+            />
+        </div>
+    </div>
+)
+
+
 
 const renderField = ({
                          input,
                          label,
                          type,
+                         placeholder,
                          meta: { touched, error, warning }
                      }: any) => (
     <div>
-        <div className="form-field">
-            <input {...input} placeholder={label} type={type} />
+        <div className="new-establishment-form__field">
+            <input
+                {...input}
+                placeholder={placeholder}
+                type={type}
+                className="new-establishment-form__input"
+            />
             {touched &&
-            ((error && <span>{error}</span>) ||
+            ((error && <span className="new-establishment-form__error">{error}</span>) ||
                 (warning && <span>{warning}</span>))}
         </div>
     </div>
@@ -38,128 +101,67 @@ const renderField = ({
 
 
 
+type dayTimes = [string, string]
 
-function TimeInput() {
-    const [time, setTime] = useState('')
-    const startsWithTwo = time[0] === '2'
-
-    // @ts-ignore
-    const handleInput = ({ target: { value } }) => setTime(value)
-
-    const mask = `
-        /[0-2]/,
-        startsWithTwo ? /[0-3]/ : /[0-9]/,
-        ':',
-        /[0-5]/,
-        /[0-9]/
-    `
-    const mask2 = [
-        /[0-2]/
-    ]
-    return (
-        <InputMask
-            className="pickerTime__input"
-            mask={"99:99"}
-            onChange={handleInput}
-            value={time}
-        />
-    )
+export type AddEstablishmentFormValuesType = {
+    name: string,
+    phone: string,
+    address: string,
+    businessId: string
+    days: [dayTimes]
 }
-const days = [
-    "Пн",
-    "Вт",
-    "Ср",
-    "Чт",
-    "Пт",
-    "Сб",
-    "Вс",
-]
+
+type AddEstablishmentFormOwnProps = {
+    onSubmit: (data: AddEstablishmentFormValuesType) => void
+}
 
 
-
-const NewEstablishmentForm: React.FC<INewEstablishmentFormProps> = (props) => {
-    const [formState, setFormState] = useState({
-        name: '',
-        phone: '',
-        address: '',
-        businessId: ''
-    })
-    useEffect(() => {
-        console.log('formState - ', Object.keys(formState))
-    }, [])
+const AddEstablishmentForm: React.FC<InjectedFormProps<AddEstablishmentFormValuesType, AddEstablishmentFormOwnProps> & AddEstablishmentFormOwnProps> = (props) => {
 
 
-    const { onSubmit } = props
-
-    const changeHandler = (e: any) => {
-        const fieldName = e.target.name
-        const fieldValue = e.target.value
-        setFormState(prev => ({
-            ...prev,
-            [fieldName]: fieldValue
-        }))
-    }
-
-    const placeholders = {
-        name: "Название",
-        phone: "Телефон",
-        businessId: "Бизнес ID",
-        address: "Адресс"
-    }
-
+    const { pristine, submitting, handleSubmit, onSubmit, change} = props;
     useDocumentTitle('Добавление заведения')
 
-
     return (
-        <form onSubmit={onSubmit} >
+
+        //@ts-ignore
+        <form onSubmit={handleSubmit(onSubmit)} >
+            <h3 className="new-establishment__small-title">Основные данные</h3>
             <div className="new-establishment-form__inputs">
-                {   Object.keys(formState).map((key) => (
-                    <div>
+                <Field
+                    placeholder="Название"
+                    name="name"
+                    component={renderField}
+                    type="text"
+                    validate={[required]}
+                />
+                <Field
+                    placeholder="Почта"
+                    name="email"
+                    component={renderField}
+                    type="text"
+                    validate={[required, validateEmail]}
+                />
+                <Field
+                    placeholder="БизнесИД"
+                    name="businessId"
+                    component={renderField}
+                    type="text"
+                    validate={[required]}
+                />
+                <Field
+                    placeholder="Телефон"
+                    name="phone"
+                    component={renderField}
+                    type="text"
+                    validate={[required, validatePhone]}
+                />
 
-                        <input
-                            type="text"
-                            name={key}
-                            //@ts-ignore
-                            placeholder={placeholders[key]}
-                            //@ts-ignore
-                            value={formState[`${key}`]}
-                            onChange={changeHandler}
-                            className="new-establishment-form__input"
-                        />
-                        <div>error</div>
-                    </div>
-                    ))
-                }
 
-
-                    {/*<input*/}
-                    {/*    type="text"*/}
-                    {/*    name="businessId"*/}
-                    {/*    placeholder="Бизнес ID"*/}
-                    {/*    value={formState.businessId}*/}
-                    {/*    onChange={changeHandler}*/}
-                    {/*    className="new-establishment-form__input"*/}
-                    {/*/>*/}
-                    {/*<input*/}
-                    {/*    type="text"*/}
-                    {/*    name="address"*/}
-                    {/*    placeholder="Адресс"*/}
-                    {/*    value={formState.address}*/}
-                    {/*    onChange={changeHandler}*/}
-                    {/*    className="new-establishment-form__input"*/}
-                    {/*/>*/}
-                    {/*<input*/}
-                    {/*    type="text"*/}
-                    {/*    name="phone"*/}
-                    {/*    placeholder="Телефон"*/}
-                    {/*    value={formState.phone}*/}
-                    {/*    onChange={changeHandler}*/}
-                    {/*    className="new-establishment-form__input"*/}
-                    {/*/>*/}
             </div>
             <div className="new-establishment-form__pickerTime" >
                     <h3
-                        className="new-establishment-form__title"
+                        className="new-establishment__small-title"
                     >Время работы</h3>
                     <div
                         className="pickerTime__wrapper"
@@ -172,8 +174,18 @@ const NewEstablishmentForm: React.FC<INewEstablishmentFormProps> = (props) => {
                             <span
                                 className="pickerTime__day"
                             >{day}</span>
-                                    <TimeInput />
-                                    <TimeInput />
+                                    <Field
+                                        name={`day-D${day}`}
+                                        component={renderTimeField}
+                                        type="text"
+                                        validate={[required, timeHoursAndMinutes]}
+                                    />
+                                    <Field
+                                        name={`day-P${day}`}
+                                        component={renderTimeField}
+                                        type="text"
+                                        validate={[required, timeHoursAndMinutes]}
+                                    />
                                 </div>
                             ))
                         }
@@ -181,30 +193,36 @@ const NewEstablishmentForm: React.FC<INewEstablishmentFormProps> = (props) => {
                     </div>
                 </div>
             <div
-                className="new-establishment-form__file-input"
+                className="new-establishment-form__file-wrapper"
             >
-                <h3>Выберите карту помещения</h3>
-                <ImageUpload />
+                <h3 className="new-establishment__small-title">Выберите карту помещения</h3>
+                <Field
+                    name={`image-map`}
+                    component={FieldFileInput}
+                    validate={[required]}
+                />
+
             </div>
 
 
             <button
                 type="submit"
                 className="new-establishment-form__btn"
-            >ДАЛЕЕ</button>
+                disabled={pristine || submitting}
+            >ДОБАВИТЬ</button>
         </form>
     )
 }
 
 
-
-
+//@ts-ignore
+const AddEstablishmentReduxForm = reduxForm<AddEstablishmentFormValuesType, AddEstablishmentFormOwnProps>({form: "add-establishment"})(AddEstablishmentForm)
 
 const AddEstablishment = () => {
 
-    const onSubmit = (e: SyntheticEvent) => {
-        e.preventDefault()
-        console.log('Next..')
+    const onSubmit = (data: AddEstablishmentFormValuesType) => {
+
+        console.log('Next.. with data : ', data)
     }
 
     return (
@@ -214,7 +232,7 @@ const AddEstablishment = () => {
             <h1
                 className="new-establishment__title"
             >Добавление нового заведения</h1>
-            <NewEstablishmentForm onSubmit={onSubmit} />
+            <AddEstablishmentReduxForm onSubmit={onSubmit} />
         </div>
     )
 }
