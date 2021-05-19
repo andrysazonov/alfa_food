@@ -34,10 +34,16 @@ export const AdminLayout = () => {
         <Switch>
             <Redirect
                 exact
+                from="/"
+                to="/applications"
+            />
+            <Redirect
+                exact
                 from="/home"
                 to="/applications"
             />
             {adminRoutes.map((route, index) => (
+                //@ts-ignore
                 <Route key={index} {...route}/>
             ))}
             <Redirect to="/404" />
@@ -56,6 +62,7 @@ export const CafeAdminLayout = () => (
                 to="/establishments"
             />
             {cafeAdminRoutes.map((route, index) => (
+                //@ts-ignore
                 <Route {...route}/>
             ))}
             <Redirect to="/404" />

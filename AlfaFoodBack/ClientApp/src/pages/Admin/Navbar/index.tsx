@@ -11,31 +11,34 @@ import "./index.scss"
 type Link = {
     title: string,
     to: string,
-    active: string[]
+    active: string
 }
 
 const adminLinks: Link[] = [
     {
         title: "Заявки",
         to: "/applications",
-        active: ["/applications"],
+        active: "application",
     },
     {
         title: "Чат",
         to: "/chat",
-        active: ["/chat"]
+        active: "chat"
     },
     {
         title: "Статистика",
         to: "/statistics",
-        active: ["/statistics"]
+        active: "statistic"
     }
 ]
 
+
+
 //@ts-ignore
-const onPath = (paths: string[], location) => {
-    return paths.includes(location)
+const onPath = (path, location) => {
+    return (location.pathname).includes(path)
 }
+
 
 
 
@@ -76,7 +79,7 @@ const Navbar = ({location}: RouteComponentProps) => {
                                         className="navbar__link-item"
                                         activeClassName="navbar__link-item--active"
                                         //@ts-ignore
-                                        isActive={onPath(link.active, location)}
+                                        isActive={() => onPath(link.active, location)}
                                     >
                                         {link.title}
                                     </NavLink>

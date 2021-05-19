@@ -10,40 +10,40 @@ import "./index.scss"
 type Link = {
     title: string,
     to: string,
-    active: string[]
+    active: string
 }
 
 const adminLinks: Link[] = [
     {
         title: "Заведения",
         to: "/establishments",
-        active: ["/establishments"],
+        active: "establishment"
     },
     {
         title: "Статистика",
         to: "/statistics",
-        active: ["/statistics"]
+        active: "statistics"
     },
     {
         title: "База гостей",
         to: "/guestbase",
-        active: ["/guestbase"]
+        active: "guestbase"
     },
     {
         title: "Сотрудники",
         to: "/staff",
-        active: ["/staff"]
+        active: "staff"
     },
     {
         title: "Чат",
         to: "/chat",
-        active: ["/chat"]
-    },
+        active: "chat"
+    }
 ]
 
 //@ts-ignore
-const onPath = (paths: string[], location) => {
-    return paths.includes(location)
+const onPath = (path, location) => {
+    return (location.pathname).includes(path)
 }
 
 
@@ -85,7 +85,7 @@ const Navbar = ({location}: RouteComponentProps) => {
                                         className="navbar__link-item"
                                         activeClassName="navbar__link-item--active"
                                         //@ts-ignore
-                                        isActive={onPath(link.active, location)}
+                                        isActive={() => onPath(link.active, location)}
                                     >
                                         {link.title}
                                     </NavLink>
