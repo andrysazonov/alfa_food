@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Text.Json.Serialization;
 using AlfaFoodBack.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -18,6 +19,21 @@ namespace AlfaFoodBack.Controllers
     [Route("[controller]")]
     public class AuthController : Controller
     {
+        [HttpDelete("phys/login")]
+        public async void LogOut()
+        {
+            try
+            {
+                Response.StatusCode = 200;
+                Response.Cookies.Delete("token");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                Response.StatusCode = 400;
+            }
+        }
+        
         [HttpPost("phys")]
         public async void AuthPhys(object data)
         {
