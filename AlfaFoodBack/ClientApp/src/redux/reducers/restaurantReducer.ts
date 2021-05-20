@@ -1,35 +1,49 @@
 import {restaurantAPI} from "../../api/restaurant-api";
 import {BaseThunkType, InferActionsType} from "../store";
 
-
+//
+type EstablishmentItem = {
+    title: string,
+    id: string
+}
 
 let initialState = {
-    login: null as (string | null),
-    email: null as (string | null),
-    loggedInUser: { role: "cafeowner"} 
-    // as LoggedInUserType
+    establishmentsList: [
+        {
+            title: "Заведение Криветка",
+            id: "krivetka1"
+        },
+        {
+            title: "Заведение  Rare Криветка",
+            id: "rarekrivetka1"
+        }
+    ]
 }
 
 
 export const actions = {
-    setAuthUserData: (loggedInUser: {} | null)  => ({
-      type: "Restaurant/SET_RESTAURANT_DATA",
-      payload: { loggedInUser }
+    // setAuthUserData: (loggedInUser: {} | null)  => ({
+    //   type: "Restaurant/SET_RESTAURANT_DATA",
+    //   payload: { loggedInUser }
+    // } as const)
+    setEstablishmentsList: (establishments: EstablishmentItem[] | null)  => ({
+        type: "Restaurant/SET_RESTAURANT_DATA",
+        payload: { establishments }
     } as const)
 }
 
-export const register = (email: string, password: string, phone: string, username: string): ThunkType => async (dispatch) => {
-    try {
-        let loggedInUser = await restaurantAPI.addRestaurant(email,password,phone,username)
-        if (loggedInUser) {
-            dispatch(actions.setAuthUserData(null))
-        }
-    } catch {
-        console.log('error in register')
-    }
-}
+// export const register = (email: string, password: string, phone: string, username: string): ThunkType => async (dispatch) => {
+//     try {
+//         let loggedInUser = await restaurantAPI.addRestaurant(email,password,phone,username)
+//         if (loggedInUser) {
+//             dispatch(actions.setAuthUserData(null))
+//         }
+//     } catch {
+//         console.log('error in register')
+//     }
+// }
 
-const restaurantReducer = ( state = initialState, action: ActionsType) => {
+const restaurantReducer = ( state = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
         case 'Restaurant/SET_RESTAURANT_DATA':
             return {

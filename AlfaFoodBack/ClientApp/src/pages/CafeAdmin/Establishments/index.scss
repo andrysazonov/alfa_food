@@ -5,11 +5,9 @@
     margin: 0 auto;
     max-width: 1200px;
     //background: red;
-    //height: 100vh;
+    height: calc(100vh - 60px);
   }
   &__container {
-
-    //background: #66afe9;
     height: 100%;
     display: grid;
     grid-template-columns: 1fr 4fr;
@@ -57,8 +55,14 @@
     cursor: pointer;
     text-align: center;
     width: 180px;
+    border-radius: 10px;
     padding: 10px 6px;
-    background: #66afe9;
+    color: white;
+    text-decoration: none;
+    background: indianred;
+    &:hover {
+      opacity: 0.8;
+    }
   }
 }
 

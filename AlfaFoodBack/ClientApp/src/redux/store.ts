@@ -4,11 +4,12 @@ import thunkMiddleware, { ThunkAction } from "redux-thunk"
 import { reducer as formReducer } from "redux-form"
 
 
-import {AuthReducer} from "./reducers";
+import { AuthReducer, RestaurantReducer } from "./reducers";
 
 let rootReducer = combineReducers({
     //@ts-ignore
     auth: AuthReducer,
+    restaurants: RestaurantReducer,
     form: formReducer
 })
 

@@ -1,21 +1,20 @@
-import React from "react"
+import React, {useEffect} from "react"
 import useDocumentTitle from "../../../hooks/useDocumentTitle";
 import { NavLink, Switch, Route } from "react-router-dom"
+
+import { useSelector, useDispatch } from "react-redux";
+
 
 import './index.scss'
 import Establishment from "../Establishment";
 import AddEstablishment from "../AddEstablishment";
+import { AppStateType } from "../../../redux/store";
 
-
-
-const establishments = [
-    1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18
-]
 
 
 interface IEstablishmentItemList {
     name: string,
-    id: number
+    id: string
 }
 
 const EstablishmentItemList = ({name = "", id} : IEstablishmentItemList) => {
@@ -41,7 +40,10 @@ const EstablishmentItemList = ({name = "", id} : IEstablishmentItemList) => {
 
 const AddEstablishmentBtn = () => {
     return (
-        <NavLink to={"/addestablishment"} >
+        <NavLink
+            style={{textDecoration: "none"}}
+            to={"/addestablishment"}
+        >
             <div
                 className="add-establishment__wrapper"
             >
@@ -55,8 +57,13 @@ const AddEstablishmentBtn = () => {
 
 const Establishments = () => {
 
-    useDocumentTitle("Заведения")
 
+    useDocumentTitle("Заведения")
+    const establishments = useSelector((state: AppStateType) => state.restaurants.establishmentsList)
+
+    useEffect(() => {
+        console.log('Заведения завелись: ', establishments)
+    }, [])
     return (
         <div
             className="establishments__content"
@@ -67,8 +74,8 @@ const Establishments = () => {
                         className="establishments-list__title"
                     >Заведения</h1>
                     {
-                        establishments.map((i) => (
-                            <EstablishmentItemList id={i} name={`Заведение № ${i}`} />
+                        establishments.map((est: {id: string, title: string}) => (
+                            <EstablishmentItemList id={est.id} name={est.title} />
                         ))
                     }
                     <AddEstablishmentBtn />
