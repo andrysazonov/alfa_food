@@ -1,7 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using AlfaFoodBack.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace AlfaFoodBack.Controllers
@@ -28,6 +35,27 @@ namespace AlfaFoodBack.Controllers
                     new UserRepository().Insert(dbCon, user);
                     Response.StatusCode = 201;
                 }
+
+                using (var dbCon = PostgresConn.GetConn())
+                {
+                    user = UserRepository.IsAuth(user.Email, user.Password, dbCon);
+                }
+                var now = DateTime.UtcNow;
+                var claims = new List<Claim>();
+                claims.Add(new Claim(ClaimsIdentity.DefaultNameClaimType, user.Email));
+                claims.Add(new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role));
+                var jwt = new JwtSecurityToken(
+                    issuer: AuthOptions.ISSUER,
+                    audience: AuthOptions.AUDIENCE,
+                    notBefore: now,
+                    claims: claims,
+                    expires: now.Add(TimeSpan.FromMinutes(AuthOptions.LIFETIME)),
+                    signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
+                var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
+                Response.StatusCode = 200;
+                var json = JsonConvert.SerializeObject(user);
+                await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(json));
+                Response.Cookies.Append("token", encodedJwt);
             }
             catch (Exception e)
             {
@@ -35,6 +63,7 @@ namespace AlfaFoodBack.Controllers
                 await Response.WriteAsync(e.Message);
             }
         }
+        
 
         [HttpPost("jur")]
         public async void RegisterJur(object data)
@@ -55,6 +84,26 @@ namespace AlfaFoodBack.Controllers
                     new UserRepository().Insert(dbCon, user);
                     Response.StatusCode = 201;
                 }
+                using (var dbCon = PostgresConn.GetConn())
+                {
+                    user = UserRepository.IsAuth(user.Email, user.Password, dbCon);
+                }
+                var now = DateTime.UtcNow;
+                var claims = new List<Claim>();
+                claims.Add(new Claim(ClaimsIdentity.DefaultNameClaimType, user.Email));
+                claims.Add(new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role));
+                var jwt = new JwtSecurityToken(
+                    issuer: AuthOptions.ISSUER,
+                    audience: AuthOptions.AUDIENCE,
+                    notBefore: now,
+                    claims: claims,
+                    expires: now.Add(TimeSpan.FromMinutes(AuthOptions.LIFETIME)),
+                    signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
+                var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
+                Response.StatusCode = 200;
+                var json = JsonConvert.SerializeObject(user);
+                await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(json));
+                Response.Cookies.Append("token", encodedJwt);
             }
             catch (Exception e)
             {
