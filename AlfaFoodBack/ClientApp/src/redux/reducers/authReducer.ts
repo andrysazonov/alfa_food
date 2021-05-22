@@ -1,7 +1,7 @@
 import {BaseThunkType, InferActionsType} from "../store";
 // import { Action } from "redux";
 import { authAPI } from "../../api/auth-api";
-
+import { SubmissionError } from 'redux-form'
 
 type LoggedInUserType = {
     role?: string,
@@ -10,8 +10,8 @@ type LoggedInUserType = {
 let initialState = {
     login: null as (string | null),
     email: null as (string | null),
-    loggedInUser: { role: "cafeadmin"}
-    // as LoggedInUserType
+    loggedInUser: { role: "admin"} as LoggedInUserType
+
 }
 
 
@@ -36,13 +36,11 @@ export const getCurrentUser = (): ThunkType => async (dispatch) => {
 }
 
 export const login = (email: string, password: string): ThunkType => async (dispatch) => {
-    try {
-        let loggedInUser = await authAPI.login(email,password)
-        if (loggedInUser) {
-            dispatch(actions.setAuthUserData(loggedInUser))
-        }
-    } catch {
-        console.log('error in login')
+
+    let loggedInUser = await authAPI.login(email,password)
+    console.log('LOGIN DATA: ', loggedInUser.resultCode)
+    if (loggedInUser) {
+        dispatch(actions.setAuthUserData(loggedInUser))
     }
 }
 

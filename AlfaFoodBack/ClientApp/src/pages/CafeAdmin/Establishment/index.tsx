@@ -1,5 +1,7 @@
 import React, {useEffect} from "react"
+import { useDispatch } from "react-redux";
 
+import "./index.scss"
 
 //: RouteComponentProps<MatchParams>
 
@@ -16,10 +18,18 @@ interface IEstablishmentProps {
 
 const Establishment = ({ id }: IEstablishmentProps) => {
 
-    useEffect(() => { console.log('est ost and match: ', id)}, [])
+    const dispatch = useDispatch()
+
+
+    useEffect(() => {
+        // get establishment by id
+        console.log('est ost and match: ', id)
+    }, [])
+
+
     return (
         <div
-            className="content"
+            className="establishment__content"
         >
             <div>
                 Заведение № {id}

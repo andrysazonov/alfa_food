@@ -1,9 +1,10 @@
 import React from "react"
 import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-import "./index.scss"
 import Application from "../Application";
-
+import "./index.scss"
+import {AppStateType} from "../../../redux/store";
 
 const applications = [
     "1", "2", "3", "4"
@@ -44,6 +45,10 @@ interface IApplicationsProps {
 
 
 const Applications = () => {
+
+    const applicationsItems = useSelector((state: AppStateType) => state.applications.applicationsList)
+
+
     return (
         <div
             className="applications__content"
@@ -59,11 +64,14 @@ const Applications = () => {
                     >
                         Заявки
                     </h1>
-                    {
-                        applications.map((i) => (
-                            <ApplicationItem name={i} id={i}/>
-                        ))
-                    }
+                    <div>
+                        {
+                            applicationsItems && applicationsItems[0] && applicationsItems.map((app: any) => (
+                                <ApplicationItem name={app.title} id={app.id}/>
+                            ))
+                        }
+                    </div>
+
                 </div>
                 <div>
                     <Application />

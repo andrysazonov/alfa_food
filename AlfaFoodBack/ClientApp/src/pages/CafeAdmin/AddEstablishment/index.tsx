@@ -2,11 +2,14 @@ import React, {useState, ChangeEvent, useEffect, SyntheticEvent} from "react"
 import InputMask from "react-input-mask"
 import {InjectedFormProps, reduxForm, Field, formValues} from "redux-form"
 import useDocumentTitle from "../../../hooks/useDocumentTitle";
+import { useDispatch } from "react-redux";
 
 
+import { getISOHoursMinutsTime } from "../../../utils/diff"
 import ImagePreview from "../../../components/ImagePreview";
 import {required, validateEmail, validatePhone, timeHoursAndMinutes} from "../../../utils/validators";
 import { days } from "../../../utils/diff"
+import { addEstablishment } from "../../../redux/reducers/restaurantReducer";
 
 
 import "./index.scss"
@@ -76,7 +79,7 @@ const renderTimeField = ({
 
 
 
-const renderField = ({
+const renderInputField = ({
                          input,
                          label,
                          type,
@@ -98,8 +101,28 @@ const renderField = ({
     </div>
 )
 
-
-
+const renderTextareaField = ({
+                                 input,
+                                 type,
+                                 placeholder,
+                                 meta: { touched, error, warning }
+                             }: any) => (
+    <div>
+        <div className="new-establishment-form__field-textarea">
+            <textarea
+                cols="20"
+                rows="6"
+                {...input}
+                placeholder={placeholder}
+                type={type}
+                className="new-establishment-form__textarea"
+            />
+            {touched &&
+            ((error && <span className="new-establishment-form__error">{error}</span>) ||
+                (warning && <span>{warning}</span>))}
+        </div>
+    </div>
+)
 
 type dayTimes = [string, string]
 
@@ -131,30 +154,37 @@ const AddEstablishmentForm: React.FC<InjectedFormProps<AddEstablishmentFormValue
                 <Field
                     placeholder="Название"
                     name="name"
-                    component={renderField}
+                    component={renderInputField}
                     type="text"
                     validate={[required]}
                 />
                 <Field
                     placeholder="Почта"
                     name="email"
-                    component={renderField}
+                    component={renderInputField}
                     type="text"
                     validate={[required, validateEmail]}
                 />
                 <Field
                     placeholder="БизнесИД"
                     name="businessId"
-                    component={renderField}
+                    component={renderInputField}
                     type="text"
                     validate={[required]}
                 />
                 <Field
                     placeholder="Телефон"
                     name="phone"
-                    component={renderField}
+                    component={renderInputField}
                     type="text"
                     validate={[required, validatePhone]}
+                />
+                <Field
+                    placeholder="Описание"
+                    name="description"
+                    component={renderTextareaField}
+                    type="text"
+                    validate={[required]}
                 />
 
 
@@ -218,11 +248,24 @@ const AddEstablishmentForm: React.FC<InjectedFormProps<AddEstablishmentFormValue
 //@ts-ignore
 const AddEstablishmentReduxForm = reduxForm<AddEstablishmentFormValuesType, AddEstablishmentFormOwnProps>({form: "add-establishment"})(AddEstablishmentForm)
 
+
+
 const AddEstablishment = () => {
+    const dispatch = useDispatch()
 
     const onSubmit = (data: AddEstablishmentFormValuesType) => {
-
-        console.log('Next.. with data : ', data)
+        let new_data = {}
+        for (let i in data) {
+            if (i.startsWith('day')) {
+                //@ts-ignore
+                new_data[i] = getISOHoursMinutsTime(data[i])
+            } else {
+                //@ts-ignore
+                new_data[i] = data[i]
+            }
+        }
+        dispatch(addEstablishment(new_data))
+        console.log('Next.. with data : ', new_data)
     }
 
     return (

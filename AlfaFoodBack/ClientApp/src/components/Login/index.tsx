@@ -1,14 +1,15 @@
 import React from 'react'
 import useDocumentTitle from "../../hooks/useDocumentTitle";
-import { InjectedFormProps, reduxForm, Field} from "redux-form"
+import {InjectedFormProps, reduxForm, Field, SubmissionError} from "redux-form"
 import { required } from "../../utils/validators";
 
-import {login} from '../../redux/reducers/authReducer'
+import {actions, login} from '../../redux/reducers/authReducer'
 
 import "./index.scss"
 
 import { useDispatch } from "react-redux";
 import {Link} from "react-router-dom";
+import {authAPI} from "../../api/auth-api";
 
 type LoginFormOwnProps = {
     onSubmit: (data: LoginFormValuesType) => void
@@ -33,7 +34,7 @@ const renderField = ({
 
 const LoginForm: React.FC<InjectedFormProps<LoginFormValuesType, LoginFormOwnProps>  & LoginFormOwnProps> = (props) => {
 
-    const { pristine, submitting, handleSubmit, onSubmit} = props;
+    const {error, pristine, submitting, handleSubmit, onSubmit} = props;
     return (
         <div className="page-main-form">
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -57,6 +58,7 @@ const LoginForm: React.FC<InjectedFormProps<LoginFormValuesType, LoginFormOwnPro
                         validate={[required]}
                     />
                 </div>
+                Здесь будет ваша ошибка {error && <span> {error}</span>}
                 <button
                     className="primary-button"
                     type="submit"
@@ -84,8 +86,20 @@ const LoginPage: React.FC = () => {
 
     const dispatch = useDispatch()
 
-    const onSubmit = (data: LoginFormValuesType) => {
-        dispatch(login(data.email, data.password))
+    const onSubmit = async (data: LoginFormValuesType) => {
+        let { email, password} = data
+        dispatch(login(email, password))
+
+        // try {
+        //     let loggedInUser = await authAPI.login(email,password)
+        //     console.log('loggedInUserwewwewewe')
+        //     if (loggedInUser) {
+        //         await dispatch(actions.setAuthUserData(loggedInUser))
+        //     }
+        // } catch(e) {
+        //     throw new SubmissionError(e)
+        //     console.log('error in login')
+        // }
     }
 
     return (

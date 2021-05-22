@@ -2,9 +2,18 @@ import {restaurantAPI} from "../../api/restaurant-api";
 import {BaseThunkType, InferActionsType} from "../store";
 
 //
-type EstablishmentItem = {
+type EstablishmentItemType = {
     title: string,
     id: string
+}
+
+
+export type EstablishmentType = {
+    name: string,
+    description: string,
+    address: string,
+    email: string,
+    daysWork: { startBy: string, endBy: string}[]
 }
 
 let initialState = {
@@ -17,31 +26,48 @@ let initialState = {
             title: "Заведение  Rare Криветка",
             id: "rarekrivetka1"
         }
-    ]
+    ],
+    currentEstablishment: null as EstablishmentType | null
 }
 
 
 export const actions = {
-    // setAuthUserData: (loggedInUser: {} | null)  => ({
-    //   type: "Restaurant/SET_RESTAURANT_DATA",
-    //   payload: { loggedInUser }
-    // } as const)
-    setEstablishmentsList: (establishments: EstablishmentItem[] | null)  => ({
+
+    setCurrentRestaurant: (establishment: EstablishmentType | null) => ({
+        type: "Restaurant/SET_CURRENT_RESTAURANT",
+        payload: establishment
+    } as const),
+    setEstablishmentsList: (establishments: EstablishmentItemType[] | null)  => ({
         type: "Restaurant/SET_RESTAURANT_DATA",
         payload: { establishments }
     } as const)
 }
 
-// export const register = (email: string, password: string, phone: string, username: string): ThunkType => async (dispatch) => {
-//     try {
-//         let loggedInUser = await restaurantAPI.addRestaurant(email,password,phone,username)
-//         if (loggedInUser) {
-//             dispatch(actions.setAuthUserData(null))
-//         }
-//     } catch {
-//         console.log('error in register')
-//     }
-// }
+
+
+export const getEstablishment = (establishmentId: string): ThunkType => async (dispatch) => {
+    try {
+        let data = await restaurantAPI.getRestaurant(establishmentId) as EstablishmentType
+        dispatch(actions.setCurrentRestaurant(data))
+    } catch(e) {
+        console.log('error is: ', e)
+    }
+
+}
+
+export const addEstablishment = (data : any): ThunkType => async (dispatch) => {
+    try {
+        await restaurantAPI.addRestaurant(data)
+        console.log('good add establ...')
+        // dispatch(actions.setCurrentRestaurant(data))
+    } catch(e) {
+        console.log('error when add est is: ', e)
+    }
+
+}
+
+
+
 
 const restaurantReducer = ( state = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
@@ -49,6 +75,12 @@ const restaurantReducer = ( state = initialState, action: ActionsType): InitialS
             return {
                 ...state,
                 ...action.payload
+            }
+        case "Restaurant/SET_CURRENT_RESTAURANT":
+            return {
+                ...state,
+                //@ts-ignore
+                currentRestaurant: action.payload
             }
         default:
             return state

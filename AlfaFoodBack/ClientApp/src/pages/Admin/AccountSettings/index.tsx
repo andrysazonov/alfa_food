@@ -4,7 +4,7 @@ import { required} from "../../../utils/validators";
 
 
 import "./index.scss"
-import {LoginFormValuesType} from "../../../components/Login";
+// import {LoginFormValuesType} from "../../../components/Login";
 
 
 
@@ -26,10 +26,14 @@ const renderField = ({
     </div>
 )
 
+type ChangePasswordFormValuesType = {
+    oldPassword: string,
+    newPassword: string,
+    repeatPassword: string
+}
 
 
-
-const ChangePasswordForm: React.FC<InjectedFormProps<LoginFormValuesType, ChangePasswordOwnProps>  & ChangePasswordOwnProps> = (props) => {
+const ChangePasswordForm: React.FC<InjectedFormProps<ChangePasswordFormValuesType, ChangePasswordOwnProps>  & ChangePasswordOwnProps> = (props) => {
     const { pristine, submitting, handleSubmit, onSubmit} = props;
 
     return (
@@ -73,19 +77,12 @@ const ChangePasswordForm: React.FC<InjectedFormProps<LoginFormValuesType, Change
 
 }
 
-
-export type ChangePasswordValuesType = {
-    oldPassword: string,
-    newPassword: string,
-    repeatPassword: string
-}
-
 type ChangePasswordOwnProps = {
-    onSubmit: ( data: ChangePasswordValuesType) => void
+    onSubmit: ( data: ChangePasswordFormValuesType) => void
 }
 
 //@ts-ignore
-const ChangePasswordReduxForm = reduxForm<ChangePasswordValuesType, ChangePasswordOwnProps>({form: "AdminChangePassword"})(ChangePasswordForm)
+const ChangePasswordReduxForm = reduxForm<ChangePasswordFormValuesType, ChangePasswordOwnProps>({form: "AdminChangePassword"})(ChangePasswordForm)
 
 const AccountSettings: React.FC = () => {
     return (

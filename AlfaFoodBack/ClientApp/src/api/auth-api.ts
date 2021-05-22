@@ -12,7 +12,11 @@ type LoginResponseDataType = {
 
 export const authAPI = {
     login(email: string, password: string, rememberMe?: boolean) {
-        return instance.post(`/auth/phys`, {email, password}).then(res => res.data)
+        return instance.post(`/auth/jur`, {email, password}).then(res => {
+            console.log('data from login auth-api - ', res.data)
+            return res.data
+        })
+
     },
 
     logout() {
@@ -24,6 +28,6 @@ export const authAPI = {
     },
 
     register(email: string, password: string, phone: string, username: string) {
-        return instance.post(`/registration/phys`, {email, password, phone, username}).then(res => res.data)
+        return instance.post(`/Register/jur`, {email, password, phone, username}).then(res => res.data)
     }
 }
