@@ -1,21 +1,21 @@
 import React from "react"
-import useDocumentTitle from "../../../hooks/useDocumentTitle";
+import { InjectedFormProps, reduxForm, Field } from "redux-form";
+import { required} from "../../../utils/validators";
+
+import ChangePasswordReduxForm from "../../common/ChangePassword";
+import "./index.scss"
 
 
-const AccountSettings = () => {
 
-    useDocumentTitle("Настройки аккаунта")
-
+const AccountSettings: React.FC = () => {
     return (
         <div
             className="content"
         >
-            <div>
-                Кафе админ Account settings
-            </div>
+            <ChangePasswordReduxForm onSubmit={() => {}} formName={"CafeAdminAccountSettings"}/>
         </div>
-
     )
 }
+
 
 export default AccountSettings
