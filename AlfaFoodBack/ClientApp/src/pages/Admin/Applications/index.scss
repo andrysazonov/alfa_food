@@ -5,11 +5,9 @@
 
     margin: 0 auto;
     max-width: 1200px;
-    height: 100vh;
+    height: calc(100vh - 60px);
   }
   &__container {
-
-    //background: #66afe9;
     height: 100%;
     display: grid;
     grid-template-columns: 1fr 4fr;

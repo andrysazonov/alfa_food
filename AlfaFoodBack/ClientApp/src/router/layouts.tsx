@@ -61,6 +61,11 @@ export const CafeAdminLayout = () => (
                 from="/"
                 to="/establishments"
             />
+            <Redirect
+                exact
+                from="/establishment/:id"
+                to="/establishment/:id/common"
+            />
             {cafeAdminRoutes.map((route, index) => (
                 //@ts-ignore
                 <Route {...route}/>

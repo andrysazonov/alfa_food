@@ -10,7 +10,7 @@ type LoggedInUserType = {
 let initialState = {
     login: null as (string | null),
     email: null as (string | null),
-    loggedInUser: { role: "admin"} as LoggedInUserType
+    loggedInUser: { role: "cafeadmin"} as LoggedInUserType
 
 }
 

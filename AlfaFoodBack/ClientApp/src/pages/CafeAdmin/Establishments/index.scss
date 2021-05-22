@@ -17,9 +17,13 @@
     padding-bottom: 50px;
     border-right: 1px solid black;
   }
+
 }
 
 .establishments-list {
+  &__btn {
+
+  }
   &__title {
     text-align: center;
     margin-top: 20px;
@@ -65,5 +69,4 @@
     }
   }
 }
-
 

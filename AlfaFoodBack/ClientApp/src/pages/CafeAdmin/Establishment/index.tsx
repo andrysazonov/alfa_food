@@ -1,10 +1,14 @@
 import React, {useEffect} from "react"
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import {Switch, Route, NavLink} from "react-router-dom";
+
+
+import {AppStateType} from "../../../redux/store";
+import CommonInformation from "./Common";
+import Bookings from "./Bookings";
+
 
 import "./index.scss"
-
-//: RouteComponentProps<MatchParams>
-
 
 // interface MatchParams {
 //     id: string;
@@ -19,21 +23,52 @@ interface IEstablishmentProps {
 const Establishment = ({ id }: IEstablishmentProps) => {
 
     const dispatch = useDispatch()
+    const currentEstablishment = useSelector((state: AppStateType) => state.restaurants.currentEstablishment)
 
 
     useEffect(() => {
         // get establishment by id
         console.log('est ost and match: ', id)
+        console.log('current est:  ', currentEstablishment)
     }, [])
 
 
     return (
         <div
-            className="establishment__content"
+            className="establishment__wrapper"
         >
-            <div>
-                Заведение № {id}
+            <div className="establishment__links">
+                <NavLink
+                    to={`/establishment/${id}/common`}
+                    style={{textDecoration: "none"}}
+                    className="establishment__link"
+                    activeClassName="establishment__link-active"
+                >Общая информация</NavLink>
+                <NavLink
+                    to={`/establishment/${id}/bookings`}
+                    style={{textDecoration: "none"}}
+                    className="establishment__link"
+                    activeClassName="establishment__link-active"
+                >Бронирования и предзаказы</NavLink>
             </div>
+
+            <div
+                className="establishment__content"
+            >
+                <Switch>
+
+                    <Route path={"/establishment/:id/common"} render={
+                        () => {
+                            return (
+                                //@ts-ignore
+                                <CommonInformation common={currentEstablishment} />
+                            )
+                        }
+                    } />
+                    <Route path={"/establishment/:id/bookings"} component={Bookings} />
+                </Switch>
+            </div>
+
         </div>
     )
 }

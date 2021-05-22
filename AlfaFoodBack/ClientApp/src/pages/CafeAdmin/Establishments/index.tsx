@@ -78,7 +78,10 @@ const Establishments = () => {
                             <EstablishmentItemList id={est.id} name={est.title} />
                         ))
                     }
-                    <AddEstablishmentBtn />
+                    <div className="establishments-list__btn">
+                        <AddEstablishmentBtn />
+                    </div>
+
                 </div>
                 <div>
                     <Switch>

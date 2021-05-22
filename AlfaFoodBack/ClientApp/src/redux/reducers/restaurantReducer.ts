@@ -9,11 +9,14 @@ type EstablishmentItemType = {
 
 
 export type EstablishmentType = {
-    name: string,
-    description: string,
-    address: string,
-    email: string,
-    daysWork: { startBy: string, endBy: string}[]
+    common: {
+        name: string,
+        description: string,
+        address: string,
+        email: string,
+        businessId: string,
+        daysWork: [string, string][]
+    }
 }
 
 let initialState = {
@@ -27,7 +30,21 @@ let initialState = {
             id: "rarekrivetka1"
         }
     ],
-    currentEstablishment: null as EstablishmentType | null
+    // currentEstablishment: null as EstablishmentType | null
+    currentEstablishment: {
+        name: "F123213123",
+        description: "diofffsdfsdf",
+        address: "here",
+        daysWork: [
+            ['11:11', '12:11'],
+            ['11:11', '12:11'],
+            ['11:11', '12:11'],
+            ['11:11', '12:11'],
+            ['11:11', '12:11'],
+            ['11:11', '12:11'],
+            ['11:11', '12:11'],
+        ]
+    }
 }
 
 
