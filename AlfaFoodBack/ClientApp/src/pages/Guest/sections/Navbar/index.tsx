@@ -1,50 +1,10 @@
 import React, {useEffect} from "react"
 import { NavLink, withRouter, RouteComponentProps } from "react-router-dom"
-import ControlLoginBtn from "../../../components/ControlLoginBtn";
 
 
 
 import "./index.scss"
 
-
-type Link = {
-    title: string,
-    to: string,
-    active: string[]
-}
-
-const adminLinks: Link[] = [
-    {
-        title: "Заведения",
-        to: "/establishments",
-        active: ["/establishments"],
-    },
-    {
-        title: "Статистика",
-        to: "/statistics",
-        active: ["/statistics"]
-    },
-    {
-        title: "База гостей",
-        to: "/guestbase",
-        active: ["/guestbase"]
-    },
-    {
-        title: "Сотрудники",
-        to: "/staff",
-        active: ["/staff"]
-    },
-    {
-        title: "Чат",
-        to: "/chat",
-        active: ["/chat"]
-    },
-]
-
-//@ts-ignore
-const onPath = (paths: string[], location) => {
-    return paths.includes(location)
-}
 
 
 
@@ -74,6 +34,8 @@ const Navbar = ({location}: RouteComponentProps) => {
 
                 <div className="guest-navbar__controls" >
                     <NavLink
+                        rel="noopener"
+                        target="_blank"
                         className="guest-navbar__auth-link"
                         activeClassName="guest-navbar__auth-link--active"
                         to="login"
@@ -82,6 +44,8 @@ const Navbar = ({location}: RouteComponentProps) => {
                         <span>ВОЙТИ</span>
                     </NavLink>
                     <NavLink
+                        rel="noopener"
+                        target="_blank"
                         className="guest-navbar__auth-link"
                         activeClassName="guest-navbar__auth-link--active"
                         to="register"

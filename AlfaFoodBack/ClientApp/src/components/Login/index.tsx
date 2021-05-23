@@ -8,7 +8,7 @@ import {actions, login} from '../../redux/reducers/authReducer'
 import "./index.scss"
 
 import { useDispatch } from "react-redux";
-import {Link} from "react-router-dom";
+import {Link, NavLink} from "react-router-dom";
 import {authAPI} from "../../api/auth-api";
 
 type LoginFormOwnProps = {
@@ -17,15 +17,20 @@ type LoginFormOwnProps = {
 
 const renderField = ({
                          input,
-                         label,
+                         placeholder,
                          type,
                          meta: { touched, error, warning }
                      }: any) => (
     <div>
-        <div className="form-field">
-            <input {...input} placeholder={label} type={type} />
+        <div className="login__form-field">
+            <input
+                {...input}
+                placeholder={placeholder}
+                type={type}
+                className="login__input"
+            />
             {touched &&
-            ((error && <span>{error}</span>) ||
+            ((error && <span className="login__error">{error}</span>) ||
                 (warning && <span>{warning}</span>))}
         </div>
     </div>
@@ -36,10 +41,9 @@ const LoginForm: React.FC<InjectedFormProps<LoginFormValuesType, LoginFormOwnPro
 
     const {error, pristine, submitting, handleSubmit, onSubmit} = props;
     return (
-        <div className="page-main-form">
+        <div className="login__form">
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div>
-                    {/*<label htmlFor="email">Email</label>*/}
                     <Field
                         placeholder="Почта"
                         name="email"
@@ -49,7 +53,6 @@ const LoginForm: React.FC<InjectedFormProps<LoginFormValuesType, LoginFormOwnPro
                     />
                 </div>
                 <div>
-                    {/*<label htmlFor="password">Password</label>*/}
                     <Field
                         placeholder="Пароль"
                         name="password"
@@ -58,12 +61,29 @@ const LoginForm: React.FC<InjectedFormProps<LoginFormValuesType, LoginFormOwnPro
                         validate={[required]}
                     />
                 </div>
-                Здесь будет ваша ошибка {error && <span> {error}</span>}
-                <button
-                    className="primary-button"
-                    type="submit"
-                    disabled={pristine || submitting}
-                >Login</button>
+                <div className="login__error-wrap">{error && <span> {error}</span>}</div>
+                <div className="login__btn-wrap">
+                    <button
+                        className="login__btn login__primary-btn"
+                        type="submit"
+                        disabled={pristine || submitting}
+                    >ВОЙТИ</button>
+                </div>
+                <div className="login__btn-wrap">
+                    <NavLink
+                        to="/register"
+                        style={{textDecoration: "none", color: "black"}}
+
+                    >
+                        <button
+                            className="login__btn login__secondary-btn"
+                        >
+                            Зарегистрироваться
+                        </button>
+
+                    </NavLink>
+                </div>
+
             </form>
         </div>
     )
@@ -104,12 +124,11 @@ const LoginPage: React.FC = () => {
 
     return (
         <div
+            className="vertical-center"
         >
             <div
-                className="page-form "
+                className="login-container"
             >
-                <h1>Войдите в систему</h1>
-                <p>У вас еще нет <Link to="/register">аккаунта</Link></p>
                 <LoginReduxForm onSubmit={onSubmit} />
             </div>
 

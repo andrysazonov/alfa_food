@@ -1,10 +1,12 @@
-import React from "react";
-import useDocumentTitle from "../../hooks/useDocumentTitle";
+import React, {useCallback} from "react";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import {useHistory} from "react-router-dom";
 import { InjectedFormProps, reduxForm, Field } from "redux-form";
-import { register } from "../../redux/reducers/authReducer";
 
+
+
+import useDocumentTitle from "../../hooks/useDocumentTitle";
+import { register } from "../../redux/reducers/authReducer";
 import { required } from "../../utils/validators";
 import normalizePhone from "../../utils/normalize";
 
@@ -21,12 +23,17 @@ const renderField = ({
   type,
   meta: { touched, error, warning },
 }: any) => (
-  <div className="form-field">
+  <div className="register__form-field">
     {/* <label>{label}</label> */}
     <div>
-      <input {...input} placeholder={label} type={type} />
+      <input
+          {...input}
+          placeholder={label}
+          type={type}
+          className="register__input"
+      />
       {touched &&
-        ((error && <div className="error">{error}</div>) ||
+        ((error && <div className="register__error">{error}</div>) ||
           (warning && <span>{warning}</span>))}
     </div>
   </div>
@@ -37,9 +44,15 @@ const RegisterForm: React.FC<
     RegisterFormOwnProps
 > = (props) => {
   const { pristine, submitting, handleSubmit, onSubmit } = props;
+  const history = useHistory()
+
+  const historyGoBackCB = useCallback(() => {
+    history.goBack()
+  }, [])
+
 
   return (
-    <div className="page-main-form">
+    <div className="register__form">
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
           <div>
@@ -81,14 +94,22 @@ const RegisterForm: React.FC<
           validate={[required]}
           label="Пароль"
         />
+        <div>
+          <button
+              className="register__btn register__primary-btn"
+              type="submit"
+              disabled={pristine || submitting}
+          >
+            Зарегистрироваться
+          </button>
+        </div>
+        <div>
+          <button
+              onClick={historyGoBackCB}
+              className="register__btn register__secondary-btn"
+          >НАЗАД</button>
+        </div>
 
-        <button
-          className="primary-button"
-          type="submit"
-          disabled={pristine || submitting}
-        >
-          Зарегистрироваться
-        </button>
       </form>
     </div>
   );
@@ -117,11 +138,7 @@ const Register: React.FC = () => {
 
   return (
     <>
-      <div className="page-form">
-        <h1>Регистрация</h1>
-        <p>
-          У вас уже есть <Link to="/login">аккаунт</Link>
-        </p>
+      <div className="vertical-center">
         <RegisterReduxForm onSubmit={onSubmit} />
       </div>
     </>

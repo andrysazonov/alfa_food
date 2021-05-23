@@ -2,7 +2,17 @@ import React from "react"
 import useDocumentTitle from "../../../hooks/useDocumentTitle";
 
 
+import RepresentationSection from "../sections/ Representation";
+import GuestNavbar from "../sections/Navbar"
+import Roadmap from "../sections/Roadmap";
+import Consumers from "../sections/Consumers";
+import Capabilities from "../sections/Capabilities";
+import AboutMobile from "../sections/AboutMobile";
+import Footer from "../sections/Footer"
+
+
 import "./index.scss"
+
 
 
 const GuestPage: React.FC = () => {
@@ -11,13 +21,29 @@ const GuestPage: React.FC = () => {
 
     return (
         <div
-            className="content"
+            style={
+                {
+                    overflow: 'hidden'
+                }
+            }
         >
-            <div className="guest__container">
-                <h3 className="guest__title">Начать работу с нами легко!</h3>
-
+            <div
+                style={
+                    {
+                        position: 'relative',
+                        height: '100vh',
+                        width: '100vw',
+                    }
+                }
+            >
+                <RepresentationSection />
+                <GuestNavbar />
             </div>
-
+            <Consumers />
+            <Roadmap />
+            <Capabilities />
+            <AboutMobile />
+            <Footer />
         </div>
     )
 }

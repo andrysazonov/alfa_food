@@ -5,7 +5,7 @@ import { authRoutes, adminRoutes, cafeAdminRoutes } from "./routes"
 
 import CafeAdminNavbar from "../pages/CafeAdmin/Navbar"
 import AdminNavbar from "../pages/Admin/Navbar"
-import GuestNavbar from "../pages/Guest/Navbar"
+import GuestNavbar from "../pages/Guest/sections/Navbar"
 
 
 
@@ -14,7 +14,6 @@ export const AuthLayout = () => {
 
    return (
        <>
-           <GuestNavbar />
             <Switch>
                 {authRoutes.map((route, index) => (
                     <Route key={index} {...route}/>
