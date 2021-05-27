@@ -1,0 +1,19 @@
+.adminApplication {
+  &__section {
+    padding: 40px;
+  }
+
+  &__content  {
+    svg {
+      pointer-events: none!important;
+    }
+    path {
+      pointer-events: all!important;
+      fill: blue!important;
+    }
+    rect {
+      pointer-events: all!important;
+      fill: yellow!important;
+    }
+  }
+}
