@@ -11,6 +11,7 @@ namespace AlfaFoodBack.Models
         public readonly int? Id;
 
         // public Stack<Order> OrdersHistory;
+        [NonSerialized]
         public readonly string Password;
         public readonly string Phone;
         public readonly string Role;

@@ -14,7 +14,6 @@ namespace AlfaFoodBack.Models
                 if (UserWithLoginExists(con, user.Email))
                     throw new Exception("User exists");
             }
-            Console.WriteLine("Insert");
             var command = dbCon.CreateCommand();
             command.CommandType = CommandType.Text;
             command.CommandText =
@@ -36,6 +35,7 @@ namespace AlfaFoodBack.Models
         {
             var passHash = Encryptor.GetHashString(password);
             var command = dbCon.CreateCommand();
+            Console.WriteLine(passHash);
             command.CommandType = CommandType.Text;
             command.CommandText =
                 $"select * from \"public\".\"users\" where email='{login}' and password='{passHash}'";
@@ -57,7 +57,6 @@ namespace AlfaFoodBack.Models
             command.CommandType = CommandType.Text;
             command.CommandText = $"SELECT FROM \"public\".\"users\" Where email='{login}';";
             var result = command.ExecuteReader();
-            Console.WriteLine("Exists");
             return result.HasRows;
         }
     }

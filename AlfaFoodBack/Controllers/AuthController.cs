@@ -19,13 +19,16 @@ namespace AlfaFoodBack.Controllers
     [Route("[controller]")]
     public class AuthController : Controller
     {
-        [HttpDelete("phys/login")]
+        [HttpDelete("jur")]
         public async void LogOut()
         {
             try
             {
+                if (Request.Cookies["Key"] != null)
+                {
+                    Response.Cookies.Append("token", "", new CookieOptions(){Expires = DateTime.Now.AddDays(-1d)});
+                }
                 Response.StatusCode = 200;
-                Response.Cookies.Delete("token");
             }
             catch (Exception e)
             {
