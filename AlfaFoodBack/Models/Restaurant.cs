@@ -6,29 +6,31 @@ namespace AlfaFoodBack.Models
 {
     public class Restaurant : IDbEntity
     {
-        public string Id;
+        public int Id;
         public readonly string Name;
         public readonly string PhoneNumber;
+        public readonly string City;
         public readonly string Address; //Надо определиться с форматом хранения адреса, а так же организовать проверку на валидность адреса
         public readonly string Description; //надо добавить возможность изменять описание ресторана и возможность не добавлять его при регистрации
-        private List<int> Owners; //список людей, имеющих право изменять данные о ресторане через приложения (прим. владелец и менеджер ресторана)
-        private List<int> Workers; // id людей, работающих в ресторане, имеющих свои задачи в приложении (прим. официант, хостес)
-        private ((int hour, int minute) start, (int hour, int minute) end) WorkingTime; //время работы, добавляется уже после создания в настройках ресторана. 
+        public readonly int OwnerId; 
+        //private List<int> Workers; // id людей, работающих в ресторане, имеющих свои задачи в приложении (прим. официант, хостес)
+        public readonly string WorkingTime; //время работы, добавляется уже после создания в настройках ресторана. 
             
-        public Restaurant(string name, string address, string description, int ownerId, string phoneNumber = null, string id = null)
+        public Restaurant(int id, string name, string city, string address, string description, int ownerId, string phoneNumber = null, string workingTime = null)
         {
             if (!IsPhoneNumberValid(phoneNumber))
                 throw new Exception("Invalid phone number");
             if (!IsAddressValid(address))
                 throw new Exception("Invalid address");
+
+            Id = id;
             Name = name;
             PhoneNumber = phoneNumber;
+            City = city;
             Address = address;
             Description = description;
-            Owners = new List<int> {ownerId};
-            Workers = new List<int>();
-            WorkingTime = ((8,0),(11,0));
-            Id = id;
+            OwnerId = ownerId;
+            WorkingTime = workingTime==null?"8:00,23:00": workingTime;
         }
 
 

@@ -15,14 +15,18 @@ namespace AlfaFoodBack.Controllers
         {
             Response.Headers.Add("Access-Control-Allow-Origin", "*");
             var dict = JObject.Parse(data.ToString());
+            var id = int.Parse(dict["id"].ToString());
             var name = dict["name"].ToString();
             var description = dict["description"].ToString();
+            var city = dict["city"].ToString();
             var address = dict["address"].ToString();
-            var phone = dict["phone"].ToString();
+            var phoneNumber = dict["phone"].ToString();
+            var workingTime = dict["workingTime"].ToString();
             var ownerId = int.Parse(Request.Cookies["userId"]);
+
             try
             {
-                var restaurant = new Restaurant(ownerId, name, address, description, phone);
+                var restaurant = new Restaurant(id, name, city, address, description, ownerId, phoneNumber, workingTime);
                 using (var dbCon = PostgresConn.GetConn())
                 {
                     new RestaurantRepository().Insert(dbCon, restaurant);
