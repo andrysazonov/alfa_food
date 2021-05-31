@@ -13,8 +13,7 @@ namespace AlfaFoodBack.Models
             var command = dbCon.CreateCommand();
             command.CommandType = CommandType.Text;
             command.CommandText =
-                $"INSERT INTO public.\"Restaurants\" (id, name, city, address, description, ownerId, phoneNumber, workingTime) " +
-                $"VALUES({restaurant.Id}, {restaurant.Name},{restaurant.City}, {restaurant.Address}, {restaurant.Description}, {restaurant.PhoneNumber},  {restaurant.WorkingTime})";
+                $"INSERT INTO restaurants (id, name, city, address, description, ownerId, phoneNumber, workingTime, published) VALUES('{restaurant.Id}', '{restaurant.Name}','{restaurant.City}', '{restaurant.Address}', '{restaurant.Description}', '{restaurant.OwnerId}', '{restaurant.PhoneNumber}',  '{restaurant.WorkingTime}', '{restaurant.Published}')";
             command.ExecuteNonQuery();
         }
 
