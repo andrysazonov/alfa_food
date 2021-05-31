@@ -27,7 +27,7 @@ namespace AlfaFoodBack.Controllers
 
             try
             {
-                var restaurant = new Restaurant(id, name, city, address, description, ownerId, phoneNumber, workingTime);
+                var restaurant = new Restaurant(businessId, name, city, address, description, ownerId, phoneNumber, workingTime);
                 using (var dbCon = PostgresConn.GetConn())
                 {
                     new RestaurantRepository().Insert(dbCon, restaurant);
