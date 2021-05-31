@@ -27,6 +27,7 @@ const FieldFileInput  = (props: any) => {
 
     const onChange = (e: any) => {
         const { input: { onChange } } = props
+        console.log('onchange field file :: ',  e.target.files[0])
         onChange(e.target.files[0])
     }
 
@@ -168,7 +169,7 @@ const AddEstablishmentForm: React.FC<InjectedFormProps<AddEstablishmentFormValue
                 />
                 <Field
                     placeholder="БизнесИД"
-                    name="businessId"
+                    name="restaurantId"
                     component={renderInputField}
                     type="text"
                     validate={[required]}

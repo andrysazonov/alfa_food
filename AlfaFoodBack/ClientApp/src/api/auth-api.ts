@@ -1,7 +1,6 @@
 import { instance } from "./api";
 
 
-
 type CurrentUserDataType = {
 
 }
@@ -12,11 +11,7 @@ type LoginResponseDataType = {
 
 export const authAPI = {
     login(email: string, password: string, rememberMe?: boolean) {
-        return instance.post(`/auth/jur`, {email, password}).then(res => {
-            // console.log('data from login auth-api - ', res.data)
-            return res.data
-        })
-
+        return instance.post(`/auth/jur`, {email, password}).then(res => res.data)
     },
 
     logout() {
