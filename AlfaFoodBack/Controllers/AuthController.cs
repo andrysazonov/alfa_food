@@ -25,7 +25,7 @@ namespace AlfaFoodBack.Controllers
         {
             try
             {
-                if (Request.Cookies["Key"] != null)
+                if (Request.Cookies["token"] != null)
                 {
                     Response.Cookies.Append("token", "", new CookieOptions(){Expires = DateTime.Now.AddDays(-1d)});
                 }
