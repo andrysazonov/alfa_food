@@ -111,7 +111,7 @@ namespace AlfaFoodBack.Controllers
                     }
                     else
                     {
-                        if (user.Role != "owner")
+                        if (user.Role != "owner" || user.Role != "admin")
                         {
                             Response.StatusCode = 403;
                             await Response.WriteAsync("You can't see this page");
