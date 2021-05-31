@@ -43,11 +43,11 @@ export const authRoutes = [
         exact: false,
         component: Register
     },
-    {
-        path: "/404",
-        exact: false,
-        component: NotFound
-    }
+    // {
+    //     path: "/404",
+    //     exact: false,
+    //     component: NotFound
+    // }
 ]
 
 export const adminRoutes = [

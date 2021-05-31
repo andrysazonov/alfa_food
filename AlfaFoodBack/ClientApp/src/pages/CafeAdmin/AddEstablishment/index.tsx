@@ -2,7 +2,7 @@ import React, {useState, ChangeEvent, useEffect, SyntheticEvent} from "react"
 import InputMask from "react-input-mask"
 import {InjectedFormProps, reduxForm, Field, formValues} from "redux-form"
 import useDocumentTitle from "../../../hooks/useDocumentTitle";
-import { useDispatch } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 
 
 import { getISOHoursMinutsTime } from "../../../utils/diff"
@@ -13,6 +13,7 @@ import { addEstablishment } from "../../../redux/reducers/restaurantReducer";
 
 
 import "./index.scss"
+import {AppStateType} from "../../../redux/store";
 
 
 
@@ -186,7 +187,20 @@ const AddEstablishmentForm: React.FC<InjectedFormProps<AddEstablishmentFormValue
                     type="text"
                     validate={[required]}
                 />
-
+                <Field
+                    placeholder="Адресс"
+                    name="address"
+                    component={renderInputField}
+                    type="text"
+                    validate={[required]}
+                />
+                <Field
+                    placeholder="Город"
+                    name="city"
+                    component={renderInputField}
+                    type="text"
+                    validate={[required]}
+                />
 
             </div>
             <div className="new-establishment-form__pickerTime" >
@@ -205,13 +219,13 @@ const AddEstablishmentForm: React.FC<InjectedFormProps<AddEstablishmentFormValue
                                 className="pickerTime__day"
                             >{day}</span>
                                     <Field
-                                        name={`day-D${day}`}
+                                        name={`day-start-${day}`}
                                         component={renderTimeField}
                                         type="text"
                                         validate={[required, timeHoursAndMinutes]}
                                     />
                                     <Field
-                                        name={`day-P${day}`}
+                                        name={`day-end-${day}`}
                                         component={renderTimeField}
                                         type="text"
                                         validate={[required, timeHoursAndMinutes]}
@@ -252,20 +266,42 @@ const AddEstablishmentReduxForm = reduxForm<AddEstablishmentFormValuesType, AddE
 
 const AddEstablishment = () => {
     const dispatch = useDispatch()
+    const user_id = useSelector((state: AppStateType) => state.auth.loggedInUser.id)
+
 
     const onSubmit = (data: AddEstablishmentFormValuesType) => {
-        let new_data = {}
+        let new_data = {
+            workingTime: [
+                [],
+                [],
+                [],
+                [],
+                [],
+                [],
+                []
+            ],
+            userId: user_id
+        }
         for (let i in data) {
             if (i.startsWith('day')) {
                 //@ts-ignore
-                new_data[i] = getISOHoursMinutsTime(data[i])
+                if (i.includes("start")) {
+                    let day = i.slice(-2)
+                    //@ts-ignore
+                    // print(days[day])
+                    new_data.workingTime[days.indexOf(day)][0] = data[i]
+                } else if (i.includes("end")) {
+                    let day = i.slice(-2)
+                    //@ts-ignore
+                    new_data.workingTime[days.indexOf(day)][1] = data[i]
+                }
+
             } else {
                 //@ts-ignore
                 new_data[i] = data[i]
             }
         }
         dispatch(addEstablishment(new_data))
-        console.log('Next.. with data : ', new_data)
     }
 
     return (
