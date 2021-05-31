@@ -1,10 +1,14 @@
 import React from "react"
-import { NavLink } from "react-router-dom";
+import { Switch, Route, NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import Application from "../Application";
 import "./index.scss"
 import {AppStateType} from "../../../redux/store";
+import Establishment from "../../CafeAdmin/Establishment";
+import AddEstablishment from "../../CafeAdmin/AddEstablishment";
+
+
 
 const applications = [
     "1", "2", "3", "4"
@@ -74,7 +78,16 @@ const Applications = () => {
 
                 </div>
                 <div>
-                    <Application />
+                    <Switch>
+                        <Route path="/application/:id" render={({match}) =>
+                        {
+                            const {id} = match.params;
+                            //@ts-ignore
+                            return <Application id={id} />
+                        }}
+                        />
+                    </Switch>
+
                 </div>
             </div>
         </div>

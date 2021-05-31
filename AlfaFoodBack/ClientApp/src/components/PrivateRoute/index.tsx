@@ -15,7 +15,7 @@ const PrivateRoute: React.FC<PrivateRouteType> = ({loggedInUser, ...rest}) => (
                     <AdminLayout  />
                 );
             }
-            if (loggedInUser.role === 'cafeadmin' ) {
+            if (loggedInUser.role === 'owner' ) {
                 return (
                     <CafeAdminLayout />
                 );

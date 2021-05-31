@@ -3,6 +3,38 @@
     padding: 40px;
   }
 
+  &__small-title {
+    font-size: 16px;
+    font-weight: 500
+  }
+
+  &__form-block {
+    margin-top: 22px;
+  }
+
+  &__confirmation {
+    border: 1px solid black;
+    margin-top: 40px;
+  }
+
+
+  &-pickerTime__wrapper {
+    margin-top: 20px;
+    display: flex;
+    gap: 20px;
+  }
+
+  &-pickerTime__date {
+    gap: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &__marking-tables {
+    margin: 50px 0;
+  }
+
   &__content  {
     svg {
       pointer-events: none!important;

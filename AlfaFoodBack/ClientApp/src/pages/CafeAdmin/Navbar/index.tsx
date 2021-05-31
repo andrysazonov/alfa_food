@@ -66,7 +66,7 @@ const Navbar = ({location}: RouteComponentProps) => {
                             to="/"
                             style={{textDecoration: "none"}}
                         >
-                            <span className="logo">ALFAFOOD</span>
+                            <span className="logo-black">ALFAFOOD</span>
                         </NavLink>
 
                     </div>
