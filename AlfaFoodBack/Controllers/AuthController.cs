@@ -64,7 +64,6 @@ namespace AlfaFoodBack.Controllers
                             await Response.WriteAsync("You can't see this page");
                             return;
                         }
-
                         var now = DateTime.UtcNow;
                         var claims = new List<Claim>();
                         claims.Add(new Claim(ClaimsIdentity.DefaultNameClaimType, user.Email));
@@ -77,12 +76,12 @@ namespace AlfaFoodBack.Controllers
                             expires: now.Add(TimeSpan.FromMinutes(AuthOptions.LIFETIME)),
                             signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
                         var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
-                        Response.StatusCode = 200;
                         var serializerSettings = new JsonSerializerSettings();
                         serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                         var json = JsonConvert.SerializeObject(user, serializerSettings);
-                        await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(json));
                         Response.Cookies.Append("token", encodedJwt);
+                        await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(json));
+                        
                     }
                 }
             }
@@ -130,12 +129,12 @@ namespace AlfaFoodBack.Controllers
                             expires: now.Add(TimeSpan.FromMinutes(AuthOptions.LIFETIME)),
                             signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
                         var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
-                        Response.StatusCode = 200;
                         var serializerSettings = new JsonSerializerSettings();
                         serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                         var json = JsonConvert.SerializeObject(user, serializerSettings);
-                        await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(json));
                         Response.Cookies.Append("token", encodedJwt);
+                        await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(json));
+                        
                     }
                 }
             }
