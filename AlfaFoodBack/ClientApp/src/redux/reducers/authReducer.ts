@@ -10,7 +10,7 @@ type LoggedInUserType = {
 let initialState = {
     login: null as (string | null),
     email: null as (string | null),
-    loggedInUser: { role: "owner"} as LoggedInUserType
+    loggedInUser: { role: "none"} as LoggedInUserType
 }
 
 
@@ -44,9 +44,9 @@ export const login = (email: string, password: string): ThunkType => async (disp
 }
 
 export const logout = (): ThunkType => async (dispatch) => {
-    // console.log('log utttt')
     let resp = await authAPI.logout()
-    if (resp) {
+    console.log('logout resp ::: ', resp)
+    if (resp.status == 200) {
         dispatch(actions.logOut())
     }
 }

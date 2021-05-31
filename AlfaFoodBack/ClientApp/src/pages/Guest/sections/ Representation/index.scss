@@ -34,7 +34,11 @@
     border: 1px solid gray;
     background: white;
     cursor: pointer;
+    outline: none;
     //transition: background-color .5s  ease-in-out;
+    &:focus {
+      outline: none;
+    }
     &:hover {
       background: #cccccc;
     }

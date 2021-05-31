@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Serialization;
 
 namespace AlfaFoodBack.Controllers
 {
@@ -24,7 +25,7 @@ namespace AlfaFoodBack.Controllers
         {
             try
             {
-                if (Request.Cookies["Key"] != null)
+                if (Request.Cookies["token"] != null)
                 {
                     Response.Cookies.Append("token", "", new CookieOptions(){Expires = DateTime.Now.AddDays(-1d)});
                 }
@@ -63,7 +64,6 @@ namespace AlfaFoodBack.Controllers
                             await Response.WriteAsync("You can't see this page");
                             return;
                         }
-
                         var now = DateTime.UtcNow;
                         var claims = new List<Claim>();
                         claims.Add(new Claim(ClaimsIdentity.DefaultNameClaimType, user.Email));
@@ -76,10 +76,12 @@ namespace AlfaFoodBack.Controllers
                             expires: now.Add(TimeSpan.FromMinutes(AuthOptions.LIFETIME)),
                             signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
                         var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
-                        Response.StatusCode = 200;
-                        var json = JsonConvert.SerializeObject(user);
-                        await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(json));
+                        var serializerSettings = new JsonSerializerSettings();
+                        serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                        var json = JsonConvert.SerializeObject(user, serializerSettings);
                         Response.Cookies.Append("token", encodedJwt);
+                        await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(json));
+                        
                     }
                 }
             }
@@ -109,7 +111,8 @@ namespace AlfaFoodBack.Controllers
                     }
                     else
                     {
-                        if (user.Role != "owner")
+                        Console.WriteLine((user.Role));
+                        if (user.Role != "owner" && user.Role != "admin")
                         {
                             Response.StatusCode = 403;
                             await Response.WriteAsync("You can't see this page");
@@ -127,10 +130,12 @@ namespace AlfaFoodBack.Controllers
                             expires: now.Add(TimeSpan.FromMinutes(AuthOptions.LIFETIME)),
                             signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
                         var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
-                        Response.StatusCode = 200;
-                        var json = JsonConvert.SerializeObject(user);
-                        await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(json));
+                        var serializerSettings = new JsonSerializerSettings();
+                        serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                        var json = JsonConvert.SerializeObject(user, serializerSettings);
                         Response.Cookies.Append("token", encodedJwt);
+                        await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(json));
+                        
                     }
                 }
             }

@@ -13,14 +13,14 @@ type LoginResponseDataType = {
 export const authAPI = {
     login(email: string, password: string, rememberMe?: boolean) {
         return instance.post(`/auth/jur`, {email, password}).then(res => {
-            console.log('data from login auth-api - ', res.data)
+            // console.log('data from login auth-api - ', res.data)
             return res.data
         })
 
     },
 
     logout() {
-        return instance.delete(`auth/phys/login`)
+        return instance.delete(`auth/jur`)
     },
 
     currentUser() {

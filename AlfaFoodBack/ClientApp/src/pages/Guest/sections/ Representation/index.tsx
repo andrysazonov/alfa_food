@@ -1,6 +1,7 @@
 import React from "react"
 
 import "./index.scss"
+import {Link, NavLink} from "react-router-dom";
 
 const RepresentationSection = () => {
     return (
@@ -20,9 +21,18 @@ const RepresentationSection = () => {
                 >
                     Онлайн приём броней, депозиты, статистика, база гостей, банкеты.<br /> Настраивается за 15 минут, работает в облаке.<br /> Стоит от 0 руб. в месяц
                 </p>
-                <button
-                    className="representationSection__btn"
-                >НАЧАТЬ БЕСПЛАТНО</button>
+                <Link
+                    to="/register"
+                    rel="noopener"
+                    target="_blank"
+                >
+                    <button
+                        className="representationSection__btn"
+                    >
+                        НАЧАТЬ БЕСПЛАТНО
+                    </button>
+                </Link>
+
 
                 <div
                     className="representationSection__apps"
