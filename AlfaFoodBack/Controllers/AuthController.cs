@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Serialization;
 
 namespace AlfaFoodBack.Controllers
 {
@@ -77,7 +78,9 @@ namespace AlfaFoodBack.Controllers
                             signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
                         var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
                         Response.StatusCode = 200;
-                        var json = JsonConvert.SerializeObject(user);
+                        var serializerSettings = new JsonSerializerSettings();
+                        serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                        var json = JsonConvert.SerializeObject(user, serializerSettings);
                         await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(json));
                         Response.Cookies.Append("token", encodedJwt);
                     }
@@ -128,7 +131,9 @@ namespace AlfaFoodBack.Controllers
                             signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
                         var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
                         Response.StatusCode = 200;
-                        var json = JsonConvert.SerializeObject(user);
+                        var serializerSettings = new JsonSerializerSettings();
+                        serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                        var json = JsonConvert.SerializeObject(user, serializerSettings);
                         await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(json));
                         Response.Cookies.Append("token", encodedJwt);
                     }
