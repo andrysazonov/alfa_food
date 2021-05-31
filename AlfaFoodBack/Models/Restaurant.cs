@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.IO;
 
 namespace AlfaFoodBack.Models
 {
@@ -15,6 +15,7 @@ namespace AlfaFoodBack.Models
         public readonly int OwnerId; 
         //private List<int> Workers; // id людей, работающих в ресторане, имеющих свои задачи в приложении (прим. официант, хостес)
         public readonly string WorkingTime; //время работы, добавляется уже после создания в настройках ресторана. 
+        //public readonly File imageMap;
             
         public Restaurant(int id, string name, string city, string address, string description, int ownerId, string phoneNumber = null, string workingTime = null)
         {

@@ -15,14 +15,15 @@ namespace AlfaFoodBack.Controllers
         {
             Response.Headers.Add("Access-Control-Allow-Origin", "*");
             var dict = JObject.Parse(data.ToString());
-            var id = int.Parse(dict["id"].ToString());
+            var id = int.Parse(dict["restaurantId"].ToString());
             var name = dict["name"].ToString();
             var description = dict["description"].ToString();
             var city = dict["city"].ToString();
             var address = dict["address"].ToString();
             var phoneNumber = dict["phone"].ToString();
             var workingTime = dict["workingTime"].ToString();
-            var ownerId = int.Parse(Request.Cookies["userId"]);
+            var ownerId = int.Parse(Request.Cookies["ownerId"]);
+            var image = dict["image-map"];
 
             try
             {
