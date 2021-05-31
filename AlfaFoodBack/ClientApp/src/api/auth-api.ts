@@ -20,7 +20,7 @@ export const authAPI = {
     },
 
     logout() {
-        return instance.delete(`auth/phys/login`)
+        return instance.delete(`auth/jur`)
     },
 
     currentUser() {
