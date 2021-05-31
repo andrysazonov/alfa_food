@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using AlfaFoodBack.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +15,8 @@ namespace AlfaFoodBack.Controllers
         public async void AddRestaurant(object data)
         {
             Response.Headers.Add("Access-Control-Allow-Origin", "*");
-            var dict = JObject.Parse(data.ToString());
+            var dict = JObject.Parse(data.ToString()).ToObject<Dictionary<string, object>>();
+
             var businessId = int.Parse(dict["businessId"].ToString());
             var name = dict["name"].ToString();
             var description = dict["description"].ToString();
