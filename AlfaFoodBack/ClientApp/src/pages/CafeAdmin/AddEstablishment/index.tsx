@@ -21,6 +21,12 @@ interface INewEstablishmentFormProps {
     onSubmit: (e : SyntheticEvent) => void
 }
 
+const toBase64 = (file: File) => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+});
 
 
 const FieldFileInput  = (props: any) => {
@@ -242,7 +248,7 @@ const AddEstablishmentForm: React.FC<InjectedFormProps<AddEstablishmentFormValue
             >
                 <h3 className="new-establishment__small-title">Выберите карту помещения</h3>
                 <Field
-                    name={`image-map`}
+                    name="image"
                     component={FieldFileInput}
                     validate={[required]}
                 />
@@ -270,39 +276,57 @@ const AddEstablishment = () => {
     const user_id = useSelector((state: AppStateType) => state.auth.loggedInUser.id)
 
 
-    const onSubmit = (data: AddEstablishmentFormValuesType) => {
-        let new_data = {
-            workingTime: [
-                [],
-                [],
-                [],
-                [],
-                [],
-                [],
-                []
-            ],
-            userId: user_id
-        }
+    const onSubmit = (data: any) => {
+        data['workingTime'] = [
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            []
+        ]
+        data['userId'] = user_id
+        
         for (let i in data) {
             if (i.startsWith('day')) {
+                delete data[i]
                 //@ts-ignore
                 if (i.includes("start")) {
                     let day = i.slice(-2)
                     //@ts-ignore
                     // print(days[day])
-                    new_data.workingTime[days.indexOf(day)][0] = data[i]
+                    data.workingTime[days.indexOf(day)][0] = data[i]
                 } else if (i.includes("end")) {
                     let day = i.slice(-2)
                     //@ts-ignore
-                    new_data.workingTime[days.indexOf(day)][1] = data[i]
+                    data.workingTime[days.indexOf(day)][1] = data[i]
                 }
 
-            } else {
-                //@ts-ignore
-                new_data[i] = data[i]
             }
         }
-        dispatch(addEstablishment(new_data))
+        console.log('pre-data: ::  ', data)
+        // for (let i in data) {
+        //     console.log('i again::: ', i )
+        //     if (i.startsWith('day')) {
+        //         //@ts-ignore
+        //         if (i.includes("start")) {
+        //             let day = i.slice(-2)
+        //             //@ts-ignore
+        //             // print(days[day])
+        //             new_data.workingTime[days.indexOf(day)][0] = data[i]
+        //         } else if (i.includes("end")) {
+        //             let day = i.slice(-2)
+        //             //@ts-ignore
+        //             new_data.workingTime[days.indexOf(day)][1] = data[i]
+        //         }
+        //
+        //     } else {
+        //         //@ts-ignore
+        //         new_data[i] = data[i]
+        //     }
+        // }
+        dispatch(addEstablishment(data))
     }
 
     return (

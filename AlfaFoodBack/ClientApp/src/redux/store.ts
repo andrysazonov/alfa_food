@@ -23,10 +23,22 @@ export type InferActionsType<T> = T extends { [keys : string]: (...args: any[]) 
 export type BaseThunkType<A extends Action = Action, R = Promise<void>> = ThunkAction<R, AppStateType, unknown, A>
 
 
+const persistedState = localStorage.getItem('reduxState')
+    //@ts-ignore
+    ? JSON.parse(localStorage.getItem('reduxState'))
+    : {}
+
+
 const store = createStore(rootReducer,
+    persistedState,
     composeWithDevTools(
         applyMiddleware(thunkMiddleware)
     )
 )
+
+store.subscribe(()=>{
+    localStorage.setItem('reduxState', JSON.stringify(store.getState()))
+})
+
 
 export default store

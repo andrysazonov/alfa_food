@@ -1,7 +1,14 @@
 import React from "react"
+import { Link } from "react-router-dom";
+
+
+import alfaMobileGif from "../../../../assets/gifs/alfa-mobile.gif"
+
+
 
 import "./index.scss"
-import {Link, NavLink} from "react-router-dom";
+
+
 
 const RepresentationSection = () => {
     return (
@@ -60,7 +67,12 @@ const RepresentationSection = () => {
             <div
                 className="representationSection__imgs"
             >
-                <img src="https://camo.githubusercontent.com/bb9893b301e2c2040905901ef751832d85d8223390465c6bb8e4b5d296d5133c/68747470733a2f2f737065652e63682f406c6272793a33662f616e64726f69642d30382d686f6d65706167652e676966" alt="11"/>
+                <img
+                    src={alfaMobileGif}
+                    alt="alfa-mobile-gif"
+                    height={"602px"}
+                    width={"350px"}
+                />
             </div>
         </div>
     )

@@ -73,9 +73,10 @@
   }
 
   &__imgs {
+    border: 4px solid darkblue;
     position: absolute;
     top: 14%;
-    height: calc(100vh - 240px);
+    //height: fit-content;
     overflow: hidden;
     right: 12%;
   }
