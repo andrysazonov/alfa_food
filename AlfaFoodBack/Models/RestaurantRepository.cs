@@ -13,7 +13,7 @@ namespace AlfaFoodBack.Models
             var command = dbCon.CreateCommand();
             command.CommandType = CommandType.Text;
             command.CommandText =
-                $"INSERT INTO public.\"Restaurants\" (ownerId, name, phone, address, description, city) VALUES({restaurant.OwnerId}, {restaurant.Name}, {restaurant.PhoneNumber}, {restaurant.Address}, {restaurant.Description}, {restaurant.City})";
+                $"INSERT INTO restaurants (id, name, city, address, description, ownerId, phoneNumber, workingTime, published) VALUES('{restaurant.Id}', '{restaurant.Name}','{restaurant.City}', '{restaurant.Address}', '{restaurant.Description}', '{restaurant.OwnerId}', '{restaurant.PhoneNumber}',  '{restaurant.WorkingTime}', '{restaurant.Published}')";
             command.ExecuteNonQuery();
         }
 
@@ -32,15 +32,19 @@ namespace AlfaFoodBack.Models
             var reader = command.ExecuteReader();
             if (!reader.HasRows)
                 return null;
+
             reader.Read();
-            var name = reader[1].ToString();
-            var description = reader[2].ToString();
-            var address = reader[3].ToString();
-            var phone = reader[4].ToString();
-            var ownerId = int.Parse(reader[5].ToString());
-            var city = reader[6].ToString();
+            var responceId = int.Parse(reader[1].ToString());
+            var name = reader[2].ToString();
+            var city = reader[3].ToString();
+            var address = reader[4].ToString();
+            var description = reader[5].ToString();
+            var ownerId = int.Parse(reader[6].ToString());
+            var phone = reader[7].ToString();
+            var workingTime = reader[8].ToString();
             reader.Close();
-            return new Restaurant(ownerId, name, city, address, description, phone, id);
+
+            return new Restaurant(responceId, name, city, address, description, ownerId, phone, workingTime);
         }
 
         public IEnumerable<IDbEntity> GetRestaurantsByOwnerId(NpgsqlConnection dbCon, int ownerId)
@@ -56,16 +60,18 @@ namespace AlfaFoodBack.Models
            
             while (reader.Read())
             {
-                var id = int.Parse(reader[0].ToString());
-                var name = reader[1].ToString();
-                var description = reader[2].ToString();
-                var address = reader[3].ToString();
-                var phone = reader[4].ToString();
-                var city = reader[6].ToString();
+                var responeId = int.Parse(reader[1].ToString());
+                var name = reader[2].ToString();
+                var city = reader[3].ToString();
+                var address = reader[4].ToString();
+                var description = reader[5].ToString();
+                var responeOwnerId = int.Parse(reader[6].ToString());
+                var phone = reader[7].ToString();
+                var workingTime = reader[8].ToString();
                 reader.Close();
-                yield return new Restaurant(ownerId, name, city, address, description, phone, id);
+
+                yield return new Restaurant(responeId, name, city, address, description, responeOwnerId, phone, workingTime);
             }
-           
         }
     }
 }

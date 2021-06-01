@@ -1,47 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace AlfaFoodBack.Models
 {
     public class Restaurant : IDbEntity
     {
-        public readonly string
-            Address; 
-        public readonly string
-            City; //Надо определиться с форматом хранения адреса, а так же организовать проверку на валидность адреса
-
-        public readonly string
-            Description; //надо добавить возможность изменять описание ресторана и возможность не добавлять его при регистрации
-
+        public int Id;
         public readonly string Name;
         public readonly string PhoneNumber;
-        public int CurrentOrderId;
-        public int? Id;
+        public readonly string City;
+        public readonly string Address; //Надо определиться с форматом хранения адреса, а так же организовать проверку на валидность адреса
+        public readonly string Description; //надо добавить возможность изменять описание ресторана и возможность не добавлять его при регистрации
+        public readonly int OwnerId; 
+        //private List<int> Workers; // id людей, работающих в ресторане, имеющих свои задачи в приложении (прим. официант, хостес)
+        public readonly string WorkingTime; //время работы, добавляется уже после создания в настройках ресторана. 
+        public bool Published;
+        //public readonly File imageMap;
 
-        private List<int>
-            moderators; //список людей, имеющих право изменять данные о ресторане через приложения (прим. владелец и менеджер ресторана)
-
-        public int OwnerId;
-
-        private List<int>
-            workers; // id людей, работающих в ресторане, имеющих свои задачи в приложении (прим. официант, хостес)
-
-        public Restaurant(int ownerId, string name, string city, string address, string description, string phoneNumber = null,
-            int? id = null)
+        public Restaurant(int id, string name, string city, string address, string description, int ownerId, string phoneNumber = null, string workingTime = null)
         {
             if (!IsPhoneNumberValid(phoneNumber))
                 throw new Exception("Invalid phone number");
-            if (!IsAddressValid(phoneNumber))
+            if (!IsAddressValid(address))
                 throw new Exception("Invalid address");
-            OwnerId = ownerId;
+
+            Id = id;
             Name = name;
-            City = city;
             PhoneNumber = phoneNumber;
+            City = city;
             Address = address;
             Description = description;
-            moderators = new List<int> {ownerId};
-            workers = new List<int>();
-            Id = id;
+            OwnerId = ownerId;
+            WorkingTime = workingTime==null?"8:00,23:00": workingTime;
         }
 
 
@@ -50,7 +41,7 @@ namespace AlfaFoodBack.Models
             return true;
         }
 
-        private static bool IsAddressValid(string phoneNumber)
+        private static bool IsAddressValid(string address)
         {
             return true;
         }
