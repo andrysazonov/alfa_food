@@ -13,7 +13,8 @@ namespace AlfaFoodBack.Models
             var command = dbCon.CreateCommand();
             command.CommandType = CommandType.Text;
             command.CommandText =
-                $"INSERT INTO restaurants (id, name, city, address, description, ownerId, phoneNumber, workingTime, published) VALUES('{restaurant.Id}', '{restaurant.Name}','{restaurant.City}', '{restaurant.Address}', '{restaurant.Description}', '{restaurant.OwnerId}', '{restaurant.PhoneNumber}',  '{restaurant.WorkingTime}', '{restaurant.Published}')";
+                $"INSERT INTO restaurants (id, name, city, address, description, ownerId, phoneNumber, workingTime, published) " +
+                $"VALUES('{restaurant.Id}', '{restaurant.Name}','{restaurant.City}', '{restaurant.Address}', '{restaurant.Description}', '{restaurant.OwnerId}', '{restaurant.PhoneNumber}',  '{restaurant.WorkingTime}', '{restaurant.Published}')";
             command.ExecuteNonQuery();
         }
 
@@ -27,7 +28,7 @@ namespace AlfaFoodBack.Models
             var command = dbCon.CreateCommand();
             command.CommandType = CommandType.Text;
             command.CommandText = "SELECT *" +
-                                  "FROM \"public\".\"Restaurants\"" +
+                                  "FROM restaurants" +
                                   $"WHERE id = {id}";
             var reader = command.ExecuteReader();
             if (!reader.HasRows)
@@ -47,20 +48,20 @@ namespace AlfaFoodBack.Models
             return new Restaurant(responceId, name, city, address, description, ownerId, phone, workingTime);
         }
 
-        public IEnumerable<IDbEntity> GetRestaurantsByOwnerId(NpgsqlConnection dbCon, int ownerId)
+        public IEnumerable<IDbEntity> GetByOwnerId(NpgsqlConnection dbCon, int ownerId)
         {
             var command = dbCon.CreateCommand();
             command.CommandType = CommandType.Text;
             command.CommandText = "SELECT *" +
-                                  "FROM \"public\".\"Restaurants\"" +
+                                  "FROM restaurants" +
                                   $"WHERE ownerId = {ownerId}";
             var reader = command.ExecuteReader();
             if (!reader.HasRows)
-               yield return null;
-           
+                yield return null;
+
             while (reader.Read())
             {
-                var responeId = int.Parse(reader[1].ToString());
+                var restaurantId = int.Parse(reader[1].ToString());
                 var name = reader[2].ToString();
                 var city = reader[3].ToString();
                 var address = reader[4].ToString();
@@ -70,7 +71,34 @@ namespace AlfaFoodBack.Models
                 var workingTime = reader[8].ToString();
                 reader.Close();
 
-                yield return new Restaurant(responeId, name, city, address, description, responeOwnerId, phone, workingTime);
+                yield return new Restaurant(restaurantId, name, city, address, description, responeOwnerId, phone, workingTime);
+            }
+        }
+
+        public IEnumerable<IDbEntity> GetAllRestaurants(NpgsqlConnection dbCon)
+        {
+            var command = dbCon.CreateCommand();
+            command.CommandType = CommandType.Text;
+            command.CommandText = "SELECT *" +
+                                  "FROM restaurants";
+            var reader = command.ExecuteReader();
+            if (!reader.HasRows)
+                yield return null;
+
+            while (reader.Read())
+            {
+                var restaurantId = int.Parse(reader[1].ToString());
+                var name = reader.GetValue(2).ToString();  // надо организовать получение всех значений через reader.GetValue
+                var city = reader[3].ToString();
+                var address = reader[4].ToString();
+                var description = reader[5].ToString();
+                var ownerId = int.Parse(reader[6].ToString());
+                var phone = reader[7].ToString();
+                var workingTime = reader[8].ToString();
+                //var imageMap = reader[8].ToString();
+                reader.Close();
+
+                yield return new Restaurant(restaurantId, name, city, address, description, ownerId, phone, workingTime);
             }
         }
     }
