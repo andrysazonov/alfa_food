@@ -26,12 +26,12 @@ namespace AlfaFoodBack.Controllers
             var address = dict["address"].ToString();
             var phoneNumber = dict["phone"].ToString();
             var workingTime = dict["workingTime"].ToString();
-            var ownerId = dict["userId"].ToString();
+            var ownerId = int.Parse(dict["userId"].ToString());
             var image = dict["image-map"];
 
             try
             {
-                var restaurant = new Restaurant(businessId, name, city, address, description,1 ,  phoneNumber, workingTime); //ownerId,
+                var restaurant = new Restaurant(businessId, name, city, address, description, ownerId,  phoneNumber, workingTime); 
                 using (var dbCon = PostgresConn.GetConn())
                 {
                     new RestaurantRepository().Insert(dbCon, restaurant);
@@ -46,7 +46,7 @@ namespace AlfaFoodBack.Controllers
         }
 
         [HttpGet("all")]
-        public List<Restaurant> GetAllRestaurants()
+        public async void GetAllRestaurants()
         {
             Response.Headers.Add("Access-Control-Allow-Origin", "*");
             var restaurants = new List<Restaurant>();
@@ -55,16 +55,16 @@ namespace AlfaFoodBack.Controllers
                 using (var dbCon = PostgresConn.GetConn())
                 {
                     var restaurantRepositoryResponce = new RestaurantRepository().GetAllRestaurants(dbCon);
-                    foreach (var i in restaurantRepositoryResponce)
-                        restaurants.Add(i as Restaurant);
-                    Response.StatusCode = 201;
+                    var json = JsonConvert.SerializeObject(restaurants);
+                    await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(json));
+                    Response.StatusCode = 200;
                 }
 
             }
             catch (Exception e)
             {
-                Response.WriteAsync(e.Message);
                 Response.StatusCode = 400;
+                await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(e.Message));
             }
 
             return restaurants;
@@ -106,7 +106,6 @@ namespace AlfaFoodBack.Controllers
                     var json = JsonConvert.SerializeObject(restaurants);
                     await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(json));
                     Response.StatusCode = 200;
-
                 }
             }
             catch (Exception e)
