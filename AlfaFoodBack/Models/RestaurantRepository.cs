@@ -101,5 +101,32 @@ namespace AlfaFoodBack.Models
                 yield return new Restaurant(restaurantId, name, city, address, description, ownerId, phone, workingTime);
             }
         }
+
+        public IEnumerable<IDbEntity> GetInCity(NpgsqlConnection dbCon, string cityName)
+        {
+            var command = dbCon.CreateCommand();
+            command.CommandType = CommandType.Text;
+            command.CommandText = "SELECT *" +
+                                  "FROM restaurants" +
+                                  $"WHERE city = {cityName}";
+            var reader = command.ExecuteReader();
+            if (!reader.HasRows)
+                yield return null;
+
+            while (reader.Read())
+            {
+                var restaurantId = int.Parse(reader.GetValue(1).ToString());
+                var name = reader.GetValue(2).ToString();
+                var city = reader.GetValue(3).ToString();
+                var address = reader.GetValue(4).ToString();
+                var description = reader.GetValue(5).ToString(); 
+                var responeOwnerId = int.Parse(reader.GetValue(6).ToString());
+                var phone = reader.GetValue(7).ToString();
+                var workingTime = reader.GetValue(8).ToString();
+                reader.Close();
+
+                yield return new Restaurant(restaurantId, name, city, address, description, responeOwnerId, phone, workingTime);
+            }
+        }
     }
 }
