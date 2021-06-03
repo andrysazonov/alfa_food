@@ -66,8 +66,6 @@ namespace AlfaFoodBack.Controllers
                 Response.StatusCode = 400;
                 await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(e.Message));
             }
-
-            return restaurants;
         }
 
         [HttpGet("{restaurantId:int}")]
@@ -115,7 +113,7 @@ namespace AlfaFoodBack.Controllers
             }
         }
 
-        [HttpGet("city/{cityName:string}")]
+        [HttpGet("city/{cityName}")]
         public async void GetRestaurantsInCity(string cityName)
         {
             Response.Headers.Add("Access-Control-Allow-Origin", "*");
