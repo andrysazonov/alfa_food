@@ -10,7 +10,7 @@ type LoggedInUserType = {
 let initialState = {
     login: null as (string | null),
     email: null as (string | null),
-    loggedInUser: { role: "owner"} as LoggedInUserType
+    loggedInUser: { role: "none"} as LoggedInUserType
 }
 
 
@@ -40,6 +40,7 @@ export const login = (email: string, password: string): ThunkType => async (disp
     console.log('LOGIN DATA: ', loggedInUser)
     if (loggedInUser) {
         dispatch(actions.setAuthUserData(loggedInUser))
+        // history.go('/')
     }
 }
 

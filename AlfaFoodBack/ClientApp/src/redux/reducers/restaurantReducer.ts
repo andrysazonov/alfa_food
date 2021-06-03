@@ -72,9 +72,10 @@ export const getEstablishment = (establishmentId: string): ThunkType => async (d
 
 }
 
-export const addEstablishment = (data : any): ThunkType => async (dispatch) => {
+export const addEstablishment = (data : any, image: any): ThunkType => async (dispatch) => {
     try {
-        await restaurantAPI.addRestaurant(data)
+        let id =  await restaurantAPI.addRestaurant(data)
+        let byid = restaurantAPI.addRestaurantImage(image)
         console.log('good add establ...')
         // dispatch(actions.setCurrentRestaurant(data))
     } catch(e) {

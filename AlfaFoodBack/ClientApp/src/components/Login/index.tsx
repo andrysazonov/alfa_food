@@ -8,7 +8,7 @@ import {actions, login} from '../../redux/reducers/authReducer'
 import "./index.scss"
 
 import { useDispatch } from "react-redux";
-import {Link, NavLink} from "react-router-dom";
+import { Link, NavLink, useHistory } from "react-router-dom";
 import {authAPI} from "../../api/auth-api";
 
 type LoginFormOwnProps = {
@@ -105,11 +105,13 @@ const LoginPage: React.FC = () => {
     useDocumentTitle("Вход")
 
     const dispatch = useDispatch()
+    const history = useHistory()
+
 
     const onSubmit = async (data: LoginFormValuesType) => {
         let { email, password} = data
-        dispatch(login(email, password))
-
+        await dispatch(login(email, password))
+        history.push('/')
         // try {
         //     let loggedInUser = await authAPI.login(email,password)
         //     console.log('loggedInUserwewwewewe')

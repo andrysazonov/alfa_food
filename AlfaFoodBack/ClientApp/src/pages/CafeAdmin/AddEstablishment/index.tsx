@@ -52,6 +52,7 @@ const FieldFileInput  = (props: any) => {
                 <div>
                     <input
                         className="new-establishment-form__file-input"
+                        id="import__image"
                         type='file'
                         accept='.jpg, .png, .jpeg'
                         onChange={onChange}
@@ -175,7 +176,7 @@ const AddEstablishmentForm: React.FC<InjectedFormProps<AddEstablishmentFormValue
                 />
                 <Field
                     placeholder="БизнесИД"
-                    name="restaurantId"
+                    name="businessId"
                     component={renderInputField}
                     type="text"
                     validate={[required]}
@@ -277,7 +278,9 @@ const AddEstablishment = () => {
 
 
     const onSubmit = (data: any) => {
-        data['workingTime'] = [
+        let new_data = {}
+        // @ts-ignore
+        new_data['workingTime'] = [
             [],
             [],
             [],
@@ -286,48 +289,40 @@ const AddEstablishment = () => {
             [],
             []
         ]
-        data['userId'] = user_id
-        
+        //@ts-ignore
+        new_data['userId'] = user_id
         for (let i in data) {
+            console.log('i again::: ', i )
             if (i.startsWith('day')) {
-                delete data[i]
+                //@ts-ignore
                 //@ts-ignore
                 if (i.includes("start")) {
                     let day = i.slice(-2)
                     //@ts-ignore
                     // print(days[day])
-                    data.workingTime[days.indexOf(day)][0] = data[i]
+                    new_data.workingTime[days.indexOf(day)][0] = data[i]
                 } else if (i.includes("end")) {
                     let day = i.slice(-2)
                     //@ts-ignore
-                    data.workingTime[days.indexOf(day)][1] = data[i]
+                    new_data.workingTime[days.indexOf(day)][1] = data[i]
                 }
 
+            } else {
+                //@ts-ignore
+                new_data[i] = data[i]
             }
         }
-        console.log('pre-data: ::  ', data)
-        // for (let i in data) {
-        //     console.log('i again::: ', i )
-        //     if (i.startsWith('day')) {
-        //         //@ts-ignore
-        //         if (i.includes("start")) {
-        //             let day = i.slice(-2)
-        //             //@ts-ignore
-        //             // print(days[day])
-        //             new_data.workingTime[days.indexOf(day)][0] = data[i]
-        //         } else if (i.includes("end")) {
-        //             let day = i.slice(-2)
-        //             //@ts-ignore
-        //             new_data.workingTime[days.indexOf(day)][1] = data[i]
-        //         }
-        //
-        //     } else {
-        //         //@ts-ignore
-        //         new_data[i] = data[i]
-        //     }
-        // }
-        dispatch(addEstablishment(data))
+
+
+        //@ts-ignore
+        let my_img = document.getElementById("import__image").files[0]
+
+        let formData = new FormData()
+        formData.append('image', my_img)
+        dispatch(addEstablishment(new_data, formData))
     }
+
+
 
     return (
         <div
