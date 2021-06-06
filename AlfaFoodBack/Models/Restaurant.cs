@@ -6,7 +6,8 @@ namespace AlfaFoodBack.Models
 {
     public class Restaurant : IDbEntity
     {
-        public int Id;
+        public readonly Guid Id;
+        public readonly int BusinessId;
         public readonly string Name;
         public readonly string PhoneNumber;
         public readonly string City;
@@ -14,11 +15,34 @@ namespace AlfaFoodBack.Models
         public readonly string Description; //надо добавить возможность изменять описание ресторана и возможность не добавлять его при регистрации
         public readonly int OwnerId; 
         //private List<int> Workers; // id людей, работающих в ресторане, имеющих свои задачи в приложении (прим. официант, хостес)
-        public readonly string WorkingTime; //время работы, добавляется уже после создания в настройках ресторана. 
+        public readonly string WorkingTime; 
         public bool Published;
         public readonly byte[] ImageMap;
 
-        public Restaurant(int id, string name, string city, string address, string description, int ownerId, string phoneNumber, string workingTime = null, byte[] imageMap = null)
+        public Restaurant(int businessId, string name, string city, string address, // первое создание без id и картинки
+                            string description, int ownerId, string phoneNumber, 
+                            string workingTime, bool published)
+        {
+            if (!IsPhoneNumberValid(phoneNumber))
+                throw new Exception("Invalid phone number");
+            if (!IsAddressValid(address))
+                throw new Exception("Invalid address");
+
+            Id = Guid.NewGuid();
+            BusinessId = businessId;
+            Name = name;
+            PhoneNumber = phoneNumber;
+            City = city;
+            Address = address;
+            Description = description;
+            OwnerId = ownerId;
+            WorkingTime = workingTime;
+            ImageMap = null;
+        }
+
+        public Restaurant(int businessId, string name, string city, string address,
+                            string description, int ownerId, string phoneNumber,
+                            string workingTime, bool published, Guid id, byte[] imageMap = null)
         {
             if (!IsPhoneNumberValid(phoneNumber))
                 throw new Exception("Invalid phone number");
@@ -26,15 +50,15 @@ namespace AlfaFoodBack.Models
                 throw new Exception("Invalid address");
 
             Id = id;
+            BusinessId = businessId;
             Name = name;
             PhoneNumber = phoneNumber;
             City = city;
             Address = address;
             Description = description;
             OwnerId = ownerId;
-            WorkingTime = workingTime==null?"8:00,23:00": workingTime;
+            WorkingTime = workingTime;
             ImageMap = imageMap;
-
         }
 
 
