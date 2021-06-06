@@ -6,6 +6,6 @@ namespace AlfaFoodBack.Models
     {
         public void Insert(NpgsqlConnection dbCon, IDbEntity entity);
         public void Update(NpgsqlConnection dbCon, IDbEntity entity);
-        public IDbEntity GetById(NpgsqlConnection dbCon, int id);
+        //public IDbEntity GetById(NpgsqlConnection dbCon, int id);
     }
 }
