@@ -28,21 +28,28 @@ namespace AlfaFoodBack.Controllers
             var password = dict["password"].ToString();
             var phone = dict["phone"].ToString();
             var username = dict["username"].ToString();
+            var role = "none";
             try
             {
-                user = new User(email, password, username, phone);
+                user = new User(email, password, username, phone, role);
                 using (var dbCon = PostgresConn.GetConn())
                 {
                     new UserRepository().Insert(dbCon, user);
+                    Response.StatusCode = 201;
                 }
+
+                Console.WriteLine("insert");
 
                 using (var dbCon = PostgresConn.GetConn())
                 {
-                    user = UserRepository.IsAuth(user.Email, user.Password, dbCon);
+                    user = UserRepository.IsAuth(email, password, dbCon);
                 }
+                
+                Console.WriteLine("get");
                 var now = DateTime.UtcNow;
                 var claims = new List<Claim>();
                 claims.Add(new Claim(ClaimsIdentity.DefaultNameClaimType, user.Email));
+                
                 claims.Add(new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role));
                 var jwt = new JwtSecurityToken(
                     issuer: AuthOptions.ISSUER,
@@ -55,6 +62,7 @@ namespace AlfaFoodBack.Controllers
                 var serializerSettings = new JsonSerializerSettings();
                 serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                 var json = JsonConvert.SerializeObject(user, serializerSettings);
+                Console.WriteLine(json);
                 Response.Cookies.Append("token", encodedJwt);
                 await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(json));
                 

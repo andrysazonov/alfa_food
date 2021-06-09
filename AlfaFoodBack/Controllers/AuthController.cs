@@ -38,9 +38,28 @@ namespace AlfaFoodBack.Controllers
             }
         }
         
+        [HttpDelete("phys")]
+        public async void LogOutPhys()
+        {
+            try
+            {
+                if (Request.Cookies["token"] != null)
+                {
+                    Response.Cookies.Append("token", "", new CookieOptions(){Expires = DateTime.Now.AddDays(-1d)});
+                }
+                Response.StatusCode = 200;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                Response.StatusCode = 400;
+            }
+        }
+        
         [HttpPost("phys")]
         public async void AuthPhys(object data)
         {
+            Console.WriteLine("helloooo");
             Response.Headers.Add("Access-Control-Allow-Origin", "*");
             var dict = JObject.Parse(data.ToString());
             var email = dict["email"].ToString();
