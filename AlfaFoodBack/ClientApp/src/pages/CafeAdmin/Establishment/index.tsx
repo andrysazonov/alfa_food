@@ -4,6 +4,7 @@ import {Switch, Route, NavLink} from "react-router-dom";
 
 
 import {AppStateType} from "../../../redux/store";
+import { getEstablishment } from "../../../redux/reducers/restaurantReducer";
 import CommonInformation from "./Common";
 import Bookings from "./Bookings";
 
@@ -27,11 +28,12 @@ const Establishment = ({ id }: IEstablishmentProps) => {
 
 
     useEffect(() => {
-        // get establishment by id
-        console.log('est ost and match: ', id)
-        console.log('current est:  ', currentEstablishment)
-    }, [])
+        dispatch(getEstablishment(id))
+    }, [id])
 
+    // useEffect(() => {
+    //     console.log('city::: ', currentEstablishment.City)
+    // }, [currentEstablishment])
 
     return (
         <div

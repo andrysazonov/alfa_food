@@ -8,8 +8,9 @@ import { useSelector, useDispatch } from "react-redux";
 import './index.scss'
 import Establishment from "../Establishment";
 import AddEstablishment from "../AddEstablishment";
-import { AppStateType } from "../../../redux/store";
 
+import { AppStateType } from "../../../redux/store";
+import { getEstablishmets } from "../../../redux/reducers/restaurantReducer";
 
 
 interface IEstablishmentItemList {
@@ -56,14 +57,18 @@ const AddEstablishmentBtn = () => {
 
 
 const Establishments = () => {
+    const dispatch = useDispatch()
+    const establishments = useSelector((state: AppStateType) => state.restaurants.establishmentsList)
+    const ownerId = useSelector((state: AppStateType) => state.auth.loggedInUser.id)
 
 
     useDocumentTitle("Заведения")
-    const establishments = useSelector((state: AppStateType) => state.restaurants.establishmentsList)
+
 
     useEffect(() => {
-        console.log('Заведения завелись: ', establishments)
+        dispatch(getEstablishmets(ownerId))
     }, [])
+
     return (
         <div
             className="establishments__content"
@@ -74,8 +79,8 @@ const Establishments = () => {
                         className="establishments-list__title"
                     >Заведения</h1>
                     {
-                        establishments.map((est: {id: string, title: string}) => (
-                            <EstablishmentItemList id={est.id} name={est.title} />
+                        establishments.map((est: any) => (
+                            <EstablishmentItemList id={est.id} name={est.name} />
                         ))
                     }
                     <div className="establishments-list__btn">

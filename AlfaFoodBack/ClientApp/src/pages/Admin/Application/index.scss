@@ -15,6 +15,8 @@
   &__confirmation {
     border: 1px solid black;
     margin-top: 40px;
+    display: flex;
+    padding: 30px;
   }
 
 
@@ -32,10 +34,63 @@
   }
 
   &__marking-tables {
-    margin: 50px 0;
+    //margin: 50px 20px;
+    flex-basis: 30%;
+  }
+  &__upload {
+    flex-basis: 70%;
+  }
+  &__btn {
+    padding: 6px 10px;
+    border: 1px solid black;
   }
 
+  &__btn--main {
+    background: #66afe9;
+    margin-right: 20px;
+    transition: opacity .3s ease;
+    &:hover {
+      opacity: .7;
+    }
+  }
+
+  &__btn--secondary {
+    background: white;
+    transition: opacity .3s ease;
+    &:hover {
+      opacity: .7;
+    }
+  }
+
+  &__buttons {
+    margin-top: 40px;
+  }
+
+  &__file-upload {
+    margin-bottom: 40px;
+  }
+
+  &__tables-title {
+    font-weight: 500;
+    font-size: 20px;
+  }
+
+  &__tables-list {
+    margin-left: 10px;
+    margin-top: 10px;
+    li {
+      margin: 15px 0;
+    }
+  }
+  &__tooltip {
+    margin-top: 20px;
+    height: 20px;
+    vertical-align: bottom;
+    border-bottom: 1px solid black;
+    margin-bottom: 40px;
+  }
   &__content  {
+    min-height: 320px;
     svg {
       pointer-events: none!important;
     }
@@ -47,5 +102,32 @@
       pointer-events: all!important;
       fill: yellow!important;
     }
+  }
+}
+
+.tooltip {
+  z-index: 999!important;
+  padding: 10px 20px!important;
+  border: 1px solid #b3c9ce!important;
+  border-radius: 4px!important;
+  color: #333!important;
+  box-shadow: 3px 3px 3px rgba(0, 0, 0, .3)!important;
+}
+
+.addTable {
+  &__btn {
+
+  }
+
+  &__wrapper {
+    display: flex;
+    gap: 10px;
+  }
+
+  &__id {
+    width: 60px;
+  }
+  &__name {
+    width: 60px;
   }
 }

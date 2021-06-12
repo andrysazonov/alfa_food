@@ -36,12 +36,12 @@ export const getCurrentUser = (): ThunkType => async (dispatch) => {
 
 export const login = (email: string, password: string): ThunkType => async (dispatch) => {
 
-    let loggedInUser = await authAPI.login(email,password)
-    console.log('LOGIN DATA: ', loggedInUser)
-    if (loggedInUser) {
-        dispatch(actions.setAuthUserData(loggedInUser))
-        // history.go('/')
+    let data = await authAPI.login(email,password)
+    console.log('LOGIN DATA: ', data)
+    if (data) {
+        dispatch(actions.setAuthUserData(data))
     }
+        // history.go('/')
 }
 
 export const logout = (): ThunkType => async (dispatch) => {

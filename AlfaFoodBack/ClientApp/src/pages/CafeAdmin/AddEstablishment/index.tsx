@@ -278,6 +278,8 @@ const AddEstablishment = () => {
 
 
     const onSubmit = (data: any) => {
+
+        let formData = new FormData()
         let new_data = {}
         // @ts-ignore
         new_data['workingTime'] = [
@@ -292,7 +294,6 @@ const AddEstablishment = () => {
         //@ts-ignore
         new_data['userId'] = user_id
         for (let i in data) {
-            console.log('i again::: ', i )
             if (i.startsWith('day')) {
                 //@ts-ignore
                 //@ts-ignore
@@ -308,6 +309,7 @@ const AddEstablishment = () => {
                 }
 
             } else {
+
                 //@ts-ignore
                 new_data[i] = data[i]
             }
@@ -317,7 +319,6 @@ const AddEstablishment = () => {
         //@ts-ignore
         let my_img = document.getElementById("import__image").files[0]
 
-        let formData = new FormData()
         formData.append('image', my_img)
         dispatch(addEstablishment(new_data, formData))
     }

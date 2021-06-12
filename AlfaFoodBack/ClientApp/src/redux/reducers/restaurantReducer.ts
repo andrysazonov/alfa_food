@@ -1,5 +1,6 @@
-import {restaurantAPI} from "../../api/restaurant-api";
+import { restaurantAPI } from "../../api/restaurant-api";
 import {BaseThunkType, InferActionsType} from "../store";
+import {Dispatch} from "redux";
 
 //
 type EstablishmentItemType = {
@@ -20,31 +21,9 @@ export type EstablishmentType = {
 }
 
 let initialState = {
-    establishmentsList: [
-        {
-            title: "Заведение Криветка",
-            id: "krivetka1"
-        },
-        {
-            title: "Заведение  Rare Криветка",
-            id: "rarekrivetka1"
-        }
-    ],
+    establishmentsList: [],
     // currentEstablishment: null as EstablishmentType | null
-    currentEstablishment: {
-        name: "F123213123",
-        description: "diofffsdfsdf",
-        address: "here",
-        daysWork: [
-            ['11:11', '12:11'],
-            ['11:11', '12:11'],
-            ['11:11', '12:11'],
-            ['11:11', '12:11'],
-            ['11:11', '12:11'],
-            ['11:11', '12:11'],
-            ['11:11', '12:11'],
-        ]
-    }
+    currentEstablishment: {}
 }
 
 
@@ -55,27 +34,34 @@ export const actions = {
         payload: establishment
     } as const),
     setEstablishmentsList: (establishments: EstablishmentItemType[] | null)  => ({
-        type: "Restaurant/SET_RESTAURANT_DATA",
-        payload: { establishments }
+        type: "Restaurant/SET_ESTABLISHMENTS_LIST",
+        payload: establishments
     } as const)
 }
 
 
 
-export const getEstablishment = (establishmentId: string): ThunkType => async (dispatch) => {
-    try {
-        let data = await restaurantAPI.getRestaurant(establishmentId) as EstablishmentType
-        dispatch(actions.setCurrentRestaurant(data))
-    } catch(e) {
-        console.log('error is: ', e)
-    }
+export const getEstablishment = (establishmentId: string): ThunkType => async (dispatch: Dispatch) => {
+    // try {
+    let data = await restaurantAPI.getRestaurant(establishmentId)
+    dispatch(actions.setCurrentRestaurant(data))
+    // } catch(e) {
+    //     console.log('error is: ', e)
+    // }
+}
 
+
+export const getEstablishmets = (ownerId: string): ThunkType => async (dispatch: Dispatch) => {
+    console.log('somee')
+    let data = await restaurantAPI.getOwnerRestaurants(ownerId)
+    console.log(`get data by owner ID: ${data}`)
+    dispatch(actions.setEstablishmentsList(data))
 }
 
 export const addEstablishment = (data : any, image: any): ThunkType => async (dispatch) => {
     try {
         let id =  await restaurantAPI.addRestaurant(data)
-        let byid = restaurantAPI.addRestaurantImage(image)
+        let byid = restaurantAPI.addRestaurantImage(id, image)
         console.log('good add establ...')
         // dispatch(actions.setCurrentRestaurant(data))
     } catch(e) {
@@ -89,16 +75,17 @@ export const addEstablishment = (data : any, image: any): ThunkType => async (di
 
 const restaurantReducer = ( state = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
-        case 'Restaurant/SET_RESTAURANT_DATA':
+        case "Restaurant/SET_ESTABLISHMENTS_LIST":
             return {
                 ...state,
-                ...action.payload
+                //@ts-ignore
+                establishmentsList: action.payload
             }
         case "Restaurant/SET_CURRENT_RESTAURANT":
             return {
                 ...state,
                 //@ts-ignore
-                currentRestaurant: action.payload
+                currentEstablishment: action.payload
             }
         default:
             return state
