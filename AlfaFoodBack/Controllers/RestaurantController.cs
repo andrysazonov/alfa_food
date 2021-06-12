@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Serialization;
 
 namespace AlfaFoodBack.Controllers
 {
@@ -86,7 +87,9 @@ namespace AlfaFoodBack.Controllers
                 using (var dbCon = PostgresConn.GetConn())
                 {
                     var restaurants = new RestaurantRepository().GetAllRestaurants(dbCon);
-                    var json = JsonConvert.SerializeObject(restaurants);
+                    var serializerSettings = new JsonSerializerSettings();
+                    serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                    var json = JsonConvert.SerializeObject(restaurants, serializerSettings);
                     Response.StatusCode = 200;
                     await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(json));
                 }
@@ -107,7 +110,9 @@ namespace AlfaFoodBack.Controllers
                 using (var dbCon = PostgresConn.GetConn())
                 {
                     var restaurants = new RestaurantRepository().GetById(dbCon, restaurantId);
-                    var json = JsonConvert.SerializeObject(restaurants);
+                    var serializerSettings = new JsonSerializerSettings();
+                    serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                    var json = JsonConvert.SerializeObject(restaurants, serializerSettings);
                     Response.StatusCode = 200;
                     await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(json));
                 }
@@ -128,7 +133,9 @@ namespace AlfaFoodBack.Controllers
                 using (var dbCon = PostgresConn.GetConn())
                 {
                     var restaurants = new RestaurantRepository().GetByOwnerId(dbCon, ownerId);
-                    var json = JsonConvert.SerializeObject(restaurants);
+                    var serializerSettings = new JsonSerializerSettings();
+                    serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                    var json = JsonConvert.SerializeObject(restaurants, serializerSettings);
                     Response.StatusCode = 200;
                     await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(json));
                 }
@@ -148,7 +155,9 @@ namespace AlfaFoodBack.Controllers
                 using (var dbCon = PostgresConn.GetConn())
                 {
                     var restaurants = new RestaurantRepository().GetInCity(dbCon, cityName);
-                    var json = JsonConvert.SerializeObject(restaurants);
+                    var serializerSettings = new JsonSerializerSettings();
+                    serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                    var json = JsonConvert.SerializeObject(restaurants, serializerSettings);
                     await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(json));
                     Response.StatusCode = 200;
                 }
