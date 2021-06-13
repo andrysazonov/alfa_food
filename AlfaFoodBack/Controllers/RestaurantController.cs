@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using AlfaFoodBack.Models;
 using Microsoft.AspNetCore.Http;
@@ -28,16 +29,17 @@ namespace AlfaFoodBack.Controllers
             var phoneNumber = dict["phone"].ToString();
             var workingTime = dict["workingTime"].ToString();
             var ownerId = int.Parse(dict["userId"].ToString());
+            var email = dict["email"].ToString();
 
             try
             {
-                var restaurant = new Restaurant(businessId, name, city, address, description, ownerId,  phoneNumber, workingTime, false); 
+                var restaurant = new Restaurant(businessId, name, city, address, description, ownerId,  phoneNumber, workingTime, false, email); 
                 using (var dbCon = PostgresConn.GetConn())
                 {
                     new RestaurantRepository().Insert(dbCon, restaurant);
-                    Response.StatusCode = 201;
-                    await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(restaurant.Id.ToString()));
                 }
+                Response.StatusCode = 201;
+                await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(restaurant.Id.ToString()));
             }
             catch (Exception e)
             {
@@ -46,37 +48,36 @@ namespace AlfaFoodBack.Controllers
             }
         }
 
-        //[HttpPost("add/image/{id}")]
-        //public async void AddImage(string id)
-        //{
-        //    Response.Headers.Add("Access-Control-Allow-Origin", "*");
-        //    var dict = JObject.Parse(data.ToString())["data"];
+        [HttpPost("add/image/{id}")]
+        public async void AddImage(string id, [FromForm] IFormFile image)
+        {
+            //Response.Headers.Add("Access-Control-Allow-Origin", "*");
 
-        //    var businessId = int.Parse(dict["businessId"].ToString());
-        //    var name = dict["name"].ToString();
-        //    var description = dict["description"].ToString();
-        //    var city = dict["city"].ToString();
-        //    var address = dict["address"].ToString();
-        //    var phoneNumber = dict["phone"].ToString();
-        //    var workingTime = dict["workingTime"].ToString();
-        //    var ownerId = int.Parse(dict["userId"].ToString());
+            byte[] fileBytes;
+            using (var memoryStream = new MemoryStream())
+            {
+                await image.CopyToAsync(memoryStream);
+                fileBytes = memoryStream.ToArray();
+            }
 
-        //    try
-        //    {
-        //        var restaurant = new Restaurant(businessId, name, city, address, description, ownerId, phoneNumber, workingTime);
-        //        using (var dbCon = PostgresConn.GetConn())
-        //        {
-        //            new RestaurantRepository().Insert(dbCon, restaurant);
-        //            await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(restaurant.Id.ToString()));
-        //            Response.StatusCode = 201;
-        //        }
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        await Response.WriteAsync(e.Message);
-        //        Response.StatusCode = 400;
-        //    }
-        //}
+            try
+            {
+                using (var dbCon = PostgresConn.GetConn())
+                {
+                    var restaurant = new RestaurantRepository().GetById(dbCon, Guid.Parse(id)) as Restaurant;
+                    restaurant.ImageMap = fileBytes;
+                    new RestaurantRepository().Update(dbCon, restaurant);
+
+                    Response.StatusCode = 201;
+                }
+            }
+            catch (Exception e)
+            {
+                //Response.StatusCode = 400;
+                //await Response.WriteAsync(e.Message);
+            }
+
+        }
 
 
         [HttpGet("all")]
@@ -109,10 +110,10 @@ namespace AlfaFoodBack.Controllers
             {
                 using (var dbCon = PostgresConn.GetConn())
                 {
-                    var restaurants = new RestaurantRepository().GetById(dbCon, restaurantId);
+                    var restaurant = new RestaurantRepository().GetById(dbCon, restaurantId);
                     var serializerSettings = new JsonSerializerSettings();
                     serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-                    var json = JsonConvert.SerializeObject(restaurants, serializerSettings);
+                    var json = JsonConvert.SerializeObject(restaurant, serializerSettings);
                     Response.StatusCode = 200;
                     await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(json));
                 }
@@ -158,8 +159,8 @@ namespace AlfaFoodBack.Controllers
                     var serializerSettings = new JsonSerializerSettings();
                     serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                     var json = JsonConvert.SerializeObject(restaurants, serializerSettings);
-                    await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(json));
                     Response.StatusCode = 200;
+                    await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(json));
                 }
             }
             catch (Exception e)

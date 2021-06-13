@@ -13,8 +13,10 @@ namespace AlfaFoodBack.Models
             var command = dbCon.CreateCommand();
             command.CommandType = CommandType.Text;
             command.CommandText =
-                $"INSERT INTO restaurants (id, businessId, name, city, address, description, ownerId, phoneNumber, workingTime, published) " +
-                $"VALUES('{restaurant.Id}', '{restaurant.BusinessId}', '{restaurant.Name}','{restaurant.City}', '{restaurant.Address}', '{restaurant.Description}', '{restaurant.OwnerId}', '{restaurant.PhoneNumber}',  '{restaurant.WorkingTime}', '{restaurant.Published}')";
+                $"INSERT INTO restaurants (id, businessId, name, city, address, description, ownerId, phoneNumber, workingTime, published, email) " +
+                $"VALUES('{restaurant.Id}', '{restaurant.BusinessId}', '{restaurant.Name}','{restaurant.City}', '{restaurant.Address}', " +
+                $"'{restaurant.Description}', '{restaurant.OwnerId}', '{restaurant.PhoneNumber}',  '{restaurant.WorkingTime}', " +
+                $"'{restaurant.Published}', '{restaurant.Email}')";
             command.ExecuteNonQuery();
         }
 
@@ -24,12 +26,13 @@ namespace AlfaFoodBack.Models
             var command = dbCon.CreateCommand();
             command.CommandType = CommandType.Text;
             command.CommandText =
-                $"UPDATE restaurants" +
+                $"UPDATE restaurants " +
                 $"SET " +
-                    $"businessId='{restaurant.BusinessId}', name='{restaurant.Name}', city='{restaurant.City}'," +
-                    $"address='{restaurant.Address}', ' description={restaurant.Description}', ownerId='{restaurant.OwnerId}'," +
-                    $"phoneNumber='{restaurant.PhoneNumber}',  workingTime='{restaurant.WorkingTime}', published='{restaurant.Published}')" +
-                $"WHERE id='{restaurant.Id}'";
+                    $"businessId = '{restaurant.BusinessId}', name = '{restaurant.Name}', city = '{restaurant.City}', " +
+                    $"address = '{restaurant.Address}', description = '{restaurant.Description}', ownerId = '{restaurant.OwnerId}', " +
+                    $"phoneNumber = '{restaurant.PhoneNumber}',  workingTime = '{restaurant.WorkingTime}', published = '{restaurant.Published}', " +
+                    $"email = '{restaurant.Email}', imagemap='{restaurant.ImageMap}' " +
+                $"WHERE id = '{restaurant.Id}';";
             command.ExecuteNonQuery();
         }
 
@@ -57,8 +60,16 @@ namespace AlfaFoodBack.Models
             if (!reader.IsDBNull("workingTime"))
                 workingTime = reader.GetString("workingTime");
 
+            var email = default(string);
+            if (!reader.IsDBNull("email"))
+                email = reader.GetString("email");
+
+            var imageMap = default(byte[]);
+            if (!reader.IsDBNull("imageMap"))
+                imageMap = reader.GetFieldValue<byte[]>("imageMap");
+
             reader.Close();
-            return new Restaurant(businessId, name, city, address, description, ownerId, phone, workingTime, published, id);
+            return new Restaurant(businessId, name, city, address, description, ownerId, phone, workingTime, published, id, email, imageMap);
         }
 
         public IEnumerable<IDbEntity> GetByOwnerId(NpgsqlConnection dbCon, int ownerId)
@@ -83,9 +94,16 @@ namespace AlfaFoodBack.Models
                 var workingTime = default(string);
                 if (!reader.IsDBNull("workingTime"))
                     workingTime = reader.GetString("workingTime");
+                var email = default(string);
+                if (!reader.IsDBNull("email"))
+                    email = reader.GetString("email");
+
+                var imageMap = default(byte[]);
+                if (!reader.IsDBNull("imageMap"))
+                    imageMap = reader.GetFieldValue<byte[]>("imageMap");
 
                 var id = reader.GetGuid("id");
-                yield return new Restaurant(businessId, name, city, address, description, ownerIdResponce, phone, workingTime, published, id);
+                yield return new Restaurant(businessId, name, city, address, description, ownerIdResponce, phone, workingTime, published, id, email, imageMap);
             }
 
             reader.Close();
@@ -113,9 +131,17 @@ namespace AlfaFoodBack.Models
                 var workingTime = default(string);
                 if (!reader.IsDBNull("workingTime"))
                     workingTime = reader.GetString("workingTime");
+
+                var email = default(string);
+                if (!reader.IsDBNull("email"))
+                    email = reader.GetString("email");
                 var id = reader.GetGuid("id");
 
-                yield return new Restaurant(businessId, name, city, address, description, ownerId, phone, workingTime, published, id);
+                var imageMap = default(byte[]);
+                if (!reader.IsDBNull("imageMap"))
+                    imageMap = reader.GetFieldValue<byte[]>("imageMap");
+
+                yield return new Restaurant(businessId, name, city, address, description, ownerId, phone, workingTime, published, id, email, imageMap);
             }
 
             reader.Close();
@@ -125,7 +151,7 @@ namespace AlfaFoodBack.Models
         {
             var command = dbCon.CreateCommand();
             command.CommandType = CommandType.Text;
-            command.CommandText = $"SELECT * FROM \"restaurants\" WHERE 'city' = {cityName}";
+            command.CommandText = $"SELECT * FROM \"restaurants\" WHERE city = '{cityName}';";
             var reader = command.ExecuteReader();
             if (!reader.HasRows)
                 yield return null;
@@ -143,9 +169,17 @@ namespace AlfaFoodBack.Models
                 var workingTime = default(string);
                 if (!reader.IsDBNull("workingTime"))
                     workingTime = reader.GetString("workingTime");
+
+                var email = default(string);
+                if (!reader.IsDBNull("email"))
+                    email = reader.GetString("email");
                 var id = reader.GetGuid("id");
 
-                yield return new Restaurant(businessId, name, city, address, description, ownerId, phone, workingTime, published, id);
+                var imageMap = default(byte[]);
+                if (!reader.IsDBNull("imageMap"))
+                    imageMap = reader.GetFieldValue<byte[]>("imageMap");
+
+                yield return new Restaurant(businessId, name, city, address, description, ownerId, phone, workingTime, published, id, email, imageMap);
             }
         }
     }
