@@ -25,8 +25,8 @@ const AboutMobile = () => {
                 <div className="aboutMobileSection__content">
                     <ul className="aboutMobileSection__features">
                         {
-                            features.map((feauture) => (
-                                <li>
+                            features.map((feauture,index) => (
+                                <li key={index}>
                                     <div
                                         key={feauture}
                                         className="aboutMobileSection__feature"

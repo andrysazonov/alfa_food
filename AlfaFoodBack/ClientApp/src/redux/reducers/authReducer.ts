@@ -68,7 +68,7 @@ export const register = (email: string, password: string, phone: string, usernam
 
 
 
-const authReducer = ( state = initialState, action: ActionsType) => {
+const authReducer = ( state = initialState, action: ActionsType) :any => {
     switch (action.type) {
         case 'Auth/SET_USER_DATA':
             return {
