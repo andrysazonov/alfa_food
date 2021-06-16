@@ -12,7 +12,7 @@ if (access_token) {
 
 export const instance = axios.create({
     withCredentials: true,
-    baseURL: 'http://192.168.99.1:80',
+    baseURL: '/',
     headers: headers
 })
 

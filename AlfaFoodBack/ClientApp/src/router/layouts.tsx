@@ -67,7 +67,7 @@ export const CafeAdminLayout = () => (
             />
             {cafeAdminRoutes.map((route, index) => (
                 //@ts-ignore
-                <Route {...route}/>
+                <Route key={index} {...route}/>
             ))}
             <Redirect to="/404" />
         </Switch>

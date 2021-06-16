@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using SignalRApp;
 
 namespace AlfaFoodBack
 {
@@ -37,7 +38,7 @@ namespace AlfaFoodBack
                     };
                 });
             services.AddControllersWithViews();
-
+            services.AddSignalR();
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/build"; });
         }
@@ -67,6 +68,7 @@ namespace AlfaFoodBack
                 endpoints.MapControllerRoute(
                     "default",
                     "{controller}/{action=Index}/{id?}");
+                endpoints.MapHub<ApplicationHub>("/applications");
             });
 
             app.UseSpa(spa =>
@@ -75,8 +77,8 @@ namespace AlfaFoodBack
 
                 if (env.IsDevelopment())
                 {
-                     spa.UseReactDevelopmentServer(npmScript: "start");
-                    //spa.UseProxyToSpaDevelopmentServer("http://localhost:3000");
+                      spa.UseReactDevelopmentServer(npmScript: "start");
+                   // spa.UseProxyToSpaDevelopmentServer("http://localhost:3000");
                 }
             });
         }

@@ -30,7 +30,7 @@ const Capabilities = () => {
                 >
                     {
                         capibilities.map((cap, i) => (
-                            <div className={`capabilitiesSection__subsection ${i % 2 == 1 ? "subsection--order" : ""}`}>
+                            <div key={i} className={`capabilitiesSection__subsection ${i % 2 == 1 ? "subsection--order" : ""}`}>
                                 <div
                                     className={`capabilitiesSection__subsection-image ${i % 2 == 1 ? "subsection-image--order" : "" }`}
                                 >
