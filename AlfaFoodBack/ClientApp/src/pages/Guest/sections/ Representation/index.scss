@@ -4,9 +4,8 @@
     width: 100vw;
     height: 100vh;
     z-index: 200;
-    background: #66afe9;
     top: 0;
-    background: url("../../../../assets/images/repr.jpg");
+    background: url("../../../../assets/images/repr.jpg") #0a0909;
   }
 
   &__text-part {

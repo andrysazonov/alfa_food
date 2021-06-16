@@ -1,4 +1,6 @@
 import {BaseThunkType, InferActionsType} from "../store";
+import {Dispatch} from "redux";
+import {applicationAPI} from "../../api/application-api";
 
 type ApplicationItemType = {
     title: string,
@@ -32,6 +34,12 @@ export const actions = {
         type: "Restaurant/SET_APPLICATION_LIST",
         payload: applications as ApplicationItemType[]
     } as const)
+}
+
+export const confirmApplication = (data: any): ThunkType => async (dispatch : Dispatch) => {
+    console.log('post confirm application')
+    let res = await applicationAPI.confirmApplication(data);
+    console.log('res.status', res.status)
 }
 
 

@@ -1,10 +1,13 @@
-import React from "react"
+import React, { useEffect } from "react"
+import {Field} from "redux-form";
+import { useParams } from "react-router-dom";
+
+import {required, timeHoursAndMinutes} from "../../../../utils/validators";
+import {getEstablishment} from "../../../../redux/reducers/restaurantReducer";
+import {days as daysName} from "../../../../utils/diff";
+
 
 import "./index.scss"
-import {days as daysName} from "../../../../utils/diff";
-import {Field} from "redux-form";
-import {required, timeHoursAndMinutes} from "../../../../utils/validators";
-
 
 interface ICommonInformationProps {
     common: {
@@ -94,7 +97,16 @@ const ReadonlyFieldTextarea = (props: IReadonlyFieldTextareaProps) => {
     )
 }
 
+
+
+
+
+
 const CommonInformation: React.FC<ICommonInformationProps> = (props) => {
+
+    // const { id } = useParams<{id: string}>()
+
+
     //@ts-ignore
     const { daysWork, address, description, name, email, businessId } = props.common;
     return (

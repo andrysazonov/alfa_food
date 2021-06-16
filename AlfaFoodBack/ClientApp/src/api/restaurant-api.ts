@@ -8,20 +8,18 @@ export const restaurantAPI = {
         return instance.post(`/restaurant/add`, {...data}).then(res => res.data)
     },
 
-    async addRestaurantImage(data : any) {
-        const response = await fetch("/restaurant/image/add", {
-            body: data,
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
-            },
-            method: "post",
-        })
-        return response;
+    addRestaurantImage(id: any, data: any) {
+        return instance.post(`/restaurant/add/image/${id}`, data, {
+            headers: { "Content-Type": "multipart/form-data" },
+        }).then(res => res.data)
     },
-
 
     getRestaurant(establishmentId: string) {
         return instance.get(`/restaurant/${establishmentId}`).then(res => res.data)
+    },
+
+    getOwnerRestaurants(ownerId: string) {
+        return instance.get(`/restaurant/owner/${ownerId}`).then(res => res.data)
     }
 }
 
