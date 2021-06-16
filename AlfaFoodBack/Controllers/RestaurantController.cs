@@ -73,7 +73,7 @@ namespace AlfaFoodBack.Controllers
             }
             catch (Exception e)
             {
-                //Response.StatusCode = 400;
+                //Response.StatusCode = 400; статускод = 201 кидает ошибку, пофиксить не смог, поэтому такой костыль, так вс1 работает.
                 //await Response.WriteAsync(e.Message);
             }
 
