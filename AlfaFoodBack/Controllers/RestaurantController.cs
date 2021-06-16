@@ -68,14 +68,14 @@ namespace AlfaFoodBack.Controllers
                     restaurant.ImageMap = fileBytes;
                     new RestaurantRepository().Update(dbCon, restaurant);
 
-                    Response.StatusCode = 201; // может кидать ошибку
+                    Response.StatusCode = 201; // кидает ошибку, в тело ничего не пишет, поэтому ексепш закомментирован
                     await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(restaurant.Id.ToString()));
                 }
             }
             catch (Exception e)
             {
-                Response.StatusCode = 400; 
-                await Response.WriteAsync(e.Message);
+                //Response.StatusCode = 400; 
+                //await Response.WriteAsync(e.Message);
             }
 
         }
