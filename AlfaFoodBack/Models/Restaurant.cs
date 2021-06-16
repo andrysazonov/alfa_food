@@ -17,11 +17,12 @@ namespace AlfaFoodBack.Models
         //private List<int> Workers; // id людей, работающих в ресторане, имеющих свои задачи в приложении (прим. официант, хостес)
         public readonly string WorkingTime; 
         public bool Published;
-        public readonly byte[] ImageMap;
+        public string Email;
+        public byte[] ImageMap;
 
         public Restaurant(int businessId, string name, string city, string address, // первое создание без id и картинки
                             string description, int ownerId, string phoneNumber, 
-                            string workingTime, bool published)
+                            string workingTime, bool published, string email)
         {
             if (!IsPhoneNumberValid(phoneNumber))
                 throw new Exception("Invalid phone number");
@@ -38,11 +39,13 @@ namespace AlfaFoodBack.Models
             OwnerId = ownerId;
             WorkingTime = workingTime;
             ImageMap = null;
+            Published = published;
+            Email = email;
         }
 
         public Restaurant(int businessId, string name, string city, string address,
                             string description, int ownerId, string phoneNumber,
-                            string workingTime, bool published, Guid id, byte[] imageMap = null)
+                            string workingTime, bool published, Guid id, string email, byte[] imageMap = null)
         {
             if (!IsPhoneNumberValid(phoneNumber))
                 throw new Exception("Invalid phone number");
@@ -59,6 +62,8 @@ namespace AlfaFoodBack.Models
             OwnerId = ownerId;
             WorkingTime = workingTime;
             ImageMap = imageMap;
+            Published = published;
+            Email = email;
         }
 
 

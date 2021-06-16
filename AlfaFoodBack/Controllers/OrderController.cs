@@ -34,7 +34,9 @@ namespace AlfaFoodBack.Controllers
                 Console.WriteLine(order);
                 using (var dbCon = PostgresConn.GetConn())
                 {
-                    new UserRepository().Insert(dbCon, order);
+                    if(dbCon == null)
+                        Console.WriteLine("null");
+                    new OrderRepository().Insert(dbCon, order);
                     Console.WriteLine("insert");
                     Response.StatusCode = 201;
                 }
