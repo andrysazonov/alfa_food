@@ -177,5 +177,29 @@ namespace AlfaFoodBack.Controllers
                 await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(e.Message));
             }
         }
+
+        [HttpGet("dishes/{restaurantId:Guid}")]
+        public async void GetDishes(Guid restaurantId)
+        {
+            try
+            {
+                using (var dbCon = PostgresConn.GetConn())
+                {
+                    var dishes = new DishRepository().GetInRestaurant(dbCon, restaurantId);
+                    var serializerSettings = new JsonSerializerSettings();
+                    serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                    var json = JsonConvert.SerializeObject(dishes, serializerSettings);
+                    Response.StatusCode = 200;
+
+                    if (!json.Contains("[null]"))
+                        await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(json));
+                }
+            }
+            catch (Exception e)
+            {
+                Response.StatusCode = 400;
+                await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(e.Message));
+            }
+        }
     }
 }
