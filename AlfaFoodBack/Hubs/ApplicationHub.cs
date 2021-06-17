@@ -10,7 +10,7 @@ namespace SignalRApp
 {
     public class ApplicationHub : Hub
     {
-        public async Task Send()
+        public async Task ReceiveApplications()
         {
             using (var dbCon = PostgresConn.GetConn())
             {
