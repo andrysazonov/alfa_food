@@ -68,12 +68,13 @@ namespace AlfaFoodBack.Controllers
                     restaurant.ImageMap = fileBytes;
                     new RestaurantRepository().Update(dbCon, restaurant);
 
-                    Response.StatusCode = 201;
+                    Response.StatusCode = 201; // кидает ошибку, в тело ничего не пишет, поэтому ексепш закомментирован
+                    await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(restaurant.Id.ToString()));
                 }
             }
             catch (Exception e)
             {
-                //Response.StatusCode = 400;
+                //Response.StatusCode = 400; 
                 //await Response.WriteAsync(e.Message);
             }
 
@@ -92,7 +93,9 @@ namespace AlfaFoodBack.Controllers
                     serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                     var json = JsonConvert.SerializeObject(restaurants, serializerSettings);
                     Response.StatusCode = 200;
-                    await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(json));
+
+                    if (!json.Contains("[null]"))
+                        await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(json));
                 }
 
             }
@@ -115,7 +118,9 @@ namespace AlfaFoodBack.Controllers
                     serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                     var json = JsonConvert.SerializeObject(restaurant, serializerSettings);
                     Response.StatusCode = 200;
-                    await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(json));
+
+                    if (!(restaurant == null || json.Contains("[null]")))
+                        await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(json));
                 }
 
             }
@@ -138,7 +143,8 @@ namespace AlfaFoodBack.Controllers
                     serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                     var json = JsonConvert.SerializeObject(restaurants, serializerSettings);
                     Response.StatusCode = 200;
-                    await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(json));
+                    if (!json.Contains("[null]"))
+                        await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(json));
                 }
             }
             catch (Exception e)
@@ -160,7 +166,9 @@ namespace AlfaFoodBack.Controllers
                     serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                     var json = JsonConvert.SerializeObject(restaurants, serializerSettings);
                     Response.StatusCode = 200;
-                    await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(json));
+
+                    if (!json.Contains("[null]"))
+                        await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(json));
                 }
             }
             catch (Exception e)

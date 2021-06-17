@@ -27,8 +27,8 @@ const Footer = () => {
                 <div className="footerSection">
                     <div className="footerSection__column">
                         <ul className="footerSection__column-list">
-                            {agreementSheet.map((agr) => (
-                                <li className="footerSection__column-item">
+                            {agreementSheet.map((agr,index) => (
+                                <li key={index} className="footerSection__column-item">
                                     <NavLink
                                         to={agr.link}
                                         style={{textDecoration: "none"}}
@@ -43,8 +43,8 @@ const Footer = () => {
                         className="footerSection__column"
                     >
                         <ul className="footerSection__column-list">
-                            {socials.map((agr) => (
-                                <li className="footerSection__column-item">
+                            {socials.map((agr,index) => (
+                                <li key={index} className="footerSection__column-item">
                                     <NavLink
                                         to={agr.link}
                                         style={{textDecoration: "none"}}

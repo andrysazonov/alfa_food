@@ -30,8 +30,9 @@ const Consumers = () => {
                     className="consumersSection__items"
                 >
                     {
-                        consumersList.map((consumer) => (
+                        consumersList.map((consumer,index) => (
                             <div
+                            key={index}
                                 className="consumersSection__item"
                             >
                                 <img
