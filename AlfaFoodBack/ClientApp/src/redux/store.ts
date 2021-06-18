@@ -3,7 +3,6 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import thunkMiddleware, { ThunkAction } from "redux-thunk"
 import { reducer as formReducer } from "redux-form"
 
-
 import { AuthReducer, RestaurantReducer, ApplicationReducer } from "./reducers";
 
 let rootReducer = combineReducers({

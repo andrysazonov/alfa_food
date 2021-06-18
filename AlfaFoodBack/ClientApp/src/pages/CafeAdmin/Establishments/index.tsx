@@ -79,7 +79,7 @@ const Establishments = () => {
                         className="establishments-list__title"
                     >Заведения</h1>
                     {
-                        establishments.map((est: any) => (
+                        establishments && establishments[0] && establishments.map((est: any) => (
                             <EstablishmentItemList id={est.id} name={est.name} />
                         ))
                     }

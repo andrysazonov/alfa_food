@@ -14,6 +14,7 @@ import { addEstablishment } from "../../../redux/reducers/restaurantReducer";
 
 import "./index.scss"
 import {AppStateType} from "../../../redux/store";
+import {useHistory} from "react-router";
 
 
 
@@ -273,11 +274,12 @@ const AddEstablishmentReduxForm = reduxForm<AddEstablishmentFormValuesType, AddE
 
 
 const AddEstablishment = () => {
+    const history = useHistory()
     const dispatch = useDispatch()
     const user_id = useSelector((state: AppStateType) => state.auth.loggedInUser.id)
 
 
-    const onSubmit = (data: any) => {
+    const onSubmit = async (data: any) => {
 
         let formData = new FormData()
         let new_data = {}
@@ -320,7 +322,8 @@ const AddEstablishment = () => {
         let my_img = document.getElementById("import__image").files[0]
 
         formData.append('image', my_img)
-        dispatch(addEstablishment(new_data, formData))
+        await dispatch(addEstablishment(new_data, formData))
+        history.push('/')
     }
 
 

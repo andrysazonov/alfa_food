@@ -1,6 +1,9 @@
 import {BaseThunkType, InferActionsType} from "../store";
 import {Dispatch} from "redux";
+import {HttpTransportType, HubConnectionBuilder, LogLevel} from "@microsoft/signalr";
+
 import {applicationAPI} from "../../api/application-api";
+
 
 type ApplicationItemType = {
     title: string,
@@ -9,23 +12,8 @@ type ApplicationItemType = {
 }
 
 let initialState = {
-    applicationsList: [
-        {
-            title: 'Ресторан Креветки',
-            id: '123122',
-            date: '2014.12.12 15:12'
-        },
-        {
-            title: 'Ресторан Креветки1',
-            id: '123124',
-            date: '2014.12.12 15:12'
-        },
-        {
-            title: 'Ресторан Креветки33',
-            id: '123125',
-            date: '2014.12.12 15:12'
-        },
-    ]
+    applicationsList: [],
+    hubConnection: null
 }
 
 
@@ -33,15 +21,60 @@ export const actions = {
     setApplicationsList: (applications: ApplicationItemType[] | null) => ({
         type: "Restaurant/SET_APPLICATION_LIST",
         payload: applications as ApplicationItemType[]
-    } as const)
+    } as const),
+    setCurrentHub: (hub: any) => ({
+        type: "Applications/SET_CONNECTION",
+        payload: hub
+    } as const),
 }
 
 export const confirmApplication = (data: any): ThunkType => async (dispatch : Dispatch) => {
-    console.log('post confirm application')
     let res = await applicationAPI.confirmApplication(data);
-    console.log('res.status', res.status)
+    // some redirect :]
 }
 
+export const connectToHub = (): ThunkType => async (dispatch: Dispatch, getState) => {
+    let state = getState();
+
+    console.log(state);
+
+    if (state.applications.hubConnection != null) {
+        console.log('Connection exists...');
+        return;
+    }
+
+    const hubConnection = new HubConnectionBuilder()
+        .withUrl('/applications', { transport: HttpTransportType.WebSockets})
+        .configureLogging(LogLevel.Information)
+        .build();
+
+    dispatch(actions.setCurrentHub(hubConnection));
+
+    hubConnection
+        .start()
+        .then(() => {
+            console.log('Connection started!');
+            // hubConnection.invoke("SendMessage", "userTest", "I am a test message. YEY!");
+        })
+        .catch(err => console.log('Error while establishing connection :('));
+
+    hubConnection.on("ReceiveApplications", (message) => {
+        // const text = `suprime ${message}`;
+        console.log('socket message::: ', message);
+    });
+
+    //hubConnection.
+}
+
+export const disconnectHub = (): ThunkType => async (dispatch: Dispatch, getState) => {
+    // const state = getState()
+    // let hubConnection = state.applications.hubConnection
+    // if (hubConnection) {
+    //     // @ts-ignore
+    //     // hubConnection.stop()
+    // }
+    dispatch(actions.setCurrentHub(null));
+};
 
 
 const applicationReducer = ( state = initialState, action: ActionsType): InitialStateType => {
@@ -49,7 +82,13 @@ const applicationReducer = ( state = initialState, action: ActionsType): Initial
         case "Restaurant/SET_APPLICATION_LIST":
             return {
                 ...state,
-                // applicationsList: action.payload
+                //@ts-ignore
+                applicationsList: state.applicationsList.concat(action.payload)
+            }
+        case "Applications/SET_CONNECTION":
+            return {
+                ...state,
+                hubConnection: action.payload
             }
         default:
             return state

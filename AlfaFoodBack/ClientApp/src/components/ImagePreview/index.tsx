@@ -12,10 +12,7 @@ const ImageUpload = (props: any) => {
         console.log('new props in Image Upload --- ', props)
         if (props.image) {
             setImageData(URL.createObjectURL(props.image))
-        } else {
-            setImageData("")
         }
-
     }, [props])
 
     let imgPreview = null

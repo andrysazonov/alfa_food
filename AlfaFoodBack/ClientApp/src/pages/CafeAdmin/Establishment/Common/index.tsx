@@ -16,7 +16,7 @@ interface ICommonInformationProps {
         description: string,
         address: string,
         email: string,
-        daysWork: [ string, string][]
+        daysWork: [ string, string][] | null
     } | null
 }
 
@@ -102,17 +102,32 @@ const ReadonlyFieldTextarea = (props: IReadonlyFieldTextareaProps) => {
 
 
 
-const CommonInformation: React.FC<ICommonInformationProps> = (props) => {
+const CommonInformation: React.FC<any> = (props) => {
 
     // const { id } = useParams<{id: string}>()
 
 
     //@ts-ignore
-    const { daysWork, address, description, name, email, businessId } = props.common;
+    const { common } = props
+
+    useEffect(() => {
+        console.log('common:!!!: ', common)
+    }, [])
+
+
+    const { workingTime, address, description, name, email, businessId } = common;
+
+    useEffect(() => {
+        console.log('common:: ', common)
+    }, [])
+
+    let daysWork = JSON.parse(workingTime)
+
     return (
         <div
             className="commonInformation__wrapper"
         >
+            <div>Удалить ресторан</div>
             <div
                 className="commonInformation__main-data"
             >

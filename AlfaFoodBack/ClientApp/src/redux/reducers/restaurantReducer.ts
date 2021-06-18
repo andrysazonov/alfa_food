@@ -63,7 +63,6 @@ export const addEstablishment = (data : any, image: any): ThunkType => async (di
         let id =  await restaurantAPI.addRestaurant(data)
         let byid = restaurantAPI.addRestaurantImage(id, image)
         console.log('good add establ...')
-        // dispatch(actions.setCurrentRestaurant(data))
     } catch(e) {
         console.log('error when add est is: ', e)
     }

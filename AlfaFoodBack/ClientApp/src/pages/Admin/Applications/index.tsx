@@ -1,18 +1,18 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { Switch, Route, NavLink } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { AppStateType } from "../../../redux/store";
 
 import Application from "../Application";
+import { connectToHub, disconnectHub } from "../../../redux/reducers/applicationsReducer";
+import useDocumentTitle from "../../../hooks/useDocumentTitle";
+
+
 import "./index.scss"
-import {AppStateType} from "../../../redux/store";
-import Establishment from "../../CafeAdmin/Establishment";
-import AddEstablishment from "../../CafeAdmin/AddEstablishment";
 
 
 
-const applications = [
-    "1", "2", "3", "4"
-]
+
 
 
 interface IApplicationItemProps {
@@ -41,16 +41,22 @@ const ApplicationItem = ({name, id} : IApplicationItemProps) => {
 
 
 
-interface IApplicationsProps {
-
-}
-
-
-
 
 const Applications = () => {
 
+    const dispatch = useDispatch()
+
     const applicationsItems = useSelector((state: AppStateType) => state.applications.applicationsList)
+
+    useDocumentTitle("Заявки")
+
+    useEffect(() => {
+        dispatch(connectToHub())
+        return () => {
+            console.log('disconnect')
+            dispatch(disconnectHub())
+        }
+    }, [])
 
 
     return (
@@ -70,7 +76,7 @@ const Applications = () => {
                     </h1>
                     <div>
                         {
-                            applicationsItems && applicationsItems[0] && applicationsItems.map((app: any) => (
+                            Array.isArray(applicationsItems) && applicationsItems.map((app: any) => (
                                 <ApplicationItem name={app.title} id={app.id}/>
                             ))
                         }

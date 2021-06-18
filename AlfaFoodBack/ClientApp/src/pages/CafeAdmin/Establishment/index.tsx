@@ -31,9 +31,6 @@ const Establishment = ({ id }: IEstablishmentProps) => {
         dispatch(getEstablishment(id))
     }, [id])
 
-    // useEffect(() => {
-    //     console.log('city::: ', currentEstablishment.City)
-    // }, [currentEstablishment])
 
     return (
         <div
