@@ -26,7 +26,7 @@ const ApplicationItem = ({name, id} : IApplicationItemProps) => {
         <NavLink
             className="application-item__link"
             activeClassName="application-item__link--active"
-            to={`/application/${id}`}
+            to={`/applicn/${id}`}
             style={{textDecoration: "none"}}
         >
             <div
@@ -77,7 +77,7 @@ const Applications = () => {
                     <div>
                         {
                             Array.isArray(applicationsItems) && applicationsItems.map((app: any) => (
-                                <ApplicationItem name={app.title} id={app.id}/>
+                                <ApplicationItem name={app.Item1} id={app.Item2}/>
                             ))
                         }
                     </div>
@@ -85,7 +85,7 @@ const Applications = () => {
                 </div>
                 <div>
                     <Switch>
-                        <Route path="/application/:id" render={({match}) =>
+                        <Route path="/applicn/:id" render={({match}) =>
                         {
                             const {id} = match.params;
                             //@ts-ignore

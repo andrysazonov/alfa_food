@@ -52,7 +52,7 @@ export const authRoutes = [
 
 export const adminRoutes = [
     {
-        path: ["/applications", "/application/:id", "addapplication"],
+        path: ["/applications", "/applicn/:id", "addapplication"],
         exact: true,
         component: Applications
     },

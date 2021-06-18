@@ -6,30 +6,60 @@ import {applicationAPI} from "../../api/application-api";
 
 
 type ApplicationItemType = {
-    title: string,
+    Item1: string,
+    Item2: string,
+}
+
+type CurrentApplicationType = {
+    name: string,
+    address: string,
+    businessId: string,
+    city: string,
+    description: string,
+    email: string,
     id: string,
-    date: string
+    ownerId?: number,
+    imageMap: any,
+    workingTime: string,
+    published: boolean,
 }
 
 let initialState = {
     applicationsList: [],
+    currentApplication: {} as CurrentApplicationType,
     hubConnection: null
 }
 
 
 export const actions = {
     setApplicationsList: (applications: ApplicationItemType[] | null) => ({
-        type: "Restaurant/SET_APPLICATION_LIST",
+        type: "Applications/SET_APPLICATION_LIST",
         payload: applications as ApplicationItemType[]
     } as const),
+
+    setCurrentApplication: (application: any) => ({
+        type: "Applications/SET_CURRENT_APPLICATION",
+        payload: application
+    } as const),
+
     setCurrentHub: (hub: any) => ({
         type: "Applications/SET_CONNECTION",
         payload: hub
     } as const),
 }
 
-export const confirmApplication = (data: any): ThunkType => async (dispatch : Dispatch) => {
-    let res = await applicationAPI.confirmApplication(data);
+
+
+export const getApplication = (id: string): ThunkType => async (dispatch: Dispatch) => {
+    let application = await applicationAPI.getApplication(id)
+    console.log('current application::: ', application)
+    dispatch(actions.setCurrentApplication(application))
+}
+
+
+export const confirmApplication = (data: any, tables: any[]): ThunkType => async (dispatch : Dispatch, getState) => {
+    const id = getState().applications.currentApplication.id
+    let res = await applicationAPI.confirmApplication(data, tables, id);
     // some redirect :]
 }
 
@@ -54,13 +84,13 @@ export const connectToHub = (): ThunkType => async (dispatch: Dispatch, getState
         .start()
         .then(() => {
             console.log('Connection started!');
-            // hubConnection.invoke("SendMessage", "userTest", "I am a test message. YEY!");
+            hubConnection.invoke("ReceiveApplications");
         })
         .catch(err => console.log('Error while establishing connection :('));
 
-    hubConnection.on("ReceiveApplications", (message) => {
+    hubConnection.on("ReceiveApplications", (applications) => {
         // const text = `suprime ${message}`;
-        console.log('socket message::: ', message);
+        dispatch(actions.setApplicationsList(JSON.parse(applications)))
     });
 
     //hubConnection.
@@ -79,16 +109,21 @@ export const disconnectHub = (): ThunkType => async (dispatch: Dispatch, getStat
 
 const applicationReducer = ( state = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
-        case "Restaurant/SET_APPLICATION_LIST":
+        case "Applications/SET_APPLICATION_LIST":
             return {
                 ...state,
                 //@ts-ignore
-                applicationsList: state.applicationsList.concat(action.payload)
+                applicationsList: action.payload
             }
         case "Applications/SET_CONNECTION":
             return {
                 ...state,
                 hubConnection: action.payload
+            }
+        case "Applications/SET_CURRENT_APPLICATION":
+            return {
+                ...state,
+                currentApplication: action.payload
             }
         default:
             return state

@@ -73,14 +73,3 @@ export const CafeAdminLayout = () => (
         </Switch>
     </>
 )
-
-// export const CafeOwnerLayout = () => (
-//     <>
-//         <Switch>
-//             {cafeOwnerRoutes.map((route, index) => (
-//                 <Route {...route}/>
-//             ))}
-//             <Redirect to="/404" />
-//         </Switch>
-//     </>
-// )

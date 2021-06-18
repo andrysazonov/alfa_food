@@ -1,16 +1,17 @@
 import React, {ChangeEvent, useEffect, useRef, useState} from "react"
-import { withRouter, RouteComponentProps} from "react-router";
-import { Link } from "react-router-dom"
-import { useDispatch } from "react-redux";
+import {withRouter, RouteComponentProps } from "react-router";
+import { Link , useHistory} from "react-router-dom"
+import { useDispatch, useSelector } from "react-redux";
 
 import { ReadonlyFieldTextarea, ReadonlyFieldInput, ReadonlyFieldTime} from "../../common/components/Fields";
 import useDocumentTitle from "../../../hooks/useDocumentTitle";
 import { days as daysName } from "../../../utils/diff"
-import { confirmApplication } from "../../../redux/reducers/applicationsReducer";
+import {confirmApplication, getApplication} from "../../../redux/reducers/applicationsReducer";
 
 
 
 import "./index.scss"
+import {AppStateType} from "../../../redux/store";
 
 
 
@@ -29,27 +30,16 @@ interface IApplicationProps {
     }
 }
 
-const fakeData = {
-    name: "F12",
-    description: "descriptionnnnn",
-    address: "Vilonova street",
-    email: "f123d",
-    businessId: "f213",
-    daysWork: [
-        ['11:11', '12:11'],
-        ['11:11', '12:11'],
-        ['11:11', '12:11'],
-        ['11:11', '12:11'],
-        ['11:11', '12:11'],
-        ['11:11', '12:11'],
-        ['11:11', '12:11'],
-    ]
-}
 
 
 
 const Application = ({match} : RouteComponentProps<MatchParams>) => {
     const dispatch = useDispatch()
+    const history = useHistory()
+    const currentApplication = useSelector((state: AppStateType) => state.applications.currentApplication)
+    const {description,name, address, email, businessId, workingTime, imageMap} = currentApplication
+    const daysWork = JSON.parse(workingTime)
+
 
     const [svgData, setSvgData] = useState('')
     const [pathTagg, setPathTag] = useState(null)
@@ -112,21 +102,24 @@ const Application = ({match} : RouteComponentProps<MatchParams>) => {
         reader.readAsText(files[0]);
     }
 
+    const id = match.params.id
+    console.log('image::: ', imageMap)
 
-    useDocumentTitle("Заявки")
+    useEffect(() => {
+        console.log('dispatch get application')
+        dispatch(getApplication(id))
+    }, [id])
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
+        //@ts-ignore
         let res_data = new FormData()
         //@ts-ignore
         res_data.append('file', fileImageRef.current.files[0])
-        res_data.append('tables', JSON.stringify(tables))
-        console.log('res_data file::: ', res_data.get('file'))
-        console.log('res_data tables::: ', res_data.get('tables'))
-        dispatch(confirmApplication(res_data))
+        await dispatch(confirmApplication(res_data, tables))
+        history.push('/')
     }
     return (
         <section className="adminApplication__section">
-
             <h3>Заявка  № {match.params.id}</h3>
             {/*@ts-ignore*/}
 
@@ -134,22 +127,22 @@ const Application = ({match} : RouteComponentProps<MatchParams>) => {
                 <div className="adminApplication__form-block">
                     <h4 className="adminApplication__small-title">Основные данные</h4>
                     <ReadonlyFieldInput
-                        value={fakeData.name}
+                        value={name}
                         label="Название"
                         type="text"
                     />
                     <ReadonlyFieldInput
-                        value={fakeData.businessId}
+                        value={businessId}
                         label="БизнесИД"
                         type="text"
                     />
                     <ReadonlyFieldInput
-                        value={fakeData.address}
+                        value={address}
                         label="Адресс"
                         type="text"
                     />
                     <ReadonlyFieldTextarea
-                        value={fakeData.description}
+                        value={description}
                         label="Описание"
                         type="text"
                     />
@@ -161,13 +154,13 @@ const Application = ({match} : RouteComponentProps<MatchParams>) => {
                     <div
                         className="adminApplication-pickerTime__wrapper"
                     >
-                        { fakeData.daysWork.map((day: any, i:number) => (
+                        { daysWork && daysWork.map((day: [string, string], i:number) => (
                             <div
                                 className="adminApplication-pickerTime__date"
                             >
                                 <span>{daysName[i]}</span>
-                                <ReadonlyFieldTime value={"12"} />
-                                <ReadonlyFieldTime value={"13"} />
+                                <ReadonlyFieldTime value={day[0]} />
+                                <ReadonlyFieldTime value={day[1]} />
                             </div>
                         ))}
                     </div>
@@ -176,6 +169,7 @@ const Application = ({match} : RouteComponentProps<MatchParams>) => {
                     className="adminApplication__form-block"
                 >
                     <p>plan.jpg</p>
+                    <a href={`data:image/png;base64, ${imageMap}`}>Скачать план </a>
                 </div>
             </div>
 

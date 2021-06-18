@@ -14,15 +14,18 @@
   }
 
   &__list {
+    //display: flex;
+    //flex-direction: column;
     padding-bottom: 50px;
     border-right: 1px solid black;
+    //border-left: 1px solid black;
   }
 
 }
 
 .establishments-list {
   &__btn {
-
+    //align-self: center;
   }
   &__title {
     text-align: center;
@@ -35,11 +38,30 @@
 
 .establishment-item {
   &__wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
     padding: 12px 20px;
   }
   &__name {
     font-size: 16px;
     font-weight: 500;
+  }
+  &__status {
+    font-weight: 400;
+    font-size: 12px;
+    &--confirmed {
+      color: green;
+    }
+    &--pending {
+      color: red
+    }
+  }
+  &__content {
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   }
   &__link {
     color: black;
@@ -56,16 +78,24 @@
 
 .add-establishment {
   &__wrapper {
+    span {
+      text-transform: uppercase;
+      font-weight: 500;
+      font-size: 13px;
+    }
+    margin-top: 20px;
     cursor: pointer;
     text-align: center;
     width: 180px;
-    border-radius: 10px;
-    padding: 10px 6px;
-    color: white;
+    border-radius: 15px;
+    padding: 8px 14px;
+    color: black;
     text-decoration: none;
-    background: indianred;
+    background: transparent;
+    transition: background-color .3s ease;
+    border: 1px solid black;
     &:hover {
-      opacity: 0.8;
+      background-color: #66afe9;
     }
   }
 }
