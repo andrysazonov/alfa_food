@@ -14,6 +14,7 @@ namespace SignalRApp
         public async Task ReceiveApplications()
         {
             var json = "";
+            Console.WriteLine("Hub");
             using (var dbCon = PostgresConn.GetConn())
             {
                 var command = dbCon.CreateCommand();
@@ -21,36 +22,18 @@ namespace SignalRApp
                 command.CommandText = @"SELECT * FROM ""public"".""restaurants"" WHERE published=false";
                 var reader = command.ExecuteReader();
                 if (!reader.HasRows)
-                    await this.Clients.All.SendAsync("Send", "");
+                    await this.Clients.All.SendAsync("ReceiveApplications", "");
                 var restaurants = new List<(string, Guid)>();
                 while (reader.Read())
                 {
                     var name = reader.GetString("name");
-                    // var city = reader.GetString("city");
-                    // var address = reader.GetString("address");
-                    // var description = reader.GetString("description");
-                    // var ownerId = reader.GetInt32("ownerId");
-                    // var businessId = reader.GetInt32("businessId");
-                    // var published = reader.GetBoolean("published");
-                    // var phone = reader.GetString("phoneNumber");
-                    // var workingTime = default(string);
-                    // if (!reader.IsDBNull("workingTime"))
-                    //     workingTime = reader.GetString("workingTime");
-                    // var email = default(string);
-                    // if (!reader.IsDBNull("email"))
-                    //     email = reader.GetString("email");
                     var id = reader.GetGuid("id");
-                    // var imageMap = default(byte[]);
-                    // if (!reader.IsDBNull("imageMap"))
-                    //     imageMap = reader.GetFieldValue<byte[]>("imageMap");
-
                     restaurants.Add((name, id));
                 }
                 json = JsonConvert.SerializeObject(restaurants);
                 Console.WriteLine(json);
+                await this.Clients.All.SendAsync("ReceiveApplications", json);
             }
-            
-            await this.Clients.All.SendAsync("ReceiveApplications", json);
         }
     }
 }
