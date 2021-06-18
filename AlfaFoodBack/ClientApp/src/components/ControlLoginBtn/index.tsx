@@ -16,7 +16,7 @@ const ControlBtn = (props: any) => {
                 props.logout()
             }
             }
-            className="btn">
+            className="controlLoginBtn__wrap">
                 <span className="text" >
                     ВЫЙТИ
                 </span>

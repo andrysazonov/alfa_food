@@ -1,11 +1,7 @@
 import React, { useEffect } from "react"
-import {Field} from "redux-form";
-import { useParams } from "react-router-dom";
-
-import {required, timeHoursAndMinutes} from "../../../../utils/validators";
-import {getEstablishment} from "../../../../redux/reducers/restaurantReducer";
 import {days as daysName} from "../../../../utils/diff";
 
+import { ReactComponent as Trash} from "../../../../assets/svg/trash.svg";
 
 import "./index.scss"
 
@@ -104,30 +100,22 @@ const ReadonlyFieldTextarea = (props: IReadonlyFieldTextareaProps) => {
 
 const CommonInformation: React.FC<any> = (props) => {
 
-    // const { id } = useParams<{id: string}>()
-
 
     //@ts-ignore
     const { common } = props
 
-    useEffect(() => {
-        console.log('common:!!!: ', common)
-    }, [])
-
 
     const { workingTime, address, description, name, email, businessId } = common;
 
-    useEffect(() => {
-        console.log('common:: ', common)
-    }, [])
-
-    let daysWork = JSON.parse(workingTime)
+    let daysWork = workingTime ? JSON.parse(workingTime) : []
 
     return (
         <div
             className="commonInformation__wrapper"
         >
-            <div>Удалить ресторан</div>
+            <div className="commonInformation__delete-btn">
+                <Trash />
+                <span>Удалить ресторан</span></div>
             <div
                 className="commonInformation__main-data"
             >

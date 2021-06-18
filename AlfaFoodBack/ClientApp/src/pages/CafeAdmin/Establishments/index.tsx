@@ -5,20 +5,27 @@ import { NavLink, Switch, Route } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux";
 
 
-import './index.scss'
+
 import Establishment from "../Establishment";
 import AddEstablishment from "../AddEstablishment";
 
 import { AppStateType } from "../../../redux/store";
 import { getEstablishmets } from "../../../redux/reducers/restaurantReducer";
 
+import { ReactComponent as HomePicture} from "../../../assets/svg/home-delivery.svg";
+
+
+import './index.scss'
+
+
 
 interface IEstablishmentItemList {
     name: string,
-    id: string
+    id: string,
+    published: boolean
 }
 
-const EstablishmentItemList = ({name = "", id} : IEstablishmentItemList) => {
+const EstablishmentItemList = ({name = "", id, published} : IEstablishmentItemList) => {
     return (
         <NavLink
             style={{textDecoration: "none"}}
@@ -29,11 +36,18 @@ const EstablishmentItemList = ({name = "", id} : IEstablishmentItemList) => {
             <div
                 className="establishment-item__wrapper"
             >
-                <h3
-                    className="establishment-item__name"
-                >
-                    {name}
-                </h3>
+                <HomePicture />
+                <div className="establishment-item__content">
+                    <h3
+                        className="establishment-item__name"
+                    >
+                        {name}
+                    </h3>
+                    <span
+                        className={`establishment-item__status ${published ? 'establishment-item__status--confirmed' : 'establishment-item__status--pending'}`}
+                    >{published ? 'Опубликован' : 'В ожидании'}</span>
+                </div>
+
             </div>
         </NavLink>
     )
@@ -79,8 +93,8 @@ const Establishments = () => {
                         className="establishments-list__title"
                     >Заведения</h1>
                     {
-                        establishments && establishments[0] && establishments.map((est: any) => (
-                            <EstablishmentItemList id={est.id} name={est.name} />
+                        Array.isArray(establishments) && establishments.length && establishments.map((est: any) => (
+                            <EstablishmentItemList id={est.id} name={est.name} published={est.published}/>
                         ))
                     }
                     <div className="establishments-list__btn">

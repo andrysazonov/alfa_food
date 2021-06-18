@@ -8,7 +8,6 @@ import { getEstablishment } from "../../../redux/reducers/restaurantReducer";
 import CommonInformation from "./Common";
 import Bookings from "./Bookings";
 
-
 import "./index.scss"
 
 // interface MatchParams {
@@ -25,8 +24,8 @@ const Establishment = ({ id }: IEstablishmentProps) => {
 
     const dispatch = useDispatch()
     const currentEstablishment = useSelector((state: AppStateType) => state.restaurants.currentEstablishment)
-
-
+    //
+    //
     useEffect(() => {
         dispatch(getEstablishment(id))
     }, [id])
@@ -59,11 +58,11 @@ const Establishment = ({ id }: IEstablishmentProps) => {
                     <Route path={"/establishment/:id/common"} render={
                         () => {
                             return (
-                                //@ts-ignore
                                 <CommonInformation common={currentEstablishment} />
                             )
                         }
                     } />
+
                     <Route path={"/establishment/:id/bookings"} component={Bookings} />
                 </Switch>
             </div>
