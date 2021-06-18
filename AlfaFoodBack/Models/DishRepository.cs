@@ -13,8 +13,8 @@ namespace AlfaFoodBack.Models
             var command = dbCon.CreateCommand();
             command.CommandType = CommandType.Text;
             command.CommandText =
-                $"INSERT INTO Dish (id, name, ingredients, price,  weightInGrams, restaurantId) " +
-                $"VALUES('{dish.Id}','{dish.Name}','{dish.Ingredients}','{dish.Price}','{dish.WeightInGrams}', '{dish.RestaurantId}')";
+                $"INSERT INTO Dish (name, ingredients, price,  weightInGrams, restaurantId, image) " +
+                $"VALUES('{dish.Name}','{dish.Ingredients}','{dish.Price}','{dish.WeightInGrams}', '{dish.RestaurantId}', '{dish.Image}')";
             command.ExecuteNonQuery();
         }
 
@@ -26,7 +26,7 @@ namespace AlfaFoodBack.Models
             command.CommandText =
                 $"UPDATE Dish " +
                 $"SET " +
-                    $"name = '{dish.Name}', ingredients='{dish.Ingredients}', price='{dish.Price}', weightInGrams='{dish.WeightInGrams}', restaurantId='{dish.RestaurantId}'" +
+                    $"name = '{dish.Name}', ingredients='{dish.Ingredients}', price='{dish.Price}', weightInGrams='{dish.WeightInGrams}', restaurantId='{dish.RestaurantId}', image='{dish.Image}'" +
                 $"WHERE id = '{dish.Id}';";
             command.ExecuteNonQuery();
         }
@@ -48,8 +48,13 @@ namespace AlfaFoodBack.Models
             var weightInGrams = reader.GetDecimal("weightInGrams");
             var restaurantId = reader.GetGuid("restaurantId");
 
+            var image = default(byte[]);
+            if (!reader.IsDBNull("image"))
+                image = reader.GetFieldValue<byte[]>("image");
+
+
             reader.Close();
-            return new Dish(id, name, ingredients, price, weightInGrams, restaurantId);
+            return new Dish(name, ingredients, price, weightInGrams, restaurantId, image, id);
         }
 
         public IEnumerable<IDbEntity> GetInRestaurant(NpgsqlConnection dbCon, Guid restaurantId)
@@ -69,7 +74,11 @@ namespace AlfaFoodBack.Models
                 var price = reader.GetDecimal("price");
                 var weightInGrams = reader.GetDecimal("weightInGrams");
 
-                yield return new Dish(id, name, ingredients, price, weightInGrams, restaurantId);
+                var image = default(byte[]);
+                if (!reader.IsDBNull("image"))
+                    image = reader.GetFieldValue<byte[]>("image");
+
+                yield return new Dish(name, ingredients, price, weightInGrams, restaurantId, image, id);
             }
 
             reader.Close();

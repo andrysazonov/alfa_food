@@ -16,24 +16,34 @@ namespace AlfaFoodBack.Controllers
     public class DishController : Controller
     {
         [HttpPost("add")]
-        public async void AddDish(object data)
+        public async void AddDish()
         {
-            Response.Headers.Add("Access-Control-Allow-Origin", "*");
-            var dict = JObject.Parse(data.ToString());
+            Request.Form.TryGetValue("name", out var nameField);
+            Request.Form.TryGetValue("ingredients", out var ingredientsField);
+            Request.Form.TryGetValue("price", out var priceField);
+            Request.Form.TryGetValue("weightInGrams", out var weightInGramsField);
+            Request.Form.TryGetValue("restaurantId", out var restaurantIdField);
 
-            var id = int.Parse(dict["id"].ToString());
-            var name = dict["name"].ToString();
-            var ingredients = dict["ingredients"].ToString();
-            var price = decimal.Parse(dict["price"].ToString());
-            var weightInGrams = decimal.Parse(dict["weightInGrams"].ToString());
-            var restaurantId = Guid.Parse(dict["restaurantId"].ToString());
+            var name = nameField.ToString();
+            var ingredients = ingredientsField.ToString();
+            var price = decimal.Parse(priceField.ToString());
+            var weightInGrams = decimal.Parse(weightInGramsField.ToString());
+            var restaurantId = restaurantIdField.ToString();
+
+            var image = Request.Form.Files.GetFile("image");
+            byte[] fileBytes;
+            using (var memoryStream = new MemoryStream())
+            {
+                await image.CopyToAsync(memoryStream);
+                fileBytes = memoryStream.ToArray();
+            }
 
             try
             {
-                var dish = new Dish(id, name, ingredients, price, weightInGrams, restaurantId);
+                var dish = new Dish(name, ingredients, price, weightInGrams, Guid.Parse(restaurantId.ToString()), fileBytes);
                 using (var dbCon = PostgresConn.GetConn())
                 {
-                    new RestaurantRepository().Insert(dbCon, dish);
+                    new DishRepository().Insert(dbCon, dish);
                 }
                 Response.StatusCode = 201;
             }
