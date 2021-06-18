@@ -154,6 +154,25 @@ namespace AlfaFoodBack.Controllers
             }
         }
 
+        [HttpDelete("{id:Guid}")]
+        public async void Delete(Guid id)
+        {
+            try
+            {
+                using (var dbCon = PostgresConn.GetConn())
+                {
+                    new RestaurantRepository().Delete(dbCon, id);
+                }
+            }
+            catch (Exception e)
+            {
+                Response.StatusCode = 400;
+                await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(e.Message));
+                throw;
+            }
+        }
+        
+
         [HttpGet("city/{cityName}")]
         public async void GetRestaurantsInCity(string cityName)
         {

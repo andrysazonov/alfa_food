@@ -20,6 +20,14 @@ namespace AlfaFoodBack.Models
             command.ExecuteNonQuery();
         }
 
+        public void Delete(NpgsqlConnection dbCon, Guid id)
+        {
+            var command = dbCon.CreateCommand();
+            command.CommandType = CommandType.Text;
+            command.CommandText = $"DELETE FROM public.restaurants WHERE id='{id}';";
+            command.ExecuteNonQuery();
+        }
+        
         public void Update(NpgsqlConnection dbCon, IDbEntity entity)
         {
             var restaurant = entity as Restaurant;
