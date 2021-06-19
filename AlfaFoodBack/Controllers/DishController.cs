@@ -31,21 +31,30 @@ namespace AlfaFoodBack.Controllers
             var restaurantId = restaurantIdField.ToString();
 
             var image = Request.Form.Files.GetFile("image");
-            byte[] fileBytes;
-            using (var memoryStream = new MemoryStream())
-            {
-                await image.CopyToAsync(memoryStream);
-                fileBytes = memoryStream.ToArray();
-            }
+
+            //byte[] fileBytes; преобразование картинки в массив байтов
+            //using (var memoryStream = new MemoryStream())
+            //{
+            //    await image.CopyToAsync(memoryStream);
+            //    fileBytes = memoryStream.ToArray();
+                
+            //}
 
             try
             {
-                var dish = new Dish(name, ingredients, price, weightInGrams, Guid.Parse(restaurantId.ToString()), fileBytes);
+                var dish = new Dish(name, ingredients, price, weightInGrams, Guid.Parse(restaurantId.ToString()));
                 using (var dbCon = PostgresConn.GetConn())
                 {
                     new DishRepository().Insert(dbCon, dish);
                 }
-                Response.StatusCode = 201;
+
+                var filePath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\")) + $"Images\\DISH{restaurantId + name}.jpg";
+                using (var stream = System.IO.File.Create(filePath)) // СОХРАНЕНИЕ КАРТИНКИ В ФАЙЛАХ
+                {
+                    await image.CopyToAsync(stream);
+                }
+
+                //Response.StatusCode = 201;
             }
             catch (Exception e)
             {
@@ -61,14 +70,18 @@ namespace AlfaFoodBack.Controllers
             {
                 using (var dbCon = PostgresConn.GetConn())
                 {
-                    var dish = new DishRepository().GetById(dbCon, dishId);
+                    var dishAsDBEntity = new DishRepository().GetById(dbCon, dishId);
                     var serializerSettings = new JsonSerializerSettings();
                     serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-                    var json = JsonConvert.SerializeObject(dish, serializerSettings);
+                    var json = JsonConvert.SerializeObject(dishAsDBEntity, serializerSettings);
                     Response.StatusCode = 200;
 
-                    if (!(dish == null || json.Contains("[null]")))
+                    if (!(dishAsDBEntity == null || json.Contains("[null]")))
                         await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(json));
+
+                    var dish = dishAsDBEntity as Dish;
+                    var filePath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\")) + $"Images\\DISH{dish.RestaurantId + dish.Name}.jpg";
+                    await Response.SendFileAsync(filePath);
                 }
 
             }

@@ -12,7 +12,7 @@ namespace AlfaFoodBack.Models
         public readonly Guid RestaurantId;
         public byte[] Image;
 
-        public Dish (string name, string ingredients, decimal price, decimal weightInGrams, Guid restaurantId, byte[] image, int? id = null)
+        public Dish (string name, string ingredients, decimal price, decimal weightInGrams, Guid restaurantId, byte[] image = null, int? id = null)
         {
             Id = id;
             Name = name;

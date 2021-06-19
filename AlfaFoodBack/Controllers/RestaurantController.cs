@@ -38,12 +38,13 @@ namespace AlfaFoodBack.Controllers
                 {
                     new RestaurantRepository().Insert(dbCon, restaurant);
                 }
-                Response.StatusCode = 201;
+
+                if (!Response.HasStarted) Response.StatusCode = 201;
                 await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(restaurant.Id.ToString()));
             }
             catch (Exception e)
             {
-                Response.StatusCode = 400;
+                if (!Response.HasStarted) Response.StatusCode = 400;
                 await Response.WriteAsync(e.Message);
             }
         }
@@ -51,30 +52,34 @@ namespace AlfaFoodBack.Controllers
         [HttpPost("add/image/{id}")]
         public async void AddImage(string id, [FromForm] IFormFile image)
         {
-            //Response.Headers.Add("Access-Control-Allow-Origin", "*");
-
-            byte[] fileBytes;
-            using (var memoryStream = new MemoryStream())
-            {
-                await image.CopyToAsync(memoryStream);
-                fileBytes = memoryStream.ToArray();
-            }
+            //byte[] fileBytes;
+            //using (var memoryStream = new MemoryStream())  // ЗАКОММЕНТИРОВАНО ПОТОМУ ЧТО решили сохранаять не в бд, а в файлах
+            //{
+            //    await image.CopyToAsync(memoryStream);
+            //    fileBytes = memoryStream.ToArray();
+            //}
 
             try
             {
-                using (var dbCon = PostgresConn.GetConn())
+                var filePath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\")) + $"Images\\MAP{id}.jpg";
+                using (var stream = System.IO.File.Create(filePath)) // СОХРАНЕНИЕ КАРТИНКИ В ФАЙЛАХ
                 {
-                    var restaurant = new RestaurantRepository().GetById(dbCon, Guid.Parse(id)) as Restaurant;
-                    restaurant.ImageMap = fileBytes;
-                    new RestaurantRepository().Update(dbCon, restaurant);
-
-                    Response.StatusCode = 201; // кидает ошибку, в тело ничего не пишет, поэтому ексепш закомментирован
-                    await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(restaurant.Id.ToString()));
+                    await image.CopyToAsync(stream);
                 }
+
+                //using (var dbCon = PostgresConn.GetConn())
+                //{
+                //    var restaurant = new RestaurantRepository().GetById(dbCon, Guid.Parse(id)) as Restaurant;
+                //    restaurant.ImageMap = fileBytes;
+                //    new RestaurantRepository().Update(dbCon, restaurant);
+                //}
+
+                if (!Response.HasStarted) Response.StatusCode = 200; // кидает ошибку, в тело ничего не пишет, поэтому ексепш закомментирован
+                //await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(restaurant.Id.ToString()));
             }
             catch (Exception e)
             {
-                //Response.StatusCode = 400; 
+                //if (!Response.HasStarted) Response.StatusCode = 400;
                 //await Response.WriteAsync(e.Message);
             }
 
@@ -92,7 +97,8 @@ namespace AlfaFoodBack.Controllers
                     var serializerSettings = new JsonSerializerSettings();
                     serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                     var json = JsonConvert.SerializeObject(restaurants, serializerSettings);
-                    Response.StatusCode = 200;
+                    
+                    if (!Response.HasStarted) Response.StatusCode = 200;
 
                     if (json.Contains("[null]"))
                         await Response.Body.WriteAsync(new byte[] { });
@@ -102,7 +108,7 @@ namespace AlfaFoodBack.Controllers
             }
             catch (Exception e)
             {
-                Response.StatusCode = 400;
+                if (!Response.HasStarted) Response.StatusCode = 400;
                 await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(e.Message));
             }
         }
@@ -114,23 +120,27 @@ namespace AlfaFoodBack.Controllers
             {
                 using (var dbCon = PostgresConn.GetConn())
                 {
-                    var restaurant = new RestaurantRepository().GetById(dbCon, restaurantId);
+                    var restaurantAsDBEntity = new RestaurantRepository().GetById(dbCon, restaurantId);
                     var serializerSettings = new JsonSerializerSettings();
                     serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-                    var json = JsonConvert.SerializeObject(restaurant, serializerSettings);
-                    Response.StatusCode = 200;
+                    var json = JsonConvert.SerializeObject(restaurantAsDBEntity, serializerSettings);
+                    if (!Response.HasStarted) Response.StatusCode = 200;
 
                     if (json.Contains("[null]"))
                         await Response.Body.WriteAsync(new byte[] { });
                     else
                         await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(json));
+
+                    var restaurant = restaurantAsDBEntity as Restaurant;
+                    var filePath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\")) + $"Images\\MAP{restaurant.Id}.jpg";
+                    await Response.SendFileAsync(filePath);
                 }
 
             }
             catch (Exception e)
             {
-                Response.StatusCode = 400;
-                await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(e.Message));
+                //if (!Response.HasStarted) Response.StatusCode = 400; //кидало ошибку, поэтому закомментил
+                //await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(e.Message));
             }
         }
 
@@ -145,7 +155,7 @@ namespace AlfaFoodBack.Controllers
                     var serializerSettings = new JsonSerializerSettings();
                     serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                     var json = JsonConvert.SerializeObject(restaurants, serializerSettings);
-                    Response.StatusCode = 200;
+                    if (!Response.HasStarted) Response.StatusCode = 200;
 
                     if (json.Contains("[null]"))
                         await Response.Body.WriteAsync(new byte[] { });
@@ -155,7 +165,7 @@ namespace AlfaFoodBack.Controllers
             }
             catch (Exception e)
             {
-                Response.StatusCode = 400;
+                if (!Response.HasStarted) Response.StatusCode = 400;
                 await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(e.Message));
             }
         }
@@ -172,7 +182,7 @@ namespace AlfaFoodBack.Controllers
             }
             catch (Exception e)
             {
-                Response.StatusCode = 400;
+                if (!Response.HasStarted) Response.StatusCode = 400;
                 await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(e.Message));
                 throw;
             }
@@ -190,7 +200,7 @@ namespace AlfaFoodBack.Controllers
                     var serializerSettings = new JsonSerializerSettings();
                     serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                     var json = JsonConvert.SerializeObject(restaurants, serializerSettings);
-                    Response.StatusCode = 200;
+                    if (!Response.HasStarted) Response.StatusCode = 200;
 
                     if (json.Contains("[null]"))
                         await Response.Body.WriteAsync(new byte[] { });
@@ -200,7 +210,7 @@ namespace AlfaFoodBack.Controllers
             }
             catch (Exception e)
             {
-                Response.StatusCode = 400;
+                if (!Response.HasStarted) Response.StatusCode = 400;
                 await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(e.Message));
             }
         }
@@ -216,7 +226,7 @@ namespace AlfaFoodBack.Controllers
                     var serializerSettings = new JsonSerializerSettings();
                     serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                     var json = JsonConvert.SerializeObject(dishes, serializerSettings);
-                    Response.StatusCode = 200;
+                    if (!Response.HasStarted) Response.StatusCode = 200;
 
 
                     if (json.Contains("[null]"))
@@ -227,7 +237,7 @@ namespace AlfaFoodBack.Controllers
             }
             catch (Exception e)
             {
-                Response.StatusCode = 400;
+                if (!Response.HasStarted) Response.StatusCode = 400;
                 await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(e.Message));
             }
         }
