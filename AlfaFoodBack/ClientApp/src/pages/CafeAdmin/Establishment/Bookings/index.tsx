@@ -1,8 +1,11 @@
-import React from "react"
+import React, { useEffect } from "react"
+import { useDispatch } from "react-redux";
 
 
+import { getBookingsRestaurantData } from "../../../../redux/reducers/restaurantReducer";
 
 import "./index.scss"
+
 
 
 interface IBookingsProps  {
@@ -16,6 +19,12 @@ const defs = [
 ]
 
 const Bookings = () => {
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(getBookingsRestaurantData())
+    }, [])
+
     return (
         <div
             className="establishmentBooking__wrapper"

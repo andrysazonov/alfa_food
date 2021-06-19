@@ -3,7 +3,11 @@ import {days as daysName} from "../../../../utils/diff";
 
 import { ReactComponent as Trash} from "../../../../assets/svg/trash.svg";
 
+import { deleteEstablishment } from "../../../../redux/reducers/restaurantReducer";
+
 import "./index.scss"
+import {useDispatch} from "react-redux";
+import {useHistory} from "react-router";
 
 interface ICommonInformationProps {
     common: {
@@ -96,24 +100,33 @@ const ReadonlyFieldTextarea = (props: IReadonlyFieldTextareaProps) => {
 
 
 
-
-
 const CommonInformation: React.FC<any> = (props) => {
 
+    const dispatch = useDispatch()
+    const history = useHistory()
 
     //@ts-ignore
     const { common } = props
 
 
-    const { workingTime, address, description, name, email, businessId } = common;
+    const { workingTime, address, description, name, email, businessId, id } = common;
 
     let daysWork = workingTime ? JSON.parse(workingTime) : []
+
+    const deleteEstablishmentHandler = () => {
+        dispatch(deleteEstablishment(id))
+        history.push('/establishments')
+        console.log(id)
+    }
 
     return (
         <div
             className="commonInformation__wrapper"
         >
-            <div className="commonInformation__delete-btn">
+            <div
+                className="commonInformation__delete-btn"
+                onClick={deleteEstablishmentHandler}
+            >
                 <Trash />
                 <span>Удалить ресторан</span></div>
             <div

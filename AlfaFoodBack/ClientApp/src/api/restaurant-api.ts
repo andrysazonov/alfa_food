@@ -20,6 +20,14 @@ export const restaurantAPI = {
 
     getOwnerRestaurants(ownerId: string) {
         return instance.get(`/restaurant/owner/${ownerId}`).then(res => res.data)
+    },
+
+    getRestaurantBookingsData(establishmentId: string) {
+        return instance.get(`/booking/${establishmentId}`).then(res => res.data)
+    },
+
+    deleteRestaurant(restaurantId: string) {
+        return instance.delete(`/restaurant/${restaurantId}`)
     }
 }
 
