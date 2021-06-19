@@ -94,10 +94,11 @@ namespace AlfaFoodBack.Controllers
                     var json = JsonConvert.SerializeObject(restaurants, serializerSettings);
                     Response.StatusCode = 200;
 
-                    if (!json.Contains("[null]"))
+                    if (json.Contains("[null]"))
+                        await Response.Body.WriteAsync(new byte[] { });
+                    else
                         await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(json));
                 }
-
             }
             catch (Exception e)
             {
@@ -119,7 +120,9 @@ namespace AlfaFoodBack.Controllers
                     var json = JsonConvert.SerializeObject(restaurant, serializerSettings);
                     Response.StatusCode = 200;
 
-                    if (!(restaurant == null || json.Contains("[null]")))
+                    if (json.Contains("[null]"))
+                        await Response.Body.WriteAsync(new byte[] { });
+                    else
                         await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(json));
                 }
 
@@ -143,7 +146,10 @@ namespace AlfaFoodBack.Controllers
                     serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                     var json = JsonConvert.SerializeObject(restaurants, serializerSettings);
                     Response.StatusCode = 200;
-                    if (!json.Contains("[null]"))
+
+                    if (json.Contains("[null]"))
+                        await Response.Body.WriteAsync(new byte[] { });
+                    else
                         await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(json));
                 }
             }
@@ -186,7 +192,9 @@ namespace AlfaFoodBack.Controllers
                     var json = JsonConvert.SerializeObject(restaurants, serializerSettings);
                     Response.StatusCode = 200;
 
-                    if (!json.Contains("[null]"))
+                    if (json.Contains("[null]"))
+                        await Response.Body.WriteAsync(new byte[] { });
+                    else
                         await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(json));
                 }
             }
@@ -210,7 +218,10 @@ namespace AlfaFoodBack.Controllers
                     var json = JsonConvert.SerializeObject(dishes, serializerSettings);
                     Response.StatusCode = 200;
 
-                    if (!json.Contains("[null]"))
+
+                    if (json.Contains("[null]"))
+                        await Response.Body.WriteAsync(new byte[] { });
+                    else
                         await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(json));
                 }
             }
