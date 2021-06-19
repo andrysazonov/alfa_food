@@ -9,6 +9,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import PublicRoute from "./components/PublicRoute";
 import {compose} from "redux";
 
+import history from "./redux/reducers/history"
 
 
 type MapPropsType = ReturnType<typeof mapStateToProps>
@@ -18,17 +19,16 @@ const AppContainer: React.FC<MapPropsType> = ({loggedInUser}) => {
     return (
         <div className="wrapper1488">
             <div className='page-layout22'>
-            <Switch>
-                <PublicRoute
-                    loggedInUser={loggedInUser}
-                    component={AuthLayout}
-                />
-               <PrivateRoute
-                    loggedInUser={loggedInUser}
-                />
-
-
-            </Switch></div>
+                <Switch>
+                    <PublicRoute
+                        loggedInUser={loggedInUser}
+                        component={AuthLayout}
+                    />
+                   <PrivateRoute
+                        loggedInUser={loggedInUser}
+                    />
+                </Switch>
+            </div>
         </div>
     )
 }
@@ -44,6 +44,7 @@ const ConnectedAppContainer = compose<React.FC>(withRouter,connect(mapStateToPro
 
 const App = () => (
     <Provider store={store}>
+        {/*@ts-ignore*/}
         <BrowserRouter>
            <ConnectedAppContainer />
         </BrowserRouter>

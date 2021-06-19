@@ -14,22 +14,24 @@
   }
 
   &__list {
-    //display: flex;
-    //flex-direction: column;
+    display: flex;
+    flex-direction: column;
+
+    border-left: 1px solid black;
     padding-bottom: 50px;
     border-right: 1px solid black;
-    //border-left: 1px solid black;
   }
 
 }
 
 .establishments-list {
   &__btn {
-    //align-self: center;
+    align-self: center;
   }
   &__title {
     text-align: center;
     margin-top: 20px;
+    margin-bottom: 15px;
     font-size: 16px;
     text-transform: uppercase;
     font-weight: 500;
@@ -64,13 +66,20 @@
     gap: 10px;
   }
   &__link {
+    display: block;
+    width: 100%;
     color: black;
+
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    transition: background-color .25s ease;
     &:hover {
       color: green;
+      background-color: #b3c9ce;
     }
     &--active {
-      color: red;
       font-weight: 600;
+      background-color: #66afe9;
     }
   }
 }

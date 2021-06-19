@@ -38,9 +38,9 @@ const Application = ({match} : RouteComponentProps<MatchParams>) => {
     const history = useHistory()
     const currentApplication = useSelector((state: AppStateType) => state.applications.currentApplication)
     const {description,name, address, email, businessId, workingTime, imageMap} = currentApplication
-    const daysWork = JSON.parse(workingTime)
+    // const daysWork = workingTime ? JSON.parse(workingTime) : []
 
-
+    const daysWork: [string, string][] = []
     const [svgData, setSvgData] = useState('')
     const [pathTagg, setPathTag] = useState(null)
     const [tooltip, setTooltip] = useState('')
@@ -116,6 +116,10 @@ const Application = ({match} : RouteComponentProps<MatchParams>) => {
         //@ts-ignore
         res_data.append('file', fileImageRef.current.files[0])
         await dispatch(confirmApplication(res_data, tables))
+        //clear
+        addTables([])
+        //@ts-ignore
+        fileImageRef.current.value = ""
         history.push('/')
     }
     return (
@@ -150,7 +154,7 @@ const Application = ({match} : RouteComponentProps<MatchParams>) => {
                 <div
                     className="adminApplication__form-block"
                 >
-                    <h4 className="adminApplication__small-title">Время работы</h4>
+                    {Boolean(daysWork.length) && <h4 className="adminApplication__small-title">Время работы</h4>}
                     <div
                         className="adminApplication-pickerTime__wrapper"
                     >

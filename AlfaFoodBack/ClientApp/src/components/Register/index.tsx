@@ -47,7 +47,7 @@ const RegisterForm: React.FC<
   const history = useHistory()
 
   const historyGoBackCB = useCallback(() => {
-    history.goBack()
+    history.back()
   }, [])
 
 

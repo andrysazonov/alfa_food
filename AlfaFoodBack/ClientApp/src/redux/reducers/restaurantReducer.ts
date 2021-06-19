@@ -2,7 +2,8 @@ import { restaurantAPI } from "../../api/restaurant-api";
 import {BaseThunkType, InferActionsType} from "../store";
 import {Dispatch} from "redux";
 
-//
+import history from "./history";
+
 type EstablishmentItemType = {
     title: string,
     id: string
@@ -50,11 +51,21 @@ export const getEstablishment = (establishmentId: string): ThunkType => async (d
     // }
 }
 
+export const getBookingsRestaurantData = (): ThunkType => async (dispatch: Dispatch, getState) => {
+    //@ts-ignore
+    const establishmentId = getState().restaurants.currentEstablishment.id
+    const data = await restaurantAPI.getRestaurantBookingsData(establishmentId)
+    console.log('data from bookings::: ', data)
+}
+
+
+export const deleteEstablishment = (establishmentId: string): ThunkType => async (dispatch: Dispatch) => {
+    await restaurantAPI.deleteRestaurant(establishmentId)
+}
 
 export const getEstablishmets = (ownerId: string): ThunkType => async (dispatch: Dispatch) => {
-    console.log('somee')
+
     let data = await restaurantAPI.getOwnerRestaurants(ownerId)
-    console.log(`get data by owner ID: ${data}`)
     dispatch(actions.setEstablishmentsList(data))
 }
 
